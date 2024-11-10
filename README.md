@@ -23,10 +23,10 @@ Ce projet est une application Android développée dans le cadre de la deuxième
 
 Ce projet a été réalisé par quatre étudiants en 2ème année de Réseaux et Télécommunications :
 
-- **Thomas Deloup (xKayaato)** - [Rôle : Développeur Frontend]
-- **Jérémy Guibert (JeremyGuib)** - [Rôle : Développeur Backend]
-- **Pierre Theles Fache (Pierre1080)** - [Rôle : Intégration & Testing]
-- **Mathis viger (Mathisvgr)** - [Rôle : Gestion de projet & Documentation]
+- **Thomas Deloup (xKayaato)** - [Rôle :]
+- **Jérémy Guibert (JeremyGuib)** - [Rôle :]
+- **Pierre Theles Fache (Pierre1080)** - [Rôle :]
+- **Mathis viger (Mathisvgr)** - [Rôle :]
 
 ---
 
