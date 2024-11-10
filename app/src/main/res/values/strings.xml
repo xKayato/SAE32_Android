@@ -1,3 +1,94 @@
 <resources>
     <string name="app_name">JugementDay</string>
+    <string name="saeText">SAE32</string>
+    <string name="credit">Thomas Deloup, Jérémy Guibert, Pierre Teles Fache, Mathis Viger</string>
+
+    <!-- Buttons -->
+    <string name="homeButton">Accueil</string>
+    <string name="searchButton">Rechercher</string>
+    <string name="profileButton">Profil</string>
+
+    <!-- Images -->
+    <string name="logo">logo</string>
+
+    <!-- HomeActivity -->
+    <string name="lastRealeseText">Dernières sorties</string>
+    <string name="mostAppreciatedText">Les plus appréciés</string>
+    <string name="leastViewedText">Les moins appréciés</string>
+
+    <!-- ProfileActivity -->
+    <string name="hello">Bonjour, pseudo</string>
+    <string name="judgedText">Vos œuvres jugées</string>
+    <string name="lovedWorksText">Vos avis les plus appréciés</string>
+    <string name="dislikedWorksText">Vos avis les moins appréciés</string>
+
+    <!-- SearchActivity -->
+    <string name="searchText">Rechercher</string>
+
+
+    <!-- addArt -->
+    <string name="titleText">Titre de l\'œuvres</string>
+    <string name="dateText">Date de sortie de l\'œuvres</string>
+    <string name="categoryText">Genre de l\'œuvres</string>
+    <string name="tagsText">Tags l\'œuvres</string>
+    <string name="imageText">Image</string>
+    <string name="chooseImageText">Choisir une image</string>
+    <string name="publishText">Publier</string>
+
+    <!-- addReview -->
+    <string name="reviewText">Avis</string>
+    <string name="ratingText">Note</string>
+    <string name="publishReviewText">Publier</string>
+
+    <!-- Community -->
+    <string name="accountCommuText">Compte de </string>
+    <string name="judgedCommuText">Ses œuvres jugées</string>
+    <string name="lovedCommuText">Ses avis les plus appréciés</string>
+    <string name="dislikedCommuText">Ses avis les moins appréciés</string>
+    <string name="publishedText">Ses oeuvres publies</string>
+
+
+
+
+    <!-- Account -->
+    <string name="accountText">Paramètres de votre compte</string>
+    <string name="logoutText">Se déconnecter</string>
+    <string name="changePseudoText">Modifier votre pseudo</string>
+    <string name="pseudoText">Pseudo</string>
+    <string name="changePasswordText">Modifier votre mot de passe</string>
+    <string name="oldPasswordText">Ancien mot de passe</string>
+    <string name="newPasswordText">Nouveau mot de passe</string>
+    <string name="confirmText">Confirmer</string>
+    <string name="changePseudoSuccessText">Votre pseudo a bien été modifié</string>
+    <string name="errorText">Une erreur est survenue</string>
+    <string name="changePasswordSuccessText">Votre mot de passe a bien été modifié</string>
+    <string name="deleteAccountText">Supprimer votre compte</string>
+    <string name="deleteAccountConfirmText">Voulez-vous vraiment supprimer votre compte ?</string>
+    <string name="yesText">Oui</string>
+    <string name="noText">Non</string>
+    <string name="deleteAccountSuccessText">Votre compte a bien été supprimé</string>
+    <string name="deleteAccountFailText">Une erreur est survenue lors de la suppression de votre compte</string>
+
+    <!-- Connection -->
+    <string name="connectionText">Se connecter</string>
+    <string name="loginText">Login</string>
+    <string name="passwordText">Mot de passe</string>
+    <string name="connectionFailText">La connexion a échoué</string>
+    <string name="goToCreateAccountText">Pas de compte ? Créer un compte</string>
+
+
+    <!-- CreateAccount -->
+    <string name="createAccountText">Se créer un compte</string>
+    <string name="pseudoAlreadyUsedText">Ce pseudo est déjà utilisé</string>
+    <string name="createAccountFailText">La création de compte a échoué</string>
+    <string name="createAccountSuccessText">Votre compte a bien été créé</string>
+    <string name="createAccountSuccessText2">Vous pouvez maintenant vous connecter</string>
+    <string name="confirmPasswordText">Confirmer mot de passe</string>
+    <string name="createAccountFailText2">Les mots de passe ne correspondent pas</string>
+    <string name="createText">S\'identifier</string>
+    <string name="goToLoginText">Deja un compte ? Se connecter</string>
+
+
+
+
 </resources>

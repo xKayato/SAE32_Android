@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_background"
+    tools:context=".HomeActivity">
+
+
+    <ImageView
+        android:id="@+id/logoPicture"
+        android:layout_width="412dp"
+        android:layout_height="110dp"
+        android:layout_marginBottom="572dp"
+        android:adjustViewBounds="true"
+
+        android:background="#878787"
+        android:contentDescription="@string/logo"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/saeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/saeText"
+        android:textColor="@color/secondary_text"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
+        app:layout_constraintVertical_bias="0.053" />
+
+    <ImageButton
+        android:id="@+id/searchButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:backgroundTint="#00FFFFFF"
+        android:contentDescription="@string/searchButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/homeButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/search"
+        app:tint="#9CFFFFFF" />
+
+    <ImageButton
+        android:id="@+id/homeButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#00FFFFFF"
+        android:contentDescription="@string/homeButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/profileButton"
+        app:layout_constraintStart_toEndOf="@+id/searchButton"
+        app:srcCompat="@drawable/home"
+        app:tint="@color/secondary_button" />
+
+    <ImageButton
+        android:id="@+id/profileButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="1dp"
+        android:backgroundTint="#00990202"
+        android:contentDescription="@string/profileButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/homeButton"
+        app:srcCompat="@drawable/profile"
+        app:tint="#9CFFFFFF" />
+
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="407dp"
+        android:layout_height="517dp"
+        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.132"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saeText"
+        app:layout_constraintVertical_bias="0.018" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
