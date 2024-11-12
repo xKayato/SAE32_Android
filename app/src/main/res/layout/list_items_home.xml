@@ -1,35 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/list_item.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="8dp">
 
+    <!-- Titre -->
     <TextView
-        android:id="@+id/lastReleaseText"
+        android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/lastRealeseText"
         android:textColor="@color/primary_text"
-        tools:layout_editor_absoluteX="38dp"
-        tools:layout_editor_absoluteY="192dp" />
+        android:text="Titre"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/mostAppreciatedText"
+    <!-- Section horizontale scrollable avec des boutons -->
+    <HorizontalScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/mostAppreciatedText"
-        android:textColor="@color/primary_text"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="263dp" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/leastAppreciatedText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/leastViewedText"
-        android:textColor="@color/primary_text"
-        tools:layout_editor_absoluteX="28dp"
-        tools:layout_editor_absoluteY="356dp" />
+        <LinearLayout
+            android:id="@+id/buttonContainer"
+            android:orientation="horizontal"
+            android:scaleType="centerCrop"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:layout_marginEnd="8dp">
+        </LinearLayout>
+    </HorizontalScrollView>
 </LinearLayout>

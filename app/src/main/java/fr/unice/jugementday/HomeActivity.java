@@ -14,8 +14,18 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
+
+    private List<ListItem> generateData() {
+        List<ListItem> items = new ArrayList<>();
+        items.add(new ListItem(getString(R.string.lastRealeseText), Arrays.asList(R.drawable.chainsawman, R.drawable.tokyoghoul, R.drawable.spyxfamilly, R.drawable.snk)));
+        items.add(new ListItem(getString(R.string.mostAppreciatedText), Arrays.asList(R.drawable.settings, R.drawable.logo)));
+        items.add(new ListItem(getString(R.string.leastViewedText), Arrays.asList(R.drawable.settings, R.drawable.logo)));
+        return items;
+    }
 
 
     @Override
@@ -25,14 +35,13 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
 
-        ArrayList<String> items = new ArrayList<>();
-        items.add("Item 1");
-        items.add("Item 2");
-        items.add("Item 3");
+        ListView listView = findViewById(R.id.listView);
 
-        ListView primaryContent = findViewById(R.id.listView);
+        // Utiliser la méthode pour générer les données
+        List<ListItem> items = generateData();
+
         CustomArrayAdapter adapter = new CustomArrayAdapter(this, items);
-        primaryContent.setAdapter(adapter);
+        listView.setAdapter(adapter);
 
 
         ImageButton profileButton = findViewById(R.id.profileButton);
