@@ -48,8 +48,6 @@
     <string name="publishedText">Ses oeuvres publies</string>
 
 
-
-
     <!-- Account -->
     <string name="accountText">Paramètres de votre compte</string>
     <string name="logoutText">Se déconnecter</string>
@@ -87,8 +85,6 @@
     <string name="createAccountFailText2">Les mots de passe ne correspondent pas</string>
     <string name="createText">S\'identifier</string>
     <string name="goToLoginText">Deja un compte ? Se connecter</string>
-
-
 
 
 </resources>

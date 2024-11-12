@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_background"
+    tools:context=".SearchActivity">
+
+
+    <ImageView
+        android:id="@+id/logoPicture"
+        android:layout_width="412dp"
+        android:layout_height="110dp"
+        android:layout_marginBottom="572dp"
+        android:adjustViewBounds="true"
+
+        android:background="#878787"
+        android:contentDescription="@string/logo"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <ImageView
+        android:id="@+id/searchPicture"
+        android:layout_width="51dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="39dp"
+        android:tint="@color/primary_text"
+        app:layout_constraintBottom_toTopOf="@+id/searchButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/search" />
+
+    <EditText
+        android:id="@+id/searchField"
+        android:layout_width="263dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="39dp"
+        android:ems="10"
+        android:hint="@string/searchText"
+        android:inputType="text"
+        android:textColor="@color/primary_text"
+        android:textColorHint="@color/primary_button"
+        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintStart_toEndOf="@+id/searchPicture"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/confirmSearchButton"
+        android:layout_width="48dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/secondary_button"
+        android:tint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/profileButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/searchField"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
+        app:layout_constraintVertical_bias="0.004"
+        app:srcCompat="@android:drawable/ic_media_play" />
+
+    <ListView
+        android:id="@+id/searchList"
+        android:layout_width="409dp"
+        android:layout_height="486dp"
+        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchField"
+        />
+
+    <ImageButton
+        android:id="@+id/searchButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:backgroundTint="#00FFFFFF"
+        android:contentDescription="@string/searchButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/homeButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/search"
+        app:tint="@color/secondary_button" />
+
+    <ImageButton
+        android:id="@+id/homeButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#00FFFFFF"
+        android:contentDescription="@string/homeButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/profileButton"
+        app:layout_constraintStart_toEndOf="@+id/searchButton"
+        app:srcCompat="@drawable/home"
+        app:tint="@color/primary_button" />
+
+    <ImageButton
+        android:id="@+id/profileButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="1dp"
+        android:backgroundTint="#00990202"
+        android:contentDescription="@string/profileButton"
+        android:onClick="profileClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/homeButton"
+        app:srcCompat="@drawable/profile"
+        app:tint="@color/primary_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
