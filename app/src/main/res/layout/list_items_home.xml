@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/black"
     android:padding="8dp">
 
     <!-- Titre -->
@@ -27,6 +28,13 @@
             android:layout_width="100dp"
             android:layout_height="150dp"
             android:layout_marginEnd="8dp">
+            <TextView
+                android:id="@+id/titleWorkTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:text="Titre"
+                android:textSize="12sp"/>
         </LinearLayout>
     </HorizontalScrollView>
 </LinearLayout>

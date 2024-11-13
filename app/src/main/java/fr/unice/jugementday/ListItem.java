@@ -1,21 +1,17 @@
 package fr.unice.jugementday;
-
 import java.util.List;
-
+import java.util.HashMap;
 public class ListItem {
     private String title;
-    private List<Integer> photoIds; // Liste des identifiants des photos
-
-    public ListItem(String title, List<Integer> photoIds) {
+    private List<HashMap<String, Integer>> works; // Liste des identifiants des photos et noms
+    public ListItem(String title, List<HashMap<String, Integer>> works) {
         this.title = title;
-        this.photoIds = photoIds;
+        this.works = works;
     }
-
     public String getTitle() {
         return title;
     }
-
-    public List<Integer> getPhotoIds() {
-        return photoIds;
+    public List<HashMap<String, Integer>> getWorks() {
+        return works;
     }
 }

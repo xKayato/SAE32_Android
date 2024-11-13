@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_background"
+    tools:context=".JudgementActivity">
+
+
+    <ImageView
+        android:id="@+id/logoPicture"
+        android:layout_width="412dp"
+        android:layout_height="110dp"
+        android:layout_marginBottom="572dp"
+        android:adjustViewBounds="true"
+
+        android:background="#878787"
+        android:contentDescription="@string/logo"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/CritiqueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/critiqueText"
+        android:textColor="@color/secondary_button"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/workImagePlaceholderPicture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
+
+    <TextView
+        android:id="@+id/addJudgementText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="19dp"
+        android:text="@string/addJudgementText"
+        android:textColor="@color/primary_text"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/JudgementField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/addNoteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addNoteText"
+        android:textColor="@color/primary_text"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/ratingStar3Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/workImagePlaceholderPicture"
+        android:layout_width="102dp"
+        android:layout_height="158dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/addJudgementText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_report_image" />
+
+    <EditText
+        android:id="@+id/JudgementField"
+        android:layout_width="347dp"
+        android:layout_height="89dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="#2F2F2F"
+        android:backgroundTintMode="src_over"
+
+        android:ems="10"
+        android:hint="@string/JudgementFieldText"
+        android:inputType="text"
+        android:textColor="@color/primary_text"
+        android:textColorHint="@color/primary_button"
+        app:layout_constraintBottom_toTopOf="@+id/addNoteText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ratingStar1Button"
+        android:layout_width="40dp"
+        android:layout_height="37dp"
+        android:backgroundTint="#00FFFFFF"
+        android:scrollbarSize="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ratingStar3Button"
+        app:layout_constraintEnd_toStartOf="@+id/ratingStar2Button"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@android:drawable/btn_star" />
+
+    <ImageButton
+        android:id="@+id/ratingStar2Button"
+        android:layout_width="40dp"
+        android:layout_height="37dp"
+        android:backgroundTint="#00FFFFFF"
+        android:scrollbarSize="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ratingStar3Button"
+        app:layout_constraintEnd_toStartOf="@+id/ratingStar3Button"
+        app:srcCompat="@android:drawable/btn_star" />
+
+    <ImageButton
+        android:id="@+id/ratingStar3Button"
+        android:layout_width="40dp"
+        android:layout_height="37dp"
+        android:backgroundTint="#00FFFFFF"
+        android:scrollbarSize="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/publishButton"
+        app:srcCompat="@android:drawable/btn_star"
+        tools:layout_editor_absoluteX="185dp" />
+
+    <ImageButton
+        android:id="@+id/ratingStar4Button"
+        android:layout_width="40dp"
+        android:layout_height="37dp"
+        android:backgroundTint="#00FFFFFF"
+        android:scrollbarSize="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ratingStar3Button"
+        app:layout_constraintStart_toEndOf="@+id/ratingStar3Button"
+        app:srcCompat="@android:drawable/btn_star" />
+
+    <ImageButton
+        android:id="@+id/ratingStar5Button"
+        android:layout_width="40dp"
+        android:layout_height="37dp"
+        android:backgroundTint="#00FFFFFF"
+        android:scrollbarSize="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ratingStar3Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/ratingStar4Button"
+        app:srcCompat="@android:drawable/btn_star" />
+
+    <Button
+        android:id="@+id/publishButton"
+        android:layout_width="126dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="80dp"
+        android:backgroundTint="@color/secondary_button"
+        android:text="Button"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/searchButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:backgroundTint="#00FFFFFF"
+        android:contentDescription="@string/searchButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/homeButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/search"
+        app:tint="#9CFFFFFF" />
+
+    <ImageButton
+        android:id="@+id/homeButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#00FFFFFF"
+        android:contentDescription="@string/homeButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/profileButton"
+        app:layout_constraintStart_toEndOf="@+id/searchButton"
+        app:srcCompat="@drawable/home"
+        app:tint="@color/primary_button" />
+
+    <ImageButton
+        android:id="@+id/profileButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="1dp"
+        android:backgroundTint="#00990202"
+        android:contentDescription="@string/profileButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/homeButton"
+        app:srcCompat="@drawable/profile"
+        app:tint="#9CFFFFFF" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,13 @@
-package fr.unice.jugementday;
+package fr.unice.jugementday.button;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 
-public class Buttons {
+import fr.unice.jugementday.HomeActivity;
+import fr.unice.jugementday.ProfileActivity;
+import fr.unice.jugementday.SearchActivity;
+
+public class MenuButtons {
 
 
     public static void profileClick(Context context){

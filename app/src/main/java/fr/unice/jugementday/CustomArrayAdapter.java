@@ -1,6 +1,7 @@
 package fr.unice.jugementday;// HomeActivity.java
 import android.app.LauncherActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
@@ -30,11 +32,21 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
         buttonContainer.removeAllViews();
 
         // Ajouter les boutons dynamiquement
-        for (int photoId : item.getPhotoIds()) {
+        for (HashMap<String, Integer> Works : item.getWorks()) {
             Button photoButton = new Button(getContext());
-            photoButton.setBackgroundResource(photoId);
+            Intent i = new Intent(getContext(), JudgementActivity.class);
+            for (String key : Works.keySet()) {
+                i.putExtra("photo", Works.get(key));
+                photoButton.setBackgroundResource(Works.get(key));
+                break;
+            }
             photoButton.setOnClickListener(v -> {
-                // Logique pour gérer le clic
+
+                for (String key : Works.keySet()) {
+                    i.putExtra("title", key);
+                    break;
+                }
+                getContext().startActivity(i);
             });
             buttonContainer.addView(photoButton);
         }

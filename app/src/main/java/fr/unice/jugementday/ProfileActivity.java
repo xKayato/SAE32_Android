@@ -10,6 +10,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import fr.unice.jugementday.button.MenuButtons;
+
 public class ProfileActivity extends AppCompatActivity {
 
     @Override
@@ -20,28 +22,14 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         ImageButton profileButton = findViewById(R.id.profileButton);
-        profileButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Buttons.profileClick(ProfileActivity.this);
-            }
-        });
+        profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
 
         ImageButton homeButton = findViewById(R.id.homeButton);
-        homeButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Buttons.homeClick(ProfileActivity.this);
-            }
-        });
+        homeButton.setOnClickListener(v -> MenuButtons.homeClick(this));
 
         ImageButton searchButton = findViewById(R.id.searchButton);
-        searchButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Buttons.searchClick(ProfileActivity.this);
-            }
-        });
+        searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
+
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

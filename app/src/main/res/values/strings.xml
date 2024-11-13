@@ -36,8 +36,10 @@
     <string name="publishText">Publier</string>
 
     <!-- addReview -->
-    <string name="reviewText">Avis</string>
-    <string name="ratingText">Note</string>
+    <string name="critiqueText">Critiquer oeuvre</string>
+    <string name="addJudgementText">Ajouter un jugement</string>
+    <string name="JudgementFieldText">Votre jugement</string>
+    <string name="addNoteText">Ajouter la note</string>
     <string name="publishReviewText">Publier</string>
 
     <!-- Community -->

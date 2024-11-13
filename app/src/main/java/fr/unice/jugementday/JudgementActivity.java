@@ -1,10 +1,10 @@
 package fr.unice.jugementday;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,22 +12,19 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.util.ArrayList;
-
 import fr.unice.jugementday.button.MenuButtons;
 
-public class SearchActivity extends AppCompatActivity {
+public class JudgementActivity extends AppCompatActivity {
 
-    private ArrayAdapter<String> myAdapter;
-    private ArrayList<String> items = new ArrayList<>();
+    private TextView CritiqueText;
+    private ImageView CritiqueImage;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_search);
-
-
+        setContentView(R.layout.activity_judgement);
 
         ImageButton profileButton = findViewById(R.id.profileButton);
         profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
@@ -38,12 +35,14 @@ public class SearchActivity extends AppCompatActivity {
         ImageButton searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
 
-
-        myAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
-        ListView searchList = findViewById(R.id.searchList);
-        searchList.setAdapter(myAdapter);
-
-        items.add("test");
+        CritiqueText = findViewById(R.id.CritiqueText);
+        intent = getIntent();
+        String title= getIntent().getStringExtra("title");
+        String critique = getString(R.string.critiqueText);
+        String newTitle = critique.replace("oeuvre", title);
+        CritiqueText.setText(newTitle);
+        CritiqueImage = findViewById(R.id.workImagePlaceholderPicture);
+        CritiqueImage.setImageResource(intent.getIntExtra("photo", 0));
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

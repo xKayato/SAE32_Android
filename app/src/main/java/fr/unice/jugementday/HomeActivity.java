@@ -3,7 +3,6 @@ package fr.unice.jugementday;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -15,18 +14,40 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+
+import fr.unice.jugementday.button.MenuButtons;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private HashMap<String, Integer> oeuvres = new HashMap<String, Integer>();
+
     private List<ListItem> generateData() {
         List<ListItem> items = new ArrayList<>();
-        items.add(new ListItem(getString(R.string.lastRealeseText), Arrays.asList(R.drawable.chainsawman, R.drawable.tokyoghoul, R.drawable.spyxfamilly, R.drawable.snk)));
-        items.add(new ListItem(getString(R.string.mostAppreciatedText), Arrays.asList(R.drawable.settings, R.drawable.logo)));
-        items.add(new ListItem(getString(R.string.leastViewedText), Arrays.asList(R.drawable.settings, R.drawable.logo)));
+        oeuvres.put("ChainSawMan", R.drawable.chainsawman);
+        items.add(new ListItem(getString(R.string.lastRealeseText), Arrays.asList(
+                createHashMap("ChainSawMan", oeuvres.get("ChainSawMan")),
+                createHashMap("TokyoGhoul", R.drawable.tokyoghoul),
+                createHashMap("SpyxFamily", R.drawable.spyxfamilly),
+                createHashMap("SNK", R.drawable.snk)
+        )));
+        items.add(new ListItem(getString(R.string.mostAppreciatedText), Arrays.asList(
+                createHashMap("Settings", R.drawable.settings),
+                createHashMap("Logo", R.drawable.logo)
+        )));
+        items.add(new ListItem(getString(R.string.leastViewedText), Arrays.asList(
+                createHashMap("Settings", R.drawable.settings),
+                createHashMap("Logo", R.drawable.logo)
+        )));
         return items;
     }
 
+    private HashMap<String, Integer> createHashMap(String key, Integer value) {
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put(key, value);
+        return map;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,32 +64,14 @@ public class HomeActivity extends AppCompatActivity {
         CustomArrayAdapter adapter = new CustomArrayAdapter(this, items);
         listView.setAdapter(adapter);
 
-
         ImageButton profileButton = findViewById(R.id.profileButton);
-        profileButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Buttons.profileClick(HomeActivity.this);
-            }
-        });
+        profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
 
         ImageButton homeButton = findViewById(R.id.homeButton);
-        homeButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Buttons.homeClick(HomeActivity.this);
-            }
-        });
+        homeButton.setOnClickListener(v -> MenuButtons.homeClick(this));
 
         ImageButton searchButton = findViewById(R.id.searchButton);
-        searchButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Buttons.searchClick(HomeActivity.this);
-            }
-        });
-
-
+        searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -76,6 +79,8 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
 
     }
 
