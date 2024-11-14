@@ -40,6 +40,56 @@
         app:layout_constraintTop_toBottomOf="@+id/logoPicture"
         app:layout_constraintVertical_bias="0.0" />
 
+    <TextView
+        android:id="@+id/judgedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/judgedText"
+        android:textColor="@color/primary_text"
+        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.106"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
+        app:layout_constraintVertical_bias="0.164" />
+
+    <TextView
+        android:id="@+id/leastLikedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dislikedCommuText"
+        android:textColor="@color/primary_text"
+        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.134"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
+        app:layout_constraintVertical_bias="0.471" />
+
+    <TextView
+        android:id="@+id/mostLikedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dislikedCommuText"
+        android:textColor="@color/primary_text"
+        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.134"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
+        app:layout_constraintVertical_bias="0.735" />
+
+    <View
+        android:id="@+id/hbhv"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#473C3C3C"
+        app:layout_constraintBottom_toBottomOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
+        app:layout_constraintVertical_bias="1.0" />
+
     <ImageButton
         android:id="@+id/searchButton"
         android:layout_width="50dp"
@@ -79,6 +129,5 @@
         app:layout_constraintStart_toEndOf="@+id/homeButton"
         app:srcCompat="@drawable/profile"
         app:tint="@color/secondary_button" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="@color/primary_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Create_Account">
+
+    <ImageView
+        android:id="@+id/logoPicture2"
+        android:layout_width="412dp"
+        android:layout_height="110dp"
+        android:adjustViewBounds="true"
+
+        android:background="#878787"
+        android:contentDescription="@string/logo"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/projectText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAE32"
+        android:textColor="@color/secondary_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture2"
+        app:layout_constraintVertical_bias="0.029" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="178dp"
+        android:layout_height="129dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture2"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/minilogo" />
+
+    <TextView
+        android:id="@+id/createAccountText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Se créer un compte"
+        android:textColor="@color/primary_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture2"
+        app:layout_constraintVertical_bias="0.274" />
+
+    <EditText
+        android:id="@+id/loginFieldButton3"
+        android:layout_width="263dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:hint="@string/loginText"
+        android:inputType="text"
+        android:textColor="@color/primary_text"
+        android:textColorHint="@color/primary_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.535"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture2"
+        app:layout_constraintVertical_bias="0.388" />
+
+    <EditText
+        android:id="@+id/pseudoFieldButton"
+        android:layout_width="263dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:hint="@string/pseudoText"
+        android:inputType="text"
+        android:textColor="@color/primary_text"
+        android:textColorHint="@color/primary_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.535"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture2"
+        app:layout_constraintVertical_bias="0.474" />
+
+    <EditText
+        android:id="@+id/passwordFieldButton"
+        android:layout_width="263dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:hint="@string/passwordText"
+        android:inputType="text"
+        android:textColor="@color/primary_text"
+        android:textColorHint="@color/primary_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.535"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture2"
+        app:layout_constraintVertical_bias="0.566" />
+
+    <EditText
+        android:id="@+id/passwordFieldConfirmButton"
+        android:layout_width="263dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:hint="@string/confirmText"
+        android:inputType="text"
+        android:textColor="@color/primary_text"
+        android:textColorHint="@color/primary_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.535"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture2"
+        app:layout_constraintVertical_bias="0.656" />
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/secondary_button"
+        android:text="Button"
+        app:iconTint="@color/secondary_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture2"
+        app:layout_constraintVertical_bias="0.778" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

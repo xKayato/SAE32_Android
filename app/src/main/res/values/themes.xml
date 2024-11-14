@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.JugementDay" parent="Base.Theme.JugementDay" />
+    <style name="Theme.MyApp" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Utilise une couleur définie dans colors.xml -->
+
+    </style>
+
+
 </resources>
