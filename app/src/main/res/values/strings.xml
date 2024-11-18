@@ -56,6 +56,7 @@
     <string name="changePseudoText">Modifier votre pseudo</string>
     <string name="pseudoText">Pseudo</string>
     <string name="changePasswordText">Modifier votre mot de passe</string>
+    <string name="changeApplyText">Modifier</string>
     <string name="oldPasswordText">Ancien mot de passe</string>
     <string name="newPasswordText">Nouveau mot de passe</string>
     <string name="confirmText">Confirmer</string>
@@ -63,6 +64,7 @@
     <string name="errorText">Une erreur est survenue</string>
     <string name="changePasswordSuccessText">Votre mot de passe a bien été modifié</string>
     <string name="deleteAccountText">Supprimer votre compte</string>
+    <string name="DeleteText">Supprimer</string>
     <string name="deleteAccountConfirmText">Voulez-vous vraiment supprimer votre compte ?</string>
     <string name="yesText">Oui</string>
     <string name="noText">Non</string>
