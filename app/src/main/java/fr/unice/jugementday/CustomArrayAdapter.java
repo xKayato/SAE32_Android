@@ -2,6 +2,15 @@ package fr.unice.jugementday;// HomeActivity.java
 import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.TextAppearanceSpan;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +47,13 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
             for (String key : Works.keySet()) {
                 i.putExtra("photo", Works.get(key));
                 photoButton.setBackgroundResource(Works.get(key));
+                Spannable text = new SpannableString(key);
+                text.setSpan(new ForegroundColorSpan(Color.WHITE), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                text.setSpan(new BackgroundColorSpan(Color.BLACK), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                photoButton.setText(text);
+                photoButton.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+
+                photoButton.setTextColor(getContext().getResources().getColor(R.color.white));
                 break;
             }
             photoButton.setOnClickListener(v -> {

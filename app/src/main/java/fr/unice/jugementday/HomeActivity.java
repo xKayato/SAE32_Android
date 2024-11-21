@@ -64,12 +64,13 @@ public class HomeActivity extends AppCompatActivity {
         CustomArrayAdapter adapter = new CustomArrayAdapter(this, items);
         listView.setAdapter(adapter);
 
+        // Bouton pour aller sur la page profile
         ImageButton profileButton = findViewById(R.id.profileButton);
         profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
-
+        // Bouton pour aller sur la page Accueil
         ImageButton homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(v -> MenuButtons.homeClick(this));
-
+        // Bouton pour aller sur la page Rechercher
         ImageButton searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
 
