@@ -12,17 +12,16 @@
         android:id="@+id/logoPicture"
         android:layout_width="412dp"
         android:layout_height="110dp"
-        android:layout_marginBottom="572dp"
         android:adjustViewBounds="true"
 
         android:background="#878787"
         android:contentDescription="@string/logo"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintBottom_toBottomOf="@+id/homeButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/logo" />
 
     <TextView
@@ -129,5 +128,24 @@
         app:layout_constraintStart_toEndOf="@+id/homeButton"
         app:srcCompat="@drawable/profile"
         app:tint="@color/secondary_button" />
+
+    <ImageButton
+        android:id="@+id/settingsButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="8dp"
+        android:layout_marginTop="19dp"
+        android:background="@null"
+        android:onClick="onSettingClick"
+        android:padding="4dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/settings"
+        android:tint="@color/primary_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

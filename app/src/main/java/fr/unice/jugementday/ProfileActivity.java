@@ -1,5 +1,6 @@
 package fr.unice.jugementday;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -37,5 +38,11 @@ public class ProfileActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    public void onSettingClick(View v) {
+        Intent i = new Intent(this, activitySettingsAccount.class);
+        i.putExtra("title", "Settings");
+        startActivity(i);
     }
 }
