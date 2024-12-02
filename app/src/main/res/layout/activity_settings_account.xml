@@ -65,18 +65,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/accountSettingsText" />
 
-    <Button
-        android:id="@+id/changePasswordButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:backgroundTint="@color/secondary_button"
-        android:text="@string/changeApplyText"
-        android:textColor="@color/black"
-        app:iconTint="@color/secondary_button"
-        app:layout_constraintBottom_toTopOf="@+id/modificationStatusText"
+    <EditText
+        android:id="@+id/usernameFieldButton"
+        android:layout_width="263dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="@string/pseudoText"
+        android:inputType="text"
+        android:textColor="@color/primary_text"
+        android:textColorHint="@color/primary_button"
+        app:layout_constraintBottom_toTopOf="@+id/changeUsernameButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -107,6 +109,22 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
+        android:id="@+id/oldPasswordFieldButton"
+        android:layout_width="263dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="4dp"
+        android:ems="10"
+        android:hint="@string/oldPasswordText"
+        android:inputType="text"
+        android:textColor="@color/primary_text"
+        android:textColorHint="@color/primary_button"
+        app:layout_constraintBottom_toTopOf="@+id/newPasswordFieldButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.385"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
         android:id="@+id/newPasswordFieldButton"
         android:layout_width="263dp"
         android:layout_height="42dp"
@@ -122,20 +140,18 @@
         app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/oldPasswordFieldButton"
-        android:layout_width="263dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="8dp"
+    <Button
+        android:id="@+id/changePasswordButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:ems="10"
-        android:hint="@string/oldPasswordText"
-        android:inputType="text"
-        android:textColor="@color/primary_text"
-        android:textColorHint="@color/primary_button"
-        app:layout_constraintBottom_toTopOf="@+id/newPasswordFieldButton"
+        android:backgroundTint="@color/secondary_button"
+        android:text="@string/changeApplyText"
+        android:textColor="@color/black"
+        app:iconTint="@color/secondary_button"
+        app:layout_constraintBottom_toTopOf="@+id/modificationStatusText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.385"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -162,22 +178,6 @@
         app:layout_constraintBottom_toTopOf="@+id/deleteAccountButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.397"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/usernameFieldButton"
-        android:layout_width="263dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="20dp"
-        android:ems="10"
-        android:hint="@string/pseudoText"
-        android:inputType="text"
-        android:textColor="@color/primary_text"
-        android:textColorHint="@color/primary_button"
-        app:layout_constraintBottom_toTopOf="@+id/changeUsernameButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
