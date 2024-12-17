@@ -15,6 +15,7 @@
     <string name="lastRealeseText">Dernières sorties</string>
     <string name="mostAppreciatedText">Les plus appréciés</string>
     <string name="leastViewedText">Les moins appréciés</string>
+    <string name="randomOeuvresText">Œuvres aléatoires</string>
 
     <!-- ProfileActivity -->
     <string name="hello">Bonjour, pseudo</string>
