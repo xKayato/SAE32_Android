@@ -26,15 +26,15 @@
 
     <TextView
         android:id="@+id/modificationStatusText"
-        android:layout_width="95dp"
-        android:layout_height="29dp"
+        android:layout_width="280dp"
+        android:layout_height="47dp"
         android:layout_marginTop="40dp"
         android:text="@string/hello"
         android:textColor="@color/secondary_text"
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/searchButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.098"
+        app:layout_constraintHorizontal_bias="0.236"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoPicture"
         app:layout_constraintVertical_bias="0.0" />
@@ -152,8 +152,13 @@
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_lock_power_off"
-        tools:layout_editor_absoluteX="333dp"
-        tools:layout_editor_absoluteY="615dp" />
+        android:layout_marginBottom="21dp"
+        app:layout_constraintBottom_toTopOf="@+id/hbhv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settingsButton"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@android:drawable/ic_lock_power_off" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

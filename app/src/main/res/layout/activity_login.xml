@@ -105,7 +105,8 @@
         android:text="@string/goToCreateAccountText"
         android:textColor="@color/secondary_text"
         app:layout_constraintBottom_toTopOf="@+id/developerNamesText"
-        tools:layout_editor_absoluteX="99dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/loginText"

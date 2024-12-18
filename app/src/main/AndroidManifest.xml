@@ -22,7 +22,9 @@
         android:exported="false" />
     <activity
         android:name=".Create_Account"
-        android:exported="true" />
+        android:exported="true">
+
+    </activity>
     <activity
         android:name=".JudgementActivity"
         android:exported="false" />
@@ -34,6 +36,9 @@
         android:exported="false" />
     <activity
         android:name=".HomeActivity"
+        android:exported="true">
+    </activity><activity
+        android:name=".LoginActivity"
         android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />

@@ -63,7 +63,7 @@
         app:layout_constraintVertical_bias="0.274" />
 
     <EditText
-        android:id="@+id/loginFieldButton3"
+        android:id="@+id/loginFieldButton"
         android:layout_width="263dp"
         android:layout_height="42dp"
         android:layout_marginStart="8dp"
@@ -108,10 +108,10 @@
         android:textColorHint="@color/primary_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.057"
+        app:layout_constraintHorizontal_bias="0.535"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoPicture2"
-        app:layout_constraintVertical_bias="0.376" />
+        app:layout_constraintVertical_bias="0.566" />
 
     <EditText
         android:id="@+id/passwordFieldConfirmButton"

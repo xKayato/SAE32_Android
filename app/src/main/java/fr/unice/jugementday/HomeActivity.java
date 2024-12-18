@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
         urlReader = new UrlReader();
 
         // URL pour récupérer les données
-        String url = "http://10.3.122.146/getdata.php?passid=SalutJeSuisUnMotDePassePourGet&table=Oeuvre";
+        String url = "http://10.3.122.146/getdata.php?passid=SalutJeSuisUnMotDePassePourGet&table=Oeuvre&fields=nomOeuvre";
         fetchDataFromUrl(url);
 
         // Boutons de navigation
