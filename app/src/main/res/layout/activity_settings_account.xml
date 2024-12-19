@@ -12,13 +12,13 @@
         android:id="@+id/logoPicture"
         android:layout_width="0dp"
         android:layout_height="110dp"
-        android:adjustViewBounds="true"
 
+
+        android:adjustViewBounds="true"
         android:background="#878787"
         android:contentDescription="@string/logo"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
@@ -27,7 +27,8 @@
         android:id="@+id/accountSettingsText"
         android:layout_width="254dp"
         android:layout_height="32dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/accountText"
         android:textColor="@color/secondary_text"
         android:textSize="20dp"
@@ -35,21 +36,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
 
     <TextView
         android:id="@+id/changeUsernameText"
         android:layout_width="210dp"
         android:layout_height="28dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="13dp"
         android:text="@string/changePseudoText"
         android:textColor="@color/primary_text"
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/usernameFieldButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/accountSettingsText" />
 
     <EditText
         android:id="@+id/usernameFieldButton"
@@ -64,7 +65,10 @@
         android:textColorHint="@color/primary_button"
         app:layout_constraintBottom_toTopOf="@+id/changeUsernameButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.471"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/changeUsernameButton"
@@ -77,7 +81,9 @@
         app:iconTint="@color/secondary_button"
         app:layout_constraintBottom_toTopOf="@+id/changePasswordText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/changePasswordText"
@@ -89,8 +95,10 @@
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/oldPasswordFieldButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.471"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.978" />
 
     <EditText
         android:id="@+id/oldPasswordFieldButton"
@@ -106,7 +114,9 @@
         app:layout_constraintBottom_toTopOf="@+id/newPasswordFieldButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.471"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/newPasswordFieldButton"
@@ -122,20 +132,24 @@
         app:layout_constraintBottom_toTopOf="@+id/changePasswordButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.471"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/changePasswordButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="12dp"
         android:backgroundTint="@color/secondary_button"
         android:text="@string/changeApplyText"
         android:textColor="@color/black"
         app:iconTint="@color/secondary_button"
-        app:layout_constraintBottom_toTopOf="@+id/deleteAccountButton"
+        app:layout_constraintBottom_toTopOf="@+id/deleteAccountText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/deleteAccountText"
@@ -149,7 +163,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changePasswordButton"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
@@ -163,7 +177,9 @@
         app:iconTint="@color/design_default_color_error"
         app:layout_constraintBottom_toTopOf="@+id/hbhv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <View
         android:id="@+id/hbhv"
