@@ -8,6 +8,18 @@
     android:background="@color/primary_background"
     tools:context=".ProfileActivity">
 
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="400dp"
+        android:layout_height="180dp"
+        android:backgroundTint="@color/primary_background"
+        app:layout_constraintBottom_toTopOf="@+id/leastLikedText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usernameFieldButton"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ImageView
         android:id="@+id/logoPicture"
         android:layout_width="0dp"
