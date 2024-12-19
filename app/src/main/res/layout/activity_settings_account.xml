@@ -10,58 +10,45 @@
 
     <ImageView
         android:id="@+id/logoPicture"
-        android:layout_width="412dp"
+        android:layout_width="0dp"
         android:layout_height="110dp"
-        android:adjustViewBounds="true"
 
+
+        android:adjustViewBounds="true"
         android:background="#878787"
         android:contentDescription="@string/logo"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/logo" />
 
     <TextView
         android:id="@+id/accountSettingsText"
         android:layout_width="254dp"
         android:layout_height="32dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="76dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/accountText"
         android:textColor="@color/secondary_text"
         android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.823"
-        app:layout_constraintStart_toEndOf="@+id/imageButton3"
-        app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
-
-    <ImageButton
-        android:id="@+id/imageButton3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/changeUsernameText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@android:drawable/ic_menu_revert" />
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
 
     <TextView
         android:id="@+id/changeUsernameText"
         android:layout_width="210dp"
         android:layout_height="28dp"
         android:layout_marginTop="14dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="13dp"
         android:text="@string/changePseudoText"
         android:textColor="@color/primary_text"
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/usernameFieldButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.427"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/accountSettingsText" />
 
@@ -70,7 +57,7 @@
         android:layout_width="263dp"
         android:layout_height="42dp"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="@string/pseudoText"
         android:inputType="text"
@@ -78,42 +65,47 @@
         android:textColorHint="@color/primary_button"
         app:layout_constraintBottom_toTopOf="@+id/changeUsernameButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.471"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/changeUsernameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/secondary_button"
         android:text="@string/changeApplyText"
         android:textColor="@color/black"
         app:iconTint="@color/secondary_button"
         app:layout_constraintBottom_toTopOf="@+id/changePasswordText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/changePasswordText"
         android:layout_width="254dp"
         android:layout_height="32dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="12dp"
         android:text="@string/changePasswordText"
         android:textColor="@color/primary_text"
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/oldPasswordFieldButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.394"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.471"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.978" />
 
     <EditText
         android:id="@+id/oldPasswordFieldButton"
         android:layout_width="263dp"
         android:layout_height="42dp"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="@string/oldPasswordText"
         android:inputType="text"
@@ -121,15 +113,17 @@
         android:textColorHint="@color/primary_button"
         app:layout_constraintBottom_toTopOf="@+id/newPasswordFieldButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.385"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.471"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/newPasswordFieldButton"
         android:layout_width="263dp"
         android:layout_height="42dp"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="12dp"
         android:ems="10"
         android:hint="@string/newPasswordText"
         android:inputType="text"
@@ -137,62 +131,55 @@
         android:textColorHint="@color/primary_button"
         app:layout_constraintBottom_toTopOf="@+id/changePasswordButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.471"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/changePasswordButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="12dp"
         android:backgroundTint="@color/secondary_button"
         android:text="@string/changeApplyText"
         android:textColor="@color/black"
         app:iconTint="@color/secondary_button"
-        app:layout_constraintBottom_toTopOf="@+id/modificationStatusText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/modificationStatusText"
-        android:layout_width="257dp"
-        android:layout_height="26dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/createAccountSuccessText"
-        android:textColor="@color/primary_text"
-        android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/deleteAccountText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/deleteAccountText"
-        android:layout_width="235dp"
-        android:layout_height="28dp"
-        android:layout_marginBottom="4dp"
+        android:layout_width="220dp"
+        android:layout_height="26dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/deleteAccountText"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/deleteAccountButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.397"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/deleteAccountButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/secondary_button"
+        android:layout_marginBottom="28dp"
+        android:backgroundTint="@color/design_default_color_error"
         android:text="@string/DeleteText"
         android:textColor="@color/black"
-        app:iconTint="@color/secondary_button"
+        app:iconTint="@color/design_default_color_error"
         app:layout_constraintBottom_toTopOf="@+id/hbhv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <View
         android:id="@+id/hbhv"
