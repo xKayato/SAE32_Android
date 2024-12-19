@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">JugementDay</string>
     <string name="saeText">SAE32</string>
-    <string name="credit">Thomas Deloup, Jérémy Guibert, Pierre Teles Fache, Mathis Viger</string>
+    <string name="credit">Deloup, Guibert, Teles Fache, Viger</string>
 
     <!-- Buttons -->
     <string name="homeButton">Accueil</string>
