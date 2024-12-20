@@ -10,20 +10,21 @@
 
     <ImageView
         android:id="@+id/logoPicture"
-        android:layout_width="412dp"
+        android:layout_width="0dp"
         android:layout_height="110dp"
         android:adjustViewBounds="true"
 
         android:background="#878787"
         android:contentDescription="@string/logo"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@+id/developerNamesText"
+        app:layout_constraintBottom_toTopOf="@+id/homeButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/logo" />
+
 
     <ImageView
         android:id="@+id/hammerPicture"
@@ -40,14 +41,14 @@
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="20dp"
         android:backgroundTint="@color/secondary_button"
         android:text="@string/connectionText"
         android:textColor="@color/black"
         app:iconTint="@color/secondary_button"
         app:layout_constraintBottom_toTopOf="@+id/createAccountButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -105,7 +106,8 @@
         android:text="@string/goToCreateAccountText"
         android:textColor="@color/secondary_text"
         app:layout_constraintBottom_toTopOf="@+id/developerNamesText"
-        tools:layout_editor_absoluteX="99dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/loginText"
@@ -120,15 +122,29 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
+        android:id="@+id/madebyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/secondary_text"
+        android:drawableTint="@color/secondary_text"
+        android:foregroundTint="@color/secondary_text"
+        android:text="Made by : "
+        android:textColor="@color/secondary_text"
+        app:layout_constraintBottom_toTopOf="@+id/developerNamesText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createAccountButton"
+        app:layout_constraintVertical_bias="0.802" />
+
+    <TextView
         android:id="@+id/developerNamesText"
-        android:layout_width="378dp"
-        android:layout_height="17dp"
+        android:layout_width="219dp"
+        android:layout_height="18dp"
         android:layout_marginBottom="16dp"
         android:text="@string/credit"
         android:textColor="@color/secondary_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

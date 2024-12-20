@@ -3,14 +3,11 @@ package fr.unice.jugementday;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import fr.unice.jugementday.service.UrlSend;
 
 public class Create_Account extends AppCompatActivity {
 
@@ -23,7 +20,6 @@ public class Create_Account extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_create_account);
 
         registerButton = findViewById(R.id.registerButton);
@@ -31,30 +27,53 @@ public class Create_Account extends AppCompatActivity {
         pseudoField = findViewById(R.id.pseudoFieldButton);
         passwordField = findViewById(R.id.passwordFieldButton);
         passwordFieldConfirm = findViewById(R.id.passwordFieldConfirmButton);
-        registerUser();
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        registerButton.setOnClickListener(v -> registerUser());
     }
 
+    private void registerUser() {
+        String loginText = loginField.getText().toString().trim();
+        String nicknameText = pseudoField.getText().toString().trim();
+        String passwordText = passwordField.getText().toString().trim();
+        String confirmPasswordText = passwordFieldConfirm.getText().toString().trim();
 
-    private void registerUser(){
-        registerButton.setOnClickListener(v -> {
-            String loginText = loginField.getText().toString().trim();
-            String nicknameText = pseudoField.getText().toString().trim();
-            String passwordText = passwordField.getText().toString().trim();
-            String confirmPasswordText = passwordFieldConfirm.getText().toString().trim();
-            if(!loginText.isEmpty() && !nicknameText.isEmpty() && !passwordText.isEmpty() && !confirmPasswordText.isEmpty()){
-                if(passwordText.equals(confirmPasswordText)){
-                    
+        if (!loginText.isEmpty() && !nicknameText.isEmpty() && !passwordText.isEmpty() && !confirmPasswordText.isEmpty()) {
+            if (passwordText.equals(confirmPasswordText)) {
+                // Hachage du mot de passe en MD5
+                UrlSend urlSend = new UrlSend();
+                String hashedPassword = urlSend.encryptToMD5(passwordText);
+
+                if (hashedPassword != null) {
+                    // Construire les options
+                    String baseUrl = "http://10.3.122.146/importdata.php";
+                    String table = "User"; // Exemple : la table cible
+                    String[] options = {
+                            "login=" + loginText,
+                            "pseudo=" + nicknameText,
+                            "mdp=" + hashedPassword,
+                            "acces=1"
+                    };
+
+                    // Envoyer les données
+                    new Thread(() -> {
+                        String response = urlSend.sendData(baseUrl, table, options);
+
+                        runOnUiThread(() -> {
+                            if (response.startsWith("Erreur")) {
+                                Toast.makeText(this, response, Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(this, "Enregistrement réussi : " + response, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }).start();
                 } else {
-                    Toast.makeText(this, "Les mots de passe ne correspondent pas", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Erreur de hachage du mot de passe", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(this, "Remplissez tous les champs", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Les mots de passe ne correspondent pas", Toast.LENGTH_SHORT).show();
             }
-        });
+        } else {
+            Toast.makeText(this, "Remplissez tous les champs", Toast.LENGTH_SHORT).show();
+        }
     }
 }

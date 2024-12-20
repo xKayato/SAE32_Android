@@ -1,24 +1,117 @@
 package fr.unice.jugementday;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import fr.unice.jugementday.service.UrlReader;
+import fr.unice.jugementday.service.UserSessionManager;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private EditText loginField;
+    private EditText passwordField;
+    private Button loginButton;
+    private TextView signupLink;
+    private UserSessionManager sessionManager;
+
+    private final String passid = "SalutJeSuisUnMotDePassePourGet";  // Passid fixe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        sessionManager = new UserSessionManager(this);
+
+
+        loginField = findViewById(R.id.loginFieldButton);
+        passwordField = findViewById(R.id.passwordFieldButton);
+        loginButton = findViewById(R.id.loginButton);
+        signupLink = findViewById(R.id.createAccountButton);
+
+        loginButton.setOnClickListener(v -> handleLogin());
+        signupLink.setOnClickListener(v -> {
+            // Rediriger vers l'activité de création de compte
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         });
+    }
+
+    private void handleLogin() {
+        String loginText = loginField.getText().toString().trim();
+        String passwordText = passwordField.getText().toString().trim();
+
+        if (!loginText.isEmpty() && !passwordText.isEmpty()) {
+            // Hachage du mot de passe en MD5
+            String hashedPassword = encryptToMD5(passwordText);
+
+            // Construire l'URL pour envoyer les données au serveur
+            String baseUrl = "http://10.3.122.146/getdata.php";
+            String table = "User";
+            String[] options = {
+                    "login=" + loginText,
+                    "pseudo=" + loginText,
+                    "mdp=" + hashedPassword,
+                    "passid=" + passid
+            };
+
+            // Envoyer les données avec UrlReader
+            new Thread(() -> {
+                UrlReader urlReader = new UrlReader();
+                String response = urlReader.fetchData(buildUrl(baseUrl, table, options));
+
+                runOnUiThread(() -> {
+                    if (response.contains("Erreur") || response.contains("Aucune")) {
+                        Toast.makeText(this, response, Toast.LENGTH_LONG).show();
+                    } else {
+                        // Réponse réussie
+                        Toast.makeText(this, "Connexion réussie : " + response, Toast.LENGTH_LONG).show();
+                        // Redirection vers l'écran d'accueil
+                        sessionManager.storeLogin(loginText);
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }).start();
+        } else {
+            Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String buildUrl(String baseUrl, String table, String[] options) {
+        StringBuilder urlBuilder = new StringBuilder(baseUrl);
+        urlBuilder.append("?table=").append(table);
+
+        for (String option : options) {
+            urlBuilder.append("&").append(option);
+        }
+
+        return urlBuilder.toString();
+    }
+
+    // Méthode pour hacher le mot de passe en MD5
+    private String encryptToMD5(String password) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] hash = md.digest(password.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xFF & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
