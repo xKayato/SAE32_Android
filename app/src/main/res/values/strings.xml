@@ -27,10 +27,16 @@
 
 
     <!-- addArt -->
-    <string name="titleText">Titre de l\'œuvres</string>
-    <string name="dateText">Date de sortie de l\'œuvres</string>
-    <string name="categoryText">Genre de l\'œuvres</string>
-    <string name="tagsText">Tags l\'œuvres</string>
+    <string name="titleText">Titre de l\'œuvre</string>
+    <string name="workTitleField">Titre</string>
+    <string name="workAuthorText">Auteur de l\'œuvre</string>
+    <string name="workAuthorField">Auteur</string>
+    <string name="dateText">Date de sortie de l\'œuvre</string>
+    <string name="releaseDateTextField">Date de sortie</string>
+    <string name="categoryText">Genre de l\'œuvre</string>
+    <string name="genreSelectField">Genre</string>
+    <string name="tagsText">Tags de l\'œuvre</string>
+    <string name="tagsCheckboxField">Tags</string>
     <string name="imageText">Image</string>
     <string name="chooseImageText">Choisir une image</string>
     <string name="publishText">Publier</string>
