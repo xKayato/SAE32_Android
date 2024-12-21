@@ -26,58 +26,116 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/logo" />
 
-    <TextView
-        android:id="@+id/workTitleText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/titleText"
-        android:textColor="@color/primary_text"
-        android:textSize="20sp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="143dp" />
-
-    <EditText
-        android:id="@+id/workTitleFieldButton"
-        android:layout_width="263dp"
-        android:layout_height="42dp"
-        android:ems="10"
-        android:hint="@string/workTitleField"
-        android:inputType="text"
-        android:textColor="@color/primary_text"
-        android:textColorHint="@color/primary_button"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="183dp" />
-
     <ImageView
         android:id="@+id/workImagePlaceholderPicture"
         android:layout_width="102dp"
         android:layout_height="158dp"
-        android:layout_marginTop="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/hbhv3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.957"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoPicture"
-        app:srcCompat="@android:drawable/ic_menu_report_image"
-        tools:layout_editor_absoluteX="296dp" />
+        app:layout_constraintVertical_bias="0.036"
+        app:srcCompat="@android:drawable/ic_menu_report_image" />
+
+    <TextView
+        android:id="@+id/workTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/titleText"
+        android:textColor="@color/primary_text"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/workImagePlaceholderPicture"
+        app:layout_constraintHorizontal_bias="0.151"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
 
     <TextView
         android:id="@+id/workAuthorText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="@string/workAuthorText"
         android:textColor="@color/primary_text"
         android:textSize="20sp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="225dp" />
+        app:layout_constraintEnd_toStartOf="@+id/workImagePlaceholderPicture"
+        app:layout_constraintHorizontal_bias="0.171"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workTitleFieldButton" />
+
+    <EditText
+        android:id="@+id/workTitleFieldButton"
+        android:layout_width="263dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/workTitleField"
+        android:inputType="text"
+        android:textColor="@color/primary_text"
+        android:textColorHint="@color/primary_button"
+        app:layout_constraintEnd_toStartOf="@+id/workImagePlaceholderPicture"
+        app:layout_constraintHorizontal_bias="0.727"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workTitleText" />
+
+    <TextView
+        android:id="@+id/tagsCheckboxText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/tagsText"
+        android:textColor="@color/primary_text"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.088"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genreSelectFieldButton" />
+
+    <EditText
+        android:id="@+id/tagsCheckboxFieldButton"
+        android:layout_width="263dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:hint="@string/tagsCheckboxField"
+        android:inputType="text"
+        android:textColor="@color/primary_text"
+        android:textColorHint="@color/primary_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.162"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tagsCheckboxText" />
+
+    <EditText
+        android:id="@+id/genreSelectFieldButton"
+        android:layout_width="263dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="48dp"
+        android:ems="10"
+        android:hint="@string/genreSelectField"
+        android:inputType="text"
+        android:textColor="@color/primary_text"
+        android:textColorHint="@color/primary_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.162"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workAuthorFieldButton" />
 
     <EditText
         android:id="@+id/workAuthorFieldButton"
         android:layout_width="263dp"
         android:layout_height="42dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/workAuthorField"
         android:inputType="text"
         android:textColor="@color/primary_text"
         android:textColorHint="@color/primary_button"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="269dp" />
+        app:layout_constraintEnd_toStartOf="@+id/workImagePlaceholderPicture"
+        app:layout_constraintHorizontal_bias="0.727"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workAuthorText" />
 
     <TextView
         android:id="@+id/genreSelectText"
@@ -86,76 +144,51 @@
         android:text="@string/categoryText"
         android:textColor="@color/primary_text"
         android:textSize="20sp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="328dp" />
-
-    <EditText
-        android:id="@+id/genreSelectFieldButton"
-        android:layout_width="263dp"
-        android:layout_height="42dp"
-        android:ems="10"
-        android:hint="@string/genreSelectField"
-        android:inputType="text"
-        android:textColor="@color/primary_text"
-        android:textColorHint="@color/primary_button"
-        tools:layout_editor_absoluteX="9dp"
-        tools:layout_editor_absoluteY="355dp" />
-
-    <TextView
-        android:id="@+id/tagsCheckboxText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tagsText"
-        android:textColor="@color/primary_text"
-        android:textSize="20sp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="419dp" />
-
-    <EditText
-        android:id="@+id/tagsCheckboxFieldButton"
-        android:layout_width="263dp"
-        android:layout_height="42dp"
-        android:ems="10"
-        android:hint="@string/tagsCheckboxField"
-        android:inputType="text"
-        android:textColor="@color/primary_text"
-        android:textColorHint="@color/primary_button"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="447dp" />
+        app:layout_constraintBottom_toTopOf="@+id/genreSelectFieldButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.091"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workAuthorFieldButton"
+        app:layout_constraintVertical_bias="0.411" />
 
     <TextView
         android:id="@+id/releaseDateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="@string/dateText"
         android:textColor="@color/primary_text"
         android:textSize="20sp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="489dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.126"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tagsCheckboxFieldButton" />
 
     <EditText
         android:id="@+id/releaseDateTextFieldButton"
         android:layout_width="263dp"
         android:layout_height="42dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/releaseDateTextField"
         android:inputType="text"
         android:textColor="@color/primary_text"
         android:textColorHint="@color/primary_button"
-        tools:layout_editor_absoluteX="9dp"
-        tools:layout_editor_absoluteY="524dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.162"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/releaseDateText" />
 
     <Button
         android:id="@+id/publishButton"
         android:layout_width="126dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="40dp"
         android:backgroundTint="@color/secondary_button"
         android:text="@string/publishText"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintBottom_toTopOf="@+id/hbhv3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <View

@@ -12,33 +12,42 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JugementDay"
         tools:targetApi="31">
+
         <activity
             android:name=".AddWorkActivity"
             android:exported="false" />
+
+
         <activity
             android:name=".activitySettingsAccount"
-            android:exported="false" />
+            android:exported="true">
+
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+
         <activity
             android:name=".Create_Account"
-            android:exported="true"></activity>
+            android:exported="false" />
+
         <activity
             android:name=".JudgementActivity"
             android:exported="false" />
+
         <activity
             android:name=".SearchActivity"
             android:exported="false" />
+
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />
+
         <activity
             android:name=".HomeActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
