@@ -3,7 +3,6 @@ package fr.unice.jugementday;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -20,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import fr.unice.jugementday.button.MenuButtons;
+import fr.unice.jugementday.service.CustomArrayAdapter;
 import fr.unice.jugementday.service.UrlReader;
 
 public class HomeActivity extends AppCompatActivity {
@@ -34,7 +34,7 @@ public class HomeActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
 
-        ListView listView = findViewById(R.id.listView);
+        ListView listView = findViewById(R.id.allJudgementList);
 
         // Initialisation de l'adaptateur pour la liste
         adapter = new CustomArrayAdapter(this, items);
@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
         urlReader = new UrlReader();
 
         // URL pour récupérer les données
-        String url = "http://10.3.122.146/getdata.php?passid=SalutJeSuisUnMotDePassePourGet&table=Oeuvre&fields=nomOeuvre";
+        String url = "http://10.3.122.146/getdata.php?table=Oeuvre&fields=nomOeuvre";
         fetchDataFromUrl(url);
 
         // Boutons de navigation
@@ -124,7 +124,7 @@ public class HomeActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Erreur lors de l'analyse des données", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Erreur lors de l'analyse des données" + e, Toast.LENGTH_LONG).show();
         }
     }
 

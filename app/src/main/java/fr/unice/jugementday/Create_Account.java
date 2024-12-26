@@ -1,5 +1,6 @@
 package fr.unice.jugementday;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import fr.unice.jugementday.service.UrlSend;
+import fr.unice.jugementday.service.UserSessionManager;
 
 public class Create_Account extends AppCompatActivity {
 
@@ -16,11 +18,15 @@ public class Create_Account extends AppCompatActivity {
     private EditText pseudoField;
     private EditText passwordField;
     private EditText passwordFieldConfirm;
+    private UserSessionManager sessionManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
+
+        sessionManager = new UserSessionManager(this);
 
         registerButton = findViewById(R.id.registerButton);
         loginField = findViewById(R.id.loginFieldButton);
@@ -45,7 +51,6 @@ public class Create_Account extends AppCompatActivity {
 
                 if (hashedPassword != null) {
                     // Construire les options
-                    String baseUrl = "http://10.3.122.146/importdata.php";
                     String table = "User"; // Exemple : la table cible
                     String[] options = {
                             "login=" + loginText,
@@ -56,13 +61,16 @@ public class Create_Account extends AppCompatActivity {
 
                     // Envoyer les données
                     new Thread(() -> {
-                        String response = urlSend.sendData(baseUrl, table, options);
+                        String response = urlSend.sendData(table, options);
 
                         runOnUiThread(() -> {
                             if (response.startsWith("Erreur")) {
                                 Toast.makeText(this, response, Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(this, "Enregistrement réussi : " + response, Toast.LENGTH_LONG).show();
+                                sessionManager.storeLogin(loginText);
+                                Intent intent = new Intent(this, HomeActivity.class);
+                                startActivity(intent);
                             }
                         });
                     }).start();

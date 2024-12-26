@@ -41,4 +41,5 @@ public class UserSessionManager {
         editor.remove(KEY_LOGIN);  // Supprimer le login
         editor.apply();  // Appliquer les changements
     }
+
 }

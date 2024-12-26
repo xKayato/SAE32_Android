@@ -91,7 +91,7 @@
 
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/allJudgementList"
         android:layout_width="407dp"
         android:layout_height="517dp"
         android:backgroundTint="@color/primary_background"

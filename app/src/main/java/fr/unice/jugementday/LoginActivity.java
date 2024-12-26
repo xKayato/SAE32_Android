@@ -30,6 +30,11 @@ public class LoginActivity extends AppCompatActivity {
 
         sessionManager = new UserSessionManager(this);
 
+        if(sessionManager.isLoggedIn()){
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+        }
+
 
         loginField = findViewById(R.id.loginFieldButton);
         passwordField = findViewById(R.id.passwordFieldButton);
@@ -39,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(v -> handleLogin());
         signupLink.setOnClickListener(v -> {
             // Rediriger vers l'activité de création de compte
-            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            startActivity(new Intent(LoginActivity.this, Create_Account.class));
         });
     }
 
@@ -64,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
             // Envoyer les données avec UrlReader
             new Thread(() -> {
                 UrlReader urlReader = new UrlReader();
-                String response = urlReader.fetchData(buildUrl(baseUrl, table, options));
+                String response = urlReader.fetchData(urlReader.buildUrl(baseUrl, table, options));
 
                 runOnUiThread(() -> {
                     if (response.contains("Erreur") || response.contains("Aucune")) {
@@ -84,16 +89,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private String buildUrl(String baseUrl, String table, String[] options) {
-        StringBuilder urlBuilder = new StringBuilder(baseUrl);
-        urlBuilder.append("?table=").append(table);
-
-        for (String option : options) {
-            urlBuilder.append("&").append(option);
-        }
-
-        return urlBuilder.toString();
-    }
 
     // Méthode pour hacher le mot de passe en MD5
     private String encryptToMD5(String password) {

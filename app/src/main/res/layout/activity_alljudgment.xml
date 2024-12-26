@@ -26,106 +26,62 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/logo" />
 
+    <TextView
+        android:id="@+id/critiqueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="123dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="120dp"
+        android:text="@string/critiqueText"
+        android:textColor="@color/secondary_button"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/workImagePlaceholderPicture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
+
     <ImageView
         android:id="@+id/workImagePlaceholderPicture"
         android:layout_width="102dp"
         android:layout_height="158dp"
-        android:layout_marginBottom="160dp"
-        app:layout_constraintBottom_toTopOf="@+id/hbhv3"
+        android:layout_marginStart="154dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="155dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/noteText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
-        app:layout_constraintVertical_bias="0.168"
+        app:layout_constraintTop_toBottomOf="@+id/critiqueText"
         app:srcCompat="@android:drawable/ic_menu_report_image" />
 
-    <ImageButton
-        android:id="@+id/ratingStar4Button"
-        android:layout_width="40dp"
-        android:layout_height="37dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="292dp"
-        android:backgroundTint="#00FFFFFF"
-        android:scrollbarSize="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/hbhv3"
-        app:layout_constraintEnd_toStartOf="@+id/ratingStar5Button"
-        app:srcCompat="@android:drawable/btn_star" />
-
-    <ImageButton
-        android:id="@+id/ratingStar2Button"
-        android:layout_width="40dp"
-        android:layout_height="37dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="292dp"
-        android:backgroundTint="#00FFFFFF"
-        android:scrollbarSize="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/hbhv3"
-        app:layout_constraintEnd_toStartOf="@+id/ratingStar3Button"
-        app:srcCompat="@android:drawable/btn_star" />
-
-    <ImageButton
-        android:id="@+id/ratingStar5Button"
-        android:layout_width="40dp"
-        android:layout_height="37dp"
-        android:layout_marginEnd="88dp"
-        android:layout_marginBottom="292dp"
-        android:backgroundTint="#00FFFFFF"
-        android:scrollbarSize="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/hbhv3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/btn_star" />
-
-    <ImageButton
-        android:id="@+id/ratingStar3Button"
-        android:layout_width="40dp"
-        android:layout_height="37dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="292dp"
-        android:backgroundTint="#00FFFFFF"
-        android:scrollbarSize="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/hbhv3"
-        app:layout_constraintEnd_toStartOf="@+id/ratingStar4Button"
-        app:srcCompat="@android:drawable/btn_star" />
-
-    <ImageButton
-        android:id="@+id/ratingStar1Button"
-        android:layout_width="40dp"
-        android:layout_height="37dp"
-        android:layout_marginBottom="292dp"
-        android:backgroundTint="#00FFFFFF"
-        android:scrollbarSize="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/hbhv3"
-        app:layout_constraintEnd_toStartOf="@+id/ratingStar2Button"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/btn_star" />
-
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/noteText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Jugement de : "
+        android:layout_height="0dp"
+        android:layout_marginStart="194dp"
+        android:layout_marginEnd="195dp"
+        android:text="X/5"
         android:textColor="@color/secondary_text"
         android:textColorLink="@color/secondary_text"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="428dp" />
-
-    <TextView
-        android:id="@+id/JudgementField"
-        android:layout_width="347dp"
-        android:layout_height="89dp"
-        android:background="@drawable/rounded_button"
-        android:backgroundTint="#2F2F2F"
-        android:backgroundTintMode="src_over"
-
-        android:ems="10"
-        android:hint="@string/JudgementFieldText"
-        android:inputType="text"
-        android:textColor="@color/primary_text"
-        android:textColorHint="@color/primary_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="467dp" />
+        app:layout_constraintTop_toBottomOf="@+id/workImagePlaceholderPicture" />
+
+    <ListView
+        android:id="@+id/allJudgementList"
+        android:layout_width="411dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="2dp"
+        android:backgroundTint="@color/primary_background"
+        app:layout_constraintBottom_toTopOf="@+id/hbhv3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noteText"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
         android:id="@+id/searchButton"

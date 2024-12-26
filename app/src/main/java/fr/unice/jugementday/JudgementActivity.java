@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import fr.unice.jugementday.button.MenuButtons;
+import fr.unice.jugementday.service.UrlReader;
 import fr.unice.jugementday.service.UrlSend;
 import fr.unice.jugementday.service.UserSessionManager;
 
@@ -32,6 +33,7 @@ public class JudgementActivity extends AppCompatActivity {
     private Intent intent;
     private String title;
     private EditText JugementField;
+    private UrlReader urlReader;
     int note = 0;
     private UserSessionManager sessionManager;
 
@@ -55,6 +57,9 @@ public class JudgementActivity extends AppCompatActivity {
         ImageButton searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
 
+        ImageButton community = findViewById(R.id.communityButton2);
+        community.setOnClickListener(this::onClickAllJudgement);
+
         CritiqueText = findViewById(R.id.CritiqueText);
         intent = getIntent();
         title= getIntent().getStringExtra("title");
@@ -67,7 +72,7 @@ public class JudgementActivity extends AppCompatActivity {
 
         publishButton = findViewById(R.id.publishButton);
 
-        publishButton.setOnClickListener(v -> onClickPublish(v));
+        publishButton.setOnClickListener(this::onClickPublish);
 
 
         onClickStarJudge();
@@ -78,9 +83,17 @@ public class JudgementActivity extends AppCompatActivity {
         });
     }
 
+    public void onClickAllJudgement(View view) {
+        Intent intent2 = new Intent(this, AlljudgmentActivity.class);
+        intent2.putExtra("title", title);
+        intent2.putExtra("photo", intent.getIntExtra("photo", 0));
+        startActivity(intent2);
+
+    }
+
     public void onClickPublish(View view) {
+
         UrlSend urlSend = new UrlSend();
-        String baseUrl = "http://10.3.122.146/importdata.php";
         String table = "Avis";
         String[] options = {
                 "idOeuvre=" + title,
@@ -92,7 +105,7 @@ public class JudgementActivity extends AppCompatActivity {
 
         // Envoyer les données
         new Thread(() -> {
-            String response = urlSend.sendData(baseUrl, table, options);
+            String response = urlSend.sendData(table, options);
 
             runOnUiThread(() -> {
                 if (response.startsWith("Erreur")) {
@@ -102,6 +115,9 @@ public class JudgementActivity extends AppCompatActivity {
                 }
             });
         }).start();
+        Intent intent3 = new Intent(this, HomeActivity.class);
+        startActivity(intent3);
+        Toast.makeText(this, "Jugement ajouté !", Toast.LENGTH_LONG).show();
     }
 
     public void onClickStarJudge() {

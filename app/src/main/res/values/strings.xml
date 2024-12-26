@@ -25,6 +25,10 @@
 
     <!-- SearchActivity -->
     <string name="searchText">Rechercher</string>
+    <string name="titleTextSearch">Titre</string>
+    <string name="genreTextSearch">Genre</string>
+    <string name="tagsTextSearch">Tag</string>
+    <string name="peopleTextSearch">Personnes</string>
 
 
     <!-- addArt -->

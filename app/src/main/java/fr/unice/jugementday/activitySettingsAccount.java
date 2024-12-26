@@ -11,14 +11,24 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import fr.unice.jugementday.button.MenuButtons;
+import fr.unice.jugementday.service.UserSessionManager;
 
 public class activitySettingsAccount extends AppCompatActivity {
+
+    ImageButton disconnectButton;
+    private UserSessionManager sessionManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_settings_account);
+        sessionManager = new UserSessionManager(this);
+
+
+        disconnectButton = findViewById(R.id.disconnectButton);
+        disconnectButton.setOnClickListener(v -> { disconnectUser();});
 
         // Bouton pour aller sur la page profile
         ImageButton profileButton = findViewById(R.id.profileButton);
@@ -35,5 +45,14 @@ public class activitySettingsAccount extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    // Fonction pour déconnecter l'utilisateur
+    private void disconnectUser() {
+        // Supprimer les données de session
+        sessionManager.logout();
+        // Rediriger vers la page de connexion
+        Intent intent = new Intent(activitySettingsAccount.this, LoginActivity.class);
+        startActivity(intent);
     }
 }

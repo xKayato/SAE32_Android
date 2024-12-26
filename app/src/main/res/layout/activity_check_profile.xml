@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_background"
-    tools:context=".ProfileActivity">
+    tools:context=".CheckProfileActivity">
 
     <ImageView
         android:id="@+id/logoPicture"
@@ -29,24 +29,28 @@
         android:layout_width="316dp"
         android:layout_height="32dp"
         android:layout_marginTop="8dp"
-        android:text="@string/hello"
+        android:layout_marginBottom="15dp"
+        android:text="@string/accountCommuText"
         android:textColor="@color/secondary_text"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/settingsButton"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/allJudgementList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.168"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
 
     <ListView
         android:id="@+id/allJudgementList"
-        android:layout_width="408dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="3dp"
+        android:layout_width="410dp"
+        android:layout_height="511dp"
         android:layout_marginBottom="1dp"
         android:backgroundTint="@color/primary_background"
         app:layout_constraintBottom_toTopOf="@+id/hbhv"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settingsButton" />
+        app:layout_constraintTop_toBottomOf="@+id/modificationStatusText"
+        app:layout_constraintVertical_bias="1.0" />
 
     <View
         android:id="@+id/hbhv"
@@ -97,25 +101,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/homeButton"
         app:srcCompat="@drawable/profile"
-        app:tint="@color/secondary_button" />
-
-    <ImageButton
-        android:id="@+id/settingsButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="8dp"
-        android:layout_marginTop="19dp"
-        android:background="@null"
-        android:onClick="onSettingClick"
-        android:padding="4dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/settings"
-        android:tint="@color/primary_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
-        app:layout_constraintVertical_bias="0.0" />
+        app:tint="@color/primary_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

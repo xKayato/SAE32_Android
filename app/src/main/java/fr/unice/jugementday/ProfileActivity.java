@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import fr.unice.jugementday.button.MenuButtons;
+import fr.unice.jugementday.service.CustomArrayAdapter;
 import fr.unice.jugementday.service.UrlReader;
 import fr.unice.jugementday.service.UserSessionManager;
 
@@ -51,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
         ImageButton searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
 
-        ListView listView = findViewById(R.id.listView);
+        ListView listView = findViewById(R.id.allJudgementList);
 
         // Initialisation de l'adaptateur pour la liste
         adapter = new CustomArrayAdapter(this, items);
@@ -111,7 +112,7 @@ public class ProfileActivity extends AppCompatActivity {
             List<Integer> selectedIndices = new ArrayList<>();
 
             // Ajouter les œuvres dans la liste principale
-            for (int i = 0; i < jsonArray.length(); i++) {
+            for (int i = jsonArray.length()-1; i >= 0 ; i--) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String nomOeuvre = jsonObject.getString("idOeuvre");
 
@@ -130,8 +131,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
             // Mise à jour des sections avec les nouvelles données
-            updatedItems.add(new ListItem(getString(R.string.lastRealeseText), oeuvresList));
-            updatedItems.add(new ListItem(getString(R.string.randomOeuvresText), randomOeuvresList));
+            updatedItems.add(new ListItem(getString(R.string.judgedText) + " ("+oeuvresList.size()+")", oeuvresList));
+            updatedItems.add(new ListItem(getString(R.string.lovedWorksText), randomOeuvresList));
+            updatedItems.add(new ListItem(getString(R.string.dislikedWorksText), randomOeuvresList));
 
             // Mise à jour de l'adaptateur
             items.clear();

@@ -1,5 +1,4 @@
-package fr.unice.jugementday;// HomeActivity.java
-import android.app.LauncherActivity;
+package fr.unice.jugementday.service;// HomeActivity.java
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,8 +7,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.TextAppearanceSpan;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +18,10 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
+
+import fr.unice.jugementday.JudgementActivity;
+import fr.unice.jugementday.ListItem;
+import fr.unice.jugementday.R;
 
 public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
     public CustomArrayAdapter(Context context, List<ListItem> items) {

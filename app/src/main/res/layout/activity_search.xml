@@ -28,59 +28,69 @@
 
     <ImageView
         android:id="@+id/searchPicture"
-        android:layout_width="51dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="39dp"
-        android:tint="@color/primary_text"
-        app:layout_constraintBottom_toTopOf="@+id/searchButton"
+        android:layout_width="59dp"
+        android:layout_height="53dp"
+        app:tint="@color/primary_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoPicture"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/search" />
 
     <EditText
         android:id="@+id/searchField"
-        android:layout_width="263dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="39dp"
+        android:layout_width="295dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="2dp"
         android:ems="10"
         android:hint="@string/searchText"
         android:inputType="text"
         android:textColor="@color/primary_text"
         android:textColorHint="@color/primary_button"
-        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintEnd_toStartOf="@+id/confirmSearchButton"
         app:layout_constraintStart_toEndOf="@+id/searchPicture"
-        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
 
     <ImageButton
         android:id="@+id/confirmSearchButton"
-        android:layout_width="48dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="56dp"
+        android:layout_height="52dp"
         android:background="@drawable/rounded_button"
         android:backgroundTint="@color/secondary_button"
-        android:tint="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/profileButton"
+        android:contextClickable="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/searchField"
         app:layout_constraintTop_toBottomOf="@+id/logoPicture"
-        app:layout_constraintVertical_bias="0.004"
-        app:srcCompat="@android:drawable/ic_media_play" />
+        app:srcCompat="@android:drawable/ic_media_play"
+        app:tint="@color/black" />
+
+    <Button
+        android:id="@+id/TitleButtonSearch"
+        android:layout_width="205dp"
+        android:layout_height="55dp"
+        android:backgroundTint="@color/secondary_button"
+        android:text="@string/titleTextSearch"
+        app:layout_constraintBottom_toTopOf="@+id/searchList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchPicture" />
+
+    <Button
+        android:id="@+id/PeopleButtonSearch"
+        android:layout_width="205dp"
+        android:layout_height="55dp"
+        android:backgroundTint="@color/primary_button"
+        android:text="@string/peopleTextSearch"
+        android:textAlignment="gravity"
+        app:layout_constraintBottom_toTopOf="@+id/searchList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirmSearchButton" />
 
     <ListView
         android:id="@+id/searchList"
-        android:layout_width="409dp"
-        android:layout_height="486dp"
-        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        android:layout_width="410dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/hbhv5"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchField"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/TitleButtonSearch" />
 
     <ImageButton
         android:id="@+id/searchButton"
