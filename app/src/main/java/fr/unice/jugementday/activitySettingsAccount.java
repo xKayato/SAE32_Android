@@ -10,7 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import fr.unice.jugementday.button.MenuButtons;
+import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.UserSessionManager;
 
 public class activitySettingsAccount extends AppCompatActivity {

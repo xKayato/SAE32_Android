@@ -2,12 +2,10 @@ package fr.unice.jugementday;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -20,18 +18,18 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
-import fr.unice.jugementday.button.MenuButtons;
-import fr.unice.jugementday.service.UrlReader;
+import fr.unice.jugementday.service.MenuButtons;
+import fr.unice.jugementday.service.JsonStock;
 
 public class SearchActivity extends AppCompatActivity {
 
     private ArrayAdapter<String> myAdapter;
     private ArrayList<String> items = new ArrayList<>();
-    private List<String> oeuvresList = new ArrayList<>();
+    private List<HashMap<String, String>> oeuvresList = new ArrayList<>();
     private List<String> personnesList = new ArrayList<>();
     private List<String> randomOeuvresList = new ArrayList<>();
     private List<String> randomPersonneList = new ArrayList<>();
@@ -39,6 +37,9 @@ public class SearchActivity extends AppCompatActivity {
     private EditText searchField;
     private ImageButton confirmSearchButton;
     private String category;
+    private JsonStock jsonStock;
+    private String Works;
+    private String Peoples;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,11 @@ public class SearchActivity extends AppCompatActivity {
 
         category = "Oeuvre";
 
+        jsonStock = new JsonStock(this);
+
+        Works = jsonStock.getWorks();
+        Peoples = jsonStock.getPeople();
+
         // Initialisation de l'adaptateur pour la liste
         myAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         ListView searchList = findViewById(R.id.searchList);
@@ -67,10 +73,7 @@ public class SearchActivity extends AppCompatActivity {
         searchField = findViewById(R.id.searchField);
         confirmSearchButton = findViewById(R.id.confirmSearchButton);
 
-
-
-        // Appel de la méthode pour récupérer et analyser les données
-        fetchDataFromUrl("http://10.3.122.146/getdata.php?table=Oeuvre&fields=nomOeuvre");
+        parseAndUpdateData(Works);
 
         // Pour sur elever un peu le menu par rapport au bas de l'écran
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -82,7 +85,9 @@ public class SearchActivity extends AppCompatActivity {
         // Ajouter un OnClickListener sur chaque item de la liste (Pour juger les oeuvres)
         searchList.setOnItemClickListener((parent, view, position, id) -> {
             String selectedTitle = items.get(position);  // Nom de l'œuvre cliquée
-            openDetailActivity(selectedTitle);
+            String selectedId = oeuvresList.get(position).get(selectedTitle);  // Récupérer l'id de l'œuvre cliquée
+            openDetailActivity(selectedTitle, selectedId);
+
         });
 
         // Ajouter un listener pour le bouton de recherche (Pour appliquer la recherche)
@@ -100,7 +105,7 @@ public class SearchActivity extends AppCompatActivity {
         category = "Oeuvre";
         randomOeuvresList.clear();
         selectedIndices.clear();
-        fetchDataFromUrl("http://10.3.122.146/getdata.php?table=Oeuvre&fields=nomOeuvre");
+        parseAndUpdateData(Works);
         findViewById(R.id.PeopleButtonSearch).setBackgroundColor(getResources().getColor(R.color.primary_button));
         findViewById(R.id.TitleButtonSearch).setBackgroundColor(getResources().getColor(R.color.secondary_button));
     }
@@ -111,30 +116,11 @@ public class SearchActivity extends AppCompatActivity {
         personnesList.clear();
         randomPersonneList.clear();
         selectedIndices.clear();
-        fetchDataFromUrl("http://10.3.122.146/getdata.php?table=User&fields=pseudo");
+        parseAndUpdateData(Peoples);
         findViewById(R.id.PeopleButtonSearch).setBackgroundColor(getResources().getColor(R.color.secondary_button));
         findViewById(R.id.TitleButtonSearch).setBackgroundColor(getResources().getColor(R.color.primary_button));
     }
 
-
-
-    // Méthode pour récupérer les données depuis l'URL et mettre à jour la liste
-    private void fetchDataFromUrl(String url) {
-        new Thread(() -> {
-            // Ici, on appelle la méthode pour récupérer les données de l'URL
-            String result = new UrlReader().fetchData(url);
-
-            // Mise à jour de l'interface (doit être effectué sur le thread principal)
-            runOnUiThread(() -> {
-                if (result.startsWith("Erreur")) {
-                    Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-                } else {
-                    // Une fois les données récupérées, on les analyse
-                    parseAndUpdateData(result);
-                }
-            });
-        }).start();
-    }
 
     // Méthode pour analyser les données JSON et mettre à jour la liste
     private void parseAndUpdateData(String jsonData) {
@@ -155,9 +141,12 @@ public class SearchActivity extends AppCompatActivity {
                         personnesList.add(nomPersonne);
                     }
                 } else if(Objects.equals(category, "Oeuvre")){
-                    if(jsonObject.has("nomOeuvre")){
+                    if(jsonObject.has("idOeuvre")){
+                        String idOeuvre = jsonObject.getString("idOeuvre");
                         String nomOeuvre = jsonObject.getString("nomOeuvre");
-                        oeuvresList.add(nomOeuvre);
+                        HashMap<String, String> oeuvreMap = new HashMap<>();
+                        oeuvreMap.put(nomOeuvre, idOeuvre);
+                        oeuvresList.add(oeuvreMap);
                     }
 
                 }
@@ -173,8 +162,6 @@ public class SearchActivity extends AppCompatActivity {
                         selectedIndices.add(randomIndex);
                         randomPersonneList.add(personnesList.get(randomIndex));
                         updatedItems.add(personnesList.get(randomIndex));
-                        Toast.makeText(this, "test", Toast.LENGTH_LONG).show();
-
                     }
                 }
             } else if(Objects.equals(category, "Oeuvre")) {
@@ -183,8 +170,9 @@ public class SearchActivity extends AppCompatActivity {
                     int randomIndex = (int) (Math.random() * oeuvresList.size());
                     if (!selectedIndices.contains(randomIndex)) {
                         selectedIndices.add(randomIndex);
-                        randomOeuvresList.add(oeuvresList.get(randomIndex));
-                        updatedItems.add(oeuvresList.get(randomIndex)); // Ajouter le nom de l'œuvre
+                        String oeuvreName = oeuvresList.get(randomIndex).keySet().iterator().next();
+                        randomOeuvresList.add(oeuvreName);
+                        updatedItems.add(oeuvreName);
                     }
                 }
             }
@@ -207,14 +195,15 @@ public class SearchActivity extends AppCompatActivity {
     private void performSearch(String query) {
         List<String> searchResults = new ArrayList<>();
 
-        if(category == "Oeuvre"){
+        if(Objects.equals(category, "Oeuvre")){
             // Rechercher parmi toutes les œuvres
-            for (String oeuvre : oeuvresList) {
+            for (HashMap<String, String> oeuvreMap : oeuvresList) {
+                String oeuvre = oeuvreMap.keySet().iterator().next();
                 if (oeuvre.toLowerCase().contains(query.toLowerCase())) {
                     searchResults.add(oeuvre);
                 }
             }
-        } else if(category == "Personne"){
+        } else if(Objects.equals(category, "Personne")){
             // Rechercher parmi toutes les personnes
             for (String personne : personnesList) {
                 if (personne.toLowerCase().contains(query.toLowerCase())) {
@@ -229,16 +218,17 @@ public class SearchActivity extends AppCompatActivity {
         myAdapter.notifyDataSetChanged();
     }
 
-    // Méthode pour juger l'oeuvre
-    private void openDetailActivity(String title) {
-        if(category == "Oeuvre"){
+    // Méthode pour le clique sur un élément de la liste (Personne ou Oeuvre)
+    private void openDetailActivity(String title, String id) {
+        if(Objects.equals(category, "Oeuvre")){
             Intent intent = new Intent(SearchActivity.this, JudgementActivity.class);
             intent.putExtra("title", title); // Passage du titre de l'œuvre
+            intent.putExtra("id", id); // Passage de l'id de l'œuvre
             startActivity(intent);
-        } else if(category == "Personne"){
-            //Intent intent = new Intent(SearchActivity.this, PersonneActivity.class);
-            //intent.putExtra("title", title); // Passage du titre de l'œuvre
-            //startActivity(intent);
+        } else if(Objects.equals(category, "Personne")){
+            Intent intent = new Intent(SearchActivity.this, CheckProfileActivity.class);
+            intent.putExtra("pseudo", title); // Passage du pseudo
+            startActivity(intent);
         }
 
     }

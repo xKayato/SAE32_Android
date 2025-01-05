@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             String hashedPassword = encryptToMD5(passwordText);
 
             // Construire l'URL pour envoyer les données au serveur
-            String baseUrl = "http://10.3.122.146/getdata.php";
+            String baseUrl = UrlReader.address;
             String table = "User";
             String[] options = {
                     "login=" + loginText,

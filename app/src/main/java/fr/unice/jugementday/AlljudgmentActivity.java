@@ -20,9 +20,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import fr.unice.jugementday.button.MenuButtons;
+import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.UrlReader;
 
 public class AlljudgmentActivity extends AppCompatActivity {
@@ -34,10 +33,10 @@ public class AlljudgmentActivity extends AppCompatActivity {
     private String title;
     private ArrayList<String> items = new ArrayList<>();
     private List<String> oeuvresList = new ArrayList<>();
-    private List<String> randomOeuvresList = new ArrayList<>();
-    private List<Integer> selectedIndices = new ArrayList<>(); // Liste des indices déjà sélectionnés
-    int note = 0;
-
+    private int notes = 0;
+    private int nb = 0;
+    private int id;
+    private TextView noteText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +46,23 @@ public class AlljudgmentActivity extends AppCompatActivity {
 
         CritiqueText = findViewById(R.id.critiqueText);
         intent = getIntent();
+        id = intent.getIntExtra("id", 0);
         title= getIntent().getStringExtra("title");
         String critique = getString(R.string.critiqueText);
         String newTitle = critique.replace("oeuvre", title);
         CritiqueText.setText(newTitle);
-        Image = findViewById(R.id.workImagePlaceholderPicture);
+        Image = findViewById(R.id.selectedImageButton);
         Image.setImageResource(intent.getIntExtra("photo", 0));
+        noteText = findViewById(R.id.noteText);
+
 
         myAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         ListView searchList = findViewById(R.id.allJudgementList);
         searchList.setAdapter(myAdapter);
 
-        fetchDataFromUrl("http://10.3.122.146/getdata.php?table=Avis&fields=texteAvis,login,note&idOeuvre=" + title);
+        fetchDataFromUrl(UrlReader.address + "?table=Avis&fields=texteAvis,login,note&idOeuvre=" + String.valueOf(id));
+
+
 
         ImageButton profileButton = findViewById(R.id.profileButton);
         profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
@@ -87,7 +91,6 @@ public class AlljudgmentActivity extends AppCompatActivity {
                 if (result.startsWith("Erreur")) {
                     Toast.makeText(this, result, Toast.LENGTH_LONG).show();
                 } else {
-                    // Une fois les données récupérées, on les analyse
                     parseAndUpdateData(result);
                 }
             });
@@ -108,21 +111,23 @@ public class AlljudgmentActivity extends AppCompatActivity {
                 String texteAvis = jsonObject.getString("texteAvis");
                 String pseudo = jsonObject.getString("login");
                 String note = jsonObject.getString("note");
+                notes += Integer.parseInt(note);
+                nb += 1;
 
+                float noteTot = notes/nb;
 
-                // Ajouter l'œuvre sans image
+                noteText.setText(noteTot + "/5");
+
                 oeuvresList.add(pseudo + " (" + note + "/5) : " + texteAvis);
             }
 
-            // Choisir 20 oevres au hasard parmi celles disponibles
-            while (randomOeuvresList.size() < 20 && selectedIndices.size() < oeuvresList.size()) {
-                int randomIndex = new Random().nextInt(oeuvresList.size());
-                if (!selectedIndices.contains(randomIndex)) {
-                    selectedIndices.add(randomIndex);
-                    randomOeuvresList.add(oeuvresList.get(randomIndex));
-                    updatedItems.add(oeuvresList.get(randomIndex)); // Ajouter le nom de l'œuvre
-                }
+            // Ajouter les œuvres dans la liste principale
+            for (int i = 0; i < oeuvresList.size(); i++) {
+                updatedItems.add(oeuvresList.get(i));
             }
+
+
+
 
             // Mise à jour de la liste des éléments
             items.clear();

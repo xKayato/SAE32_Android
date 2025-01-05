@@ -1,6 +1,8 @@
 package fr.unice.jugementday;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -18,21 +20,42 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import fr.unice.jugementday.button.MenuButtons;
+import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.CustomArrayAdapter;
 import fr.unice.jugementday.service.UrlReader;
+import fr.unice.jugementday.service.JsonStock;
+import fr.unice.jugementday.service.UserSessionManager;
 
 public class HomeActivity extends AppCompatActivity {
 
     private UrlReader urlReader;
     private CustomArrayAdapter adapter;
     private List<ListItem> items = new ArrayList<>();
+    private JsonStock jsonStock;
+    private Button addWorkButton;
+    private String userLogin;
+    private UserSessionManager sessionManager;
+    private String Works;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
+
+        jsonStock = new JsonStock(this);
+        sessionManager = new UserSessionManager(this);
+        // Vérifier si l'utilisateur est connecté
+        if (sessionManager.isLoggedIn()) {
+            userLogin = sessionManager.getLogin();
+        } else {
+            // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
+            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
+
+
 
         ListView listView = findViewById(R.id.allJudgementList);
 
@@ -43,9 +66,15 @@ public class HomeActivity extends AppCompatActivity {
         // Initialisation du lecteur d'URL
         urlReader = new UrlReader();
 
-        // URL pour récupérer les données
-        String url = "http://10.3.122.146/getdata.php?table=Oeuvre&fields=nomOeuvre";
-        fetchDataFromUrl(url);
+        Works = jsonStock.getWorks();
+        parseAndUpdateData(Works);
+
+
+        addWorkButton = findViewById(R.id.AddWorkButton);
+        addWorkButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AddWorkActivity.class);
+            startActivity(intent);
+        });
 
         // Boutons de navigation
         ImageButton profileButton = findViewById(R.id.profileButton);
@@ -66,20 +95,6 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void fetchDataFromUrl(String url) {
-        new Thread(() -> {
-            String result = urlReader.fetchData(url);
-
-            runOnUiThread(() -> {
-                if (result.startsWith("Erreur")) {
-                    Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-                } else {
-                    parseAndUpdateData(result);
-                }
-            });
-        }).start();
-    }
-
     private void parseAndUpdateData(String jsonData) {
         try {
             JSONArray jsonArray = new JSONArray(jsonData);
@@ -98,9 +113,12 @@ public class HomeActivity extends AppCompatActivity {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String nomOeuvre = jsonObject.getString("nomOeuvre");
+                Integer idOeuvre = jsonObject.getInt("idOeuvre");
+
+
 
                 // Ajouter le titre avec une image par défaut
-                HashMap<String, Integer> oeuvreMap = createHashMap(nomOeuvre, R.drawable.chainsawman);
+                HashMap<String, Integer> oeuvreMap = createHashMap(nomOeuvre, idOeuvre);
                 oeuvresList.add(oeuvreMap);
             }
 
@@ -124,7 +142,7 @@ public class HomeActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Erreur lors de l'analyse des données" + e, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "" + e, Toast.LENGTH_LONG).show();
         }
     }
 

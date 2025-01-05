@@ -36,13 +36,13 @@
         android:text="@string/critiqueText"
         android:textColor="@color/secondary_button"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/workImagePlaceholderPicture"
+        app:layout_constraintBottom_toTopOf="@+id/selectedImageButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
 
     <ImageView
-        android:id="@+id/workImagePlaceholderPicture"
+        android:id="@+id/selectedImageButton"
         android:layout_width="102dp"
         android:layout_height="158dp"
         android:layout_marginStart="154dp"
@@ -67,7 +67,7 @@
         android:textColorLink="@color/secondary_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workImagePlaceholderPicture" />
+        app:layout_constraintTop_toBottomOf="@+id/selectedImageButton" />
 
     <ListView
         android:id="@+id/allJudgementList"

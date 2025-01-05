@@ -10,6 +10,8 @@ public class UserSessionManager {
 
     // Clés pour les données de session
     private static final String KEY_LOGIN = "user_login";
+    private static final String KEY_NICKNAME = "user_nickname";
+    private static final String KEY_ACCESS = "user_access";
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -29,6 +31,28 @@ public class UserSessionManager {
     // Méthode pour récupérer le login
     public String getLogin() {
         return sharedPreferences.getString(KEY_LOGIN, null);  // Retourne null si le login n'est pas trouvé
+    }
+
+    // Méthode pour stocker le pseudo
+    public void storeNickName(String nickname) {
+        editor.putString(KEY_NICKNAME, nickname);
+        editor.apply();  // Appliquer les changements de manière asynchrone
+    }
+
+    // Méthode pour récupérer le pseudo
+    public String getNickName() {
+        return sharedPreferences.getString(KEY_NICKNAME, null);  // Retourne null si le login n'est pas trouvé
+    }
+
+    // Méthode pour stocker l'acces
+    public void storeAccess(String access) {
+        editor.putString(KEY_ACCESS, access);
+        editor.apply();  // Appliquer les changements de manière asynchrone
+    }
+
+    // Méthode pour récupérer l'acces
+    public String getAccess() {
+        return sharedPreferences.getString(KEY_ACCESS, null);  // Retourne null si le login n'est pas trouvé
     }
 
     // Méthode pour vérifier si l'utilisateur est connecté (si le login existe)

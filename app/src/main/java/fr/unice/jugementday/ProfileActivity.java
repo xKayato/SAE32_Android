@@ -21,8 +21,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import fr.unice.jugementday.button.MenuButtons;
+import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.CustomArrayAdapter;
+import fr.unice.jugementday.service.JsonStock;
 import fr.unice.jugementday.service.UrlReader;
 import fr.unice.jugementday.service.UserSessionManager;
 
@@ -33,6 +34,8 @@ public class ProfileActivity extends AppCompatActivity {
     private CustomArrayAdapter adapter;
     private List<ListItem> items = new ArrayList<>();
     private String userLogin;
+    private JsonStock jsonStock;
+    private String judgements;
 
 
     @Override
@@ -42,6 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         sessionManager = new UserSessionManager(this);
+        jsonStock = new JsonStock(this);
 
         ImageButton profileButton = findViewById(R.id.profileButton);
         profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
@@ -64,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (sessionManager.isLoggedIn()) {
             userLogin = sessionManager.getLogin();
             // Utilisez le login comme vous voulez
-            TextView usernameTextView = findViewById(R.id.modificationStatusText);
+            TextView usernameTextView = findViewById(R.id.AccountOfText);
             usernameTextView.setText("Bonjour, " + userLogin);
         } else {
             // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
@@ -72,9 +76,10 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        String url = "http://10.3.122.146/getdata.php?passid=SalutJeSuisUnMotDePassePourGet&table=Avis&fields=idOeuvre&login=" + userLogin;
-        fetchDataFromUrl(url);
-
+        judgements = jsonStock.getJudged();
+        if (judgements != null) {
+            parseAndUpdateData(judgements);
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -83,19 +88,6 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void fetchDataFromUrl(String url) {
-        new Thread(() -> {
-            String result = urlReader.fetchData(url);
-
-            runOnUiThread(() -> {
-                if (result.startsWith("Erreur")) {
-                    Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-                } else {
-                    parseAndUpdateData(result);
-                }
-            });
-        }).start();
-    }
 
     private void parseAndUpdateData(String jsonData) {
         try {
@@ -114,10 +106,11 @@ public class ProfileActivity extends AppCompatActivity {
             // Ajouter les œuvres dans la liste principale
             for (int i = jsonArray.length()-1; i >= 0 ; i--) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String nomOeuvre = jsonObject.getString("idOeuvre");
+                String nomOeuvre = jsonObject.getString("nomOeuvre");
+                int idOeuvre = jsonObject.getInt("idOeuvre");
 
                 // Ajouter le titre avec une image par défaut
-                HashMap<String, Integer> oeuvreMap = createHashMap(nomOeuvre, R.drawable.chainsawman);
+                HashMap<String, Integer> oeuvreMap = createHashMap(nomOeuvre, idOeuvre);
                 oeuvresList.add(oeuvreMap);
             }
 

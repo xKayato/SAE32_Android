@@ -14,7 +14,7 @@ public class UrlReader {
 
     private final ExecutorService executorService;
     private static final String PASSID = "&passid=SalutJeSuisUnMotDePassePourGet";  // Le passid constant
-    private static final String address = "http://10.3.122.146/getdata.php";
+    public static String address = "http://10.3.122.146/getdata.php";
 
     // Constructeur : initialise le gestionnaire de threads
     public UrlReader() {

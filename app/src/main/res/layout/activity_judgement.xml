@@ -38,31 +38,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
 
-    <TextView
-        android:id="@+id/addJudgementText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/addJudgementText"
-        android:textColor="@color/primary_text"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/JudgementField"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/addNoteText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/addNoteText"
-        android:textColor="@color/primary_text"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/ratingStar3Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ImageView
-        android:id="@+id/workImagePlaceholderPicture"
+        android:id="@+id/selectedImageButton"
         android:layout_width="102dp"
         android:layout_height="158dp"
         app:layout_constraintBottom_toTopOf="@+id/addJudgementText"
@@ -72,6 +49,36 @@
         app:layout_constraintTop_toBottomOf="@+id/CritiqueText"
         app:layout_constraintVertical_bias="0.17"
         app:srcCompat="@android:drawable/ic_menu_report_image" />
+
+    <TextView
+        android:id="@+id/GenreText"
+        android:layout_width="337dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginBottom="7dp"
+        android:gravity="center"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/tagsText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectedImageButton" />
+
+    <TextView
+        android:id="@+id/tagsText"
+        android:layout_width="337dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginBottom="19dp"
+        android:gravity="center"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/addJudgementText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/GenreText" />
 
     <EditText
         android:id="@+id/JudgementField"
@@ -90,23 +97,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageButton
-        android:id="@+id/ratingStar3Button"
-        android:layout_width="40dp"
-        android:layout_height="37dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="124dp"
-        android:backgroundTint="#00FFFFFF"
-        android:scrollbarSize="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/hbhv3"
-        app:layout_constraintEnd_toStartOf="@+id/ratingStar4Button"
-        app:srcCompat="@android:drawable/btn_star" />
+    <TextView
+        android:id="@+id/addJudgementText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="12dp"
+        android:text="@string/addJudgementText"
+        android:textColor="@color/primary_text"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/JudgementField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tagsText" />
+
+    <TextView
+        android:id="@+id/addNoteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addNoteText"
+        android:textColor="@color/primary_text"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/ratingStar3Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/ratingStar1Button"
         android:layout_width="40dp"
         android:layout_height="37dp"
-        android:layout_marginBottom="124dp"
+        android:layout_marginBottom="68dp"
         android:backgroundTint="#00FFFFFF"
         android:scrollbarSize="4dp"
         app:layout_constraintBottom_toTopOf="@+id/hbhv3"
@@ -120,7 +141,7 @@
         android:layout_width="40dp"
         android:layout_height="37dp"
         android:layout_marginEnd="4dp"
-        android:layout_marginBottom="124dp"
+        android:layout_marginBottom="68dp"
         android:backgroundTint="#00FFFFFF"
         android:scrollbarSize="4dp"
         app:layout_constraintBottom_toTopOf="@+id/hbhv3"
@@ -128,15 +149,15 @@
         app:srcCompat="@android:drawable/btn_star" />
 
     <ImageButton
-        android:id="@+id/ratingStar5Button"
+        android:id="@+id/ratingStar3Button"
         android:layout_width="40dp"
         android:layout_height="37dp"
-        android:layout_marginEnd="104dp"
-        android:layout_marginBottom="124dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="68dp"
         android:backgroundTint="#00FFFFFF"
         android:scrollbarSize="4dp"
         app:layout_constraintBottom_toTopOf="@+id/hbhv3"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ratingStar4Button"
         app:srcCompat="@android:drawable/btn_star" />
 
     <ImageButton
@@ -144,18 +165,30 @@
         android:layout_width="40dp"
         android:layout_height="37dp"
         android:layout_marginEnd="4dp"
-        android:layout_marginBottom="124dp"
+        android:layout_marginBottom="68dp"
         android:backgroundTint="#00FFFFFF"
         android:scrollbarSize="4dp"
         app:layout_constraintBottom_toTopOf="@+id/hbhv3"
         app:layout_constraintEnd_toStartOf="@+id/ratingStar5Button"
         app:srcCompat="@android:drawable/btn_star" />
 
+    <ImageButton
+        android:id="@+id/ratingStar5Button"
+        android:layout_width="40dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="104dp"
+        android:layout_marginBottom="68dp"
+        android:backgroundTint="#00FFFFFF"
+        android:scrollbarSize="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/hbhv3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/btn_star" />
+
     <Button
         android:id="@+id/publishButton"
         android:layout_width="126dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="68dp"
+        android:layout_marginBottom="12dp"
         android:backgroundTint="@color/secondary_button"
         android:text="@string/publishReviewText"
         android:textColor="@color/black"

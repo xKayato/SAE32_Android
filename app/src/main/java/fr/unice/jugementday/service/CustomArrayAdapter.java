@@ -46,13 +46,13 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
             Button photoButton = new Button(getContext());
             Intent i = new Intent(getContext(), JudgementActivity.class);
             for (String key : Works.keySet()) {
-                i.putExtra("photo", Works.get(key));
-                photoButton.setBackgroundResource(Works.get(key));
+                i.putExtra("id", Works.get(key));
+                photoButton.setBackgroundResource(R.drawable.chainsawman);
                 Spannable text = new SpannableString(key);
                 text.setSpan(new ForegroundColorSpan(Color.WHITE), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 text.setSpan(new BackgroundColorSpan(Color.BLACK), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 photoButton.setText(text);
-                photoButton.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
+                photoButton.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL);
 
                 photoButton.setTextColor(getContext().getResources().getColor(R.color.white));
                 break;

@@ -1,4 +1,4 @@
-package fr.unice.jugementday.button;
+package fr.unice.jugementday.service;
 
 import android.content.Context;
 import android.content.Intent;

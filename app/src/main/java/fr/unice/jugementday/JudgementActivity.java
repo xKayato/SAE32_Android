@@ -16,11 +16,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import fr.unice.jugementday.button.MenuButtons;
+import fr.unice.jugementday.service.MenuButtons;
+import fr.unice.jugementday.service.JsonStock;
 import fr.unice.jugementday.service.UrlReader;
 import fr.unice.jugementday.service.UrlSend;
 import fr.unice.jugementday.service.UserSessionManager;
@@ -36,6 +40,9 @@ public class JudgementActivity extends AppCompatActivity {
     private UrlReader urlReader;
     int note = 0;
     private UserSessionManager sessionManager;
+    private JsonStock jsonStock;
+    private int id;
+    private String judgements;
 
 
     @Override
@@ -47,6 +54,11 @@ public class JudgementActivity extends AppCompatActivity {
         sessionManager = new UserSessionManager(this);
 
         JugementField = findViewById(R.id.JudgementField);
+
+        jsonStock = new JsonStock(this);
+        String Works = jsonStock.getWorks();
+        judgements = jsonStock.getJudged();
+
 
         ImageButton profileButton = findViewById(R.id.profileButton);
         profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
@@ -66,8 +78,11 @@ public class JudgementActivity extends AppCompatActivity {
         String critique = getString(R.string.critiqueText);
         String newTitle = critique.replace("oeuvre", title);
         CritiqueText.setText(newTitle);
-        CritiqueImage = findViewById(R.id.workImagePlaceholderPicture);
+        CritiqueImage = findViewById(R.id.selectedImageButton);
         CritiqueImage.setImageResource(intent.getIntExtra("photo", 0));
+        id = intent.getIntExtra("id",0);
+
+
 
 
         publishButton = findViewById(R.id.publishButton);
@@ -86,38 +101,58 @@ public class JudgementActivity extends AppCompatActivity {
     public void onClickAllJudgement(View view) {
         Intent intent2 = new Intent(this, AlljudgmentActivity.class);
         intent2.putExtra("title", title);
-        intent2.putExtra("photo", intent.getIntExtra("photo", 0));
+        intent2.putExtra("id", id);
+
         startActivity(intent2);
 
     }
 
     public void onClickPublish(View view) {
-
-        UrlSend urlSend = new UrlSend();
-        String table = "Avis";
-        String[] options = {
-                "idOeuvre=" + title,
-                "texteAvis=" + JugementField.getText().toString(),
-                "note=" + note,
-                "date=" + new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date()),
-                "login=" + sessionManager.getLogin()
-        };
-
-        // Envoyer les données
-        new Thread(() -> {
-            String response = urlSend.sendData(table, options);
-
-            runOnUiThread(() -> {
-                if (response.startsWith("Erreur")) {
-                    Toast.makeText(this, response, Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(this, "Données envoyées : " + response, Toast.LENGTH_LONG).show();
+        try {
+            JSONArray jsonArray = new JSONArray(judgements);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                int idOeuvre = jsonObject.getInt("idOeuvre");
+                if (idOeuvre == id) {
+                    Toast.makeText(this, "Vous avez déjà donné votre avis sur cette oeuvre", Toast.LENGTH_LONG).show();
+                    Intent intent3 = new Intent(this, HomeActivity.class);
+                    startActivity(intent3);
+                    return;
                 }
-            });
-        }).start();
-        Intent intent3 = new Intent(this, HomeActivity.class);
-        startActivity(intent3);
-        Toast.makeText(this, "Jugement ajouté !", Toast.LENGTH_LONG).show();
+            }
+            UrlSend urlSend = new UrlSend();
+            String table = "Avis";
+            String[] options = {
+                    "idOeuvre=" + id,
+                    "texteAvis=" + JugementField.getText().toString(),
+                    "note=" + note,
+                    "date=" + new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date()),
+                    "login=" + sessionManager.getLogin()
+            };
+
+            // Envoyer les données
+            new Thread(() -> {
+                String response = urlSend.sendData(table, options);
+
+                runOnUiThread(() -> {
+                    if (response.startsWith("Erreur")) {
+                        Toast.makeText(this, response, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this, "Données envoyées : " + response, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }).start();
+            Intent intent3 = new Intent(this, HomeActivity.class);
+            startActivity(intent3);
+            Toast.makeText(this, "Jugement ajouté !", Toast.LENGTH_LONG).show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Erreur lors de l'analyse des données", Toast.LENGTH_LONG).show();
+        }
+
+
+
     }
 
     public void onClickStarJudge() {
