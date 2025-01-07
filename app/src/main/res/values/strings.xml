@@ -65,14 +65,14 @@
     <!-- Account -->
     <string name="accountText">Paramètres de votre compte</string>
     <string name="logoutText">Se déconnecter</string>
-    <string name="changePseudoText">Modifier votre pseudo</string>
-    <string name="pseudoText">Pseudo</string>
+    <string name="changePseudoText">Modifier votre login</string>
+    <string name="pseudoText">Login</string>
     <string name="changePasswordText">Modifier votre mot de passe</string>
     <string name="changeApplyText">Modifier</string>
     <string name="oldPasswordText">Ancien mot de passe</string>
     <string name="newPasswordText">Nouveau mot de passe</string>
     <string name="confirmText">Confirmer</string>
-    <string name="changePseudoSuccessText">Votre pseudo a bien été modifié</string>
+    <string name="changePseudoSuccessText">Votre login a bien été modifié</string>
     <string name="errorText">Une erreur est survenue</string>
     <string name="changePasswordSuccessText">Votre mot de passe a bien été modifié</string>
     <string name="deleteAccountText">Supprimer votre compte</string>

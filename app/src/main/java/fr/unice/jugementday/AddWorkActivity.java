@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -32,7 +31,7 @@ public class AddWorkActivity extends AppCompatActivity {
 
     private EditText title;
     private EditText author;
-    private EditText genre;
+    private EditText type;
     private EditText Date;
     private Button publish;
     private ImageButton selectedImage;
@@ -49,7 +48,7 @@ public class AddWorkActivity extends AppCompatActivity {
 
         title = findViewById(R.id.workTitleFieldButton);
         author = findViewById(R.id.workAuthorFieldButton);
-        genre = findViewById(R.id.workGenreFieldButton);
+        type = findViewById(R.id.workTypeFieldButton);
         Date = findViewById(R.id.releaseDateTextFieldButton);
         publish = findViewById(R.id.publishButton);
         publish.setOnClickListener(this::publishWork);
@@ -102,17 +101,18 @@ public class AddWorkActivity extends AppCompatActivity {
 
         String title = this.title.getText().toString();
         String author = this.author.getText().toString();
-        String genre = this.genre.getText().toString();
+        String type = this.type.getText().toString();
         String date = this.Date.getText().toString();
 
         // Vérifier que les champs sont remplis
-        if (title.isEmpty() || author.isEmpty() || genre.isEmpty() || date.isEmpty()) {
+        if (title.isEmpty() || author.isEmpty() || type.isEmpty() || date.isEmpty()) {
             Toast.makeText(this, "Veuillez remplir tous les champs et sélectionner une image", Toast.LENGTH_LONG).show();
             return;
         }
 
         // Convertir l'image en base64
         String imageBase64 = imageService.convertImageToBase64(imageBitmap);
+        /*
         try {
             encodedImage = URLEncoder.encode(imageBase64, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -120,19 +120,17 @@ public class AddWorkActivity extends AppCompatActivity {
             Toast.makeText(this, "Encoding error", Toast.LENGTH_LONG).show();
             return;
         }
+
+         */
         String table = "Oeuvre";
         String[] options = {
                 "nomOeuvre=" + title,
                 "auteur_studio=" + author,
-                "genre=" + genre,
-                "tags=non",
                 "dateSortie=" + date,
                 "actif=1",
-                "photo=" + encodedImage
+                "type=" + type
         };
 
-        System.out.println("Base64 Image: " + encodedImage);
-        // Envoyer les données avec l'image
         new Thread(() -> {
             String response = urlSend.sendData(table, options);
 
@@ -141,6 +139,8 @@ public class AddWorkActivity extends AppCompatActivity {
                     Toast.makeText(this, encodedImage, Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(this, "Données envoyées : " + response, Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(this, StartingActivity.class);
+                    startActivity(intent);
                 }
             });
         }).start();

@@ -46,7 +46,7 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
             Button photoButton = new Button(getContext());
             Intent i = new Intent(getContext(), JudgementActivity.class);
             for (String key : Works.keySet()) {
-                i.putExtra("id", Works.get(key));
+                i.putExtra("idOeuvre", Works.get(key));
                 photoButton.setBackgroundResource(R.drawable.chainsawman);
                 Spannable text = new SpannableString(key);
                 text.setSpan(new ForegroundColorSpan(Color.WHITE), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

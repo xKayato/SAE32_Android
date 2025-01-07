@@ -46,7 +46,7 @@ public class AlljudgmentActivity extends AppCompatActivity {
 
         CritiqueText = findViewById(R.id.critiqueText);
         intent = getIntent();
-        id = intent.getIntExtra("id", 0);
+        id = intent.getIntExtra("idOeuvre", 0);
         title= getIntent().getStringExtra("title");
         String critique = getString(R.string.critiqueText);
         String newTitle = critique.replace("oeuvre", title);

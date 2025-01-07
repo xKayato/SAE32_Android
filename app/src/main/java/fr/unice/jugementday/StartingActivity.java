@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import fr.unice.jugementday.service.JsonStock;
 import fr.unice.jugementday.service.UrlReader;
@@ -45,9 +46,14 @@ public class StartingActivity extends AppCompatActivity {
 
         List<String> urls = new ArrayList<>();
         urls.add(UrlReader.address + "?table=Oeuvre");
-        urls.add(UrlReader.address + "?table=User&fields=pseudo,login");
+        urls.add(UrlReader.address + "?table=User&fields=login");
         urls.add(UrlReader.address + "?table=Avis&fields=idOeuvre,nomOeuvre&login=" + userLogin);
 
+        CountDownLatch latch = new CountDownLatch(urls.size());
+
+
+        // Faire un temps de chargement et attendre que tout soit téléchargé avant de lancer l'activité
+        // Synchroniser les threads
         for (String url : urls) {
             new Thread(() -> {
                 String result = urlReader.fetchData(url);
@@ -55,23 +61,33 @@ public class StartingActivity extends AppCompatActivity {
                     if (result.startsWith("Erreur")) {
                         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
                     } else {
-                        if(url.contains("table=Oeuvre")) {
-                            jsonStock.storeWorks(result);
+                        if (url.contains("table=Oeuvre")) {
+                            jsonStock.setWorks(result);
                         }
-                        if(url.contains("table=User")) {
-                            jsonStock.storePeople(result);
+                        if (url.contains("table=User")) {
+                            jsonStock.setPeople(result);
                         }
                         if (url.contains("table=Avis")) {
-                            jsonStock.storeJudged(result);
+                            jsonStock.setJudged(result);
                         }
-
                     }
+                    latch.countDown();
                 });
             }).start();
         }
 
-        Intent intent = new Intent(StartingActivity.this, HomeActivity.class);
-        startActivity(intent);
+        new Thread(() -> {
+            try {
+                latch.await();
+                runOnUiThread(() -> {
+                    Intent intent = new Intent(StartingActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                });
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
 
 
         setContentView(R.layout.activity_starting);

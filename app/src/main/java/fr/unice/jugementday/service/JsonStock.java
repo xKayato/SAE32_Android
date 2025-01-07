@@ -23,7 +23,7 @@ public class JsonStock {
     }
 
     // Méthode pour stocker les Works
-    public void storeWorks(String works) {
+    public void setWorks(String works) {
         editor.putString(KEY_WORKS, works);
         editor.apply();  // Appliquer les changements de manière asynchrone
     }
@@ -34,7 +34,7 @@ public class JsonStock {
     }
 
     // Méthode pour stocker les People
-    public void storePeople(String people) {
+    public void setPeople(String people) {
         editor.putString(KEY_PEOPLE, people);
         editor.apply();  // Appliquer les changements de manière asynchrone
     }
@@ -63,7 +63,7 @@ public class JsonStock {
     }
 
     // Méthode pour stocker les Judged
-    public void storeJudged(String judged) {
+    public void setJudged(String judged) {
         editor.putString(KEY_JUDGED, judged);
         editor.apply();  // Appliquer les changements de manière asynchrone
     }

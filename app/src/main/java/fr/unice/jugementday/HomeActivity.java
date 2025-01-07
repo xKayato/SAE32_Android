@@ -110,7 +110,7 @@ public class HomeActivity extends AppCompatActivity {
             List<Integer> selectedIndices = new ArrayList<>();
 
             // Ajouter les œuvres dans la liste principale
-            for (int i = 0; i < jsonArray.length(); i++) {
+            for (int i = jsonArray.length()-1; i > 0; i--) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String nomOeuvre = jsonObject.getString("nomOeuvre");
                 Integer idOeuvre = jsonObject.getInt("idOeuvre");

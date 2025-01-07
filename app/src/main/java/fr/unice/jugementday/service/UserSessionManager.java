@@ -10,7 +10,6 @@ public class UserSessionManager {
 
     // Clés pour les données de session
     private static final String KEY_LOGIN = "user_login";
-    private static final String KEY_NICKNAME = "user_nickname";
     private static final String KEY_ACCESS = "user_access";
 
     private SharedPreferences sharedPreferences;
@@ -23,7 +22,7 @@ public class UserSessionManager {
     }
 
     // Méthode pour stocker le login
-    public void storeLogin(String login) {
+    public void setLogin(String login) {
         editor.putString(KEY_LOGIN, login);
         editor.apply();  // Appliquer les changements de manière asynchrone
     }
@@ -33,19 +32,9 @@ public class UserSessionManager {
         return sharedPreferences.getString(KEY_LOGIN, null);  // Retourne null si le login n'est pas trouvé
     }
 
-    // Méthode pour stocker le pseudo
-    public void storeNickName(String nickname) {
-        editor.putString(KEY_NICKNAME, nickname);
-        editor.apply();  // Appliquer les changements de manière asynchrone
-    }
-
-    // Méthode pour récupérer le pseudo
-    public String getNickName() {
-        return sharedPreferences.getString(KEY_NICKNAME, null);  // Retourne null si le login n'est pas trouvé
-    }
 
     // Méthode pour stocker l'acces
-    public void storeAccess(String access) {
+    public void setAccess(String access) {
         editor.putString(KEY_ACCESS, access);
         editor.apply();  // Appliquer les changements de manière asynchrone
     }

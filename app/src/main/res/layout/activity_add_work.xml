@@ -79,7 +79,7 @@
         app:layout_constraintTop_toBottomOf="@+id/workTitleText" />
 
     <EditText
-        android:id="@+id/workGenreFieldButton"
+        android:id="@+id/workTypeFieldButton"
         android:layout_width="263dp"
         android:layout_height="42dp"
         android:layout_marginTop="48dp"
@@ -115,7 +115,7 @@
         android:text="@string/categoryText"
         android:textColor="@color/primary_text"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/workGenreFieldButton"
+        app:layout_constraintBottom_toTopOf="@+id/workTypeFieldButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toStartOf="parent"
@@ -135,7 +135,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.126"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workGenreFieldButton" />
+        app:layout_constraintTop_toBottomOf="@+id/workTypeFieldButton" />
 
     <EditText
         android:id="@+id/releaseDateTextFieldButton"

@@ -15,7 +15,6 @@ public class Create_Account extends AppCompatActivity {
 
     private Button registerButton;
     private EditText loginField;
-    private EditText pseudoField;
     private EditText passwordField;
     private EditText passwordFieldConfirm;
     private UserSessionManager sessionManager;
@@ -30,7 +29,6 @@ public class Create_Account extends AppCompatActivity {
 
         registerButton = findViewById(R.id.registerButton);
         loginField = findViewById(R.id.loginFieldButton);
-        pseudoField = findViewById(R.id.pseudoFieldButton);
         passwordField = findViewById(R.id.passwordFieldButton);
         passwordFieldConfirm = findViewById(R.id.passwordFieldConfirmButton);
 
@@ -39,11 +37,10 @@ public class Create_Account extends AppCompatActivity {
 
     private void registerUser() {
         String loginText = loginField.getText().toString().trim();
-        String nicknameText = pseudoField.getText().toString().trim();
         String passwordText = passwordField.getText().toString().trim();
         String confirmPasswordText = passwordFieldConfirm.getText().toString().trim();
 
-        if (!loginText.isEmpty() && !nicknameText.isEmpty() && !passwordText.isEmpty() && !confirmPasswordText.isEmpty()) {
+        if (!loginText.isEmpty() && !passwordText.isEmpty() && !confirmPasswordText.isEmpty()) {
             if (passwordText.equals(confirmPasswordText)) {
                 // Hachage du mot de passe en MD5
                 UrlSend urlSend = new UrlSend();
@@ -54,7 +51,6 @@ public class Create_Account extends AppCompatActivity {
                     String table = "User"; // Exemple : la table cible
                     String[] options = {
                             "login=" + loginText,
-                            "pseudo=" + nicknameText,
                             "mdp=" + hashedPassword,
                             "acces=1"
                     };
@@ -68,7 +64,7 @@ public class Create_Account extends AppCompatActivity {
                                 Toast.makeText(this, response, Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(this, "Enregistrement réussi : " + response, Toast.LENGTH_LONG).show();
-                                sessionManager.storeLogin(loginText);
+                                sessionManager.setLogin(loginText);
                                 Intent intent = new Intent(this, HomeActivity.class);
                                 startActivity(intent);
                             }

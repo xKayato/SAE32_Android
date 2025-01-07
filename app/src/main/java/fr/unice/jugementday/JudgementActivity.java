@@ -43,6 +43,7 @@ public class JudgementActivity extends AppCompatActivity {
     private JsonStock jsonStock;
     private int id;
     private String judgements;
+    private TextView typeText;
 
 
     @Override
@@ -80,7 +81,24 @@ public class JudgementActivity extends AppCompatActivity {
         CritiqueText.setText(newTitle);
         CritiqueImage = findViewById(R.id.selectedImageButton);
         CritiqueImage.setImageResource(intent.getIntExtra("photo", 0));
-        id = intent.getIntExtra("id",0);
+        id = intent.getIntExtra("idOeuvre",0);
+        typeText = findViewById(R.id.TypeText);
+
+        try{
+            JSONArray jsonArray = new JSONArray(Works);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                int idOeuvre = jsonObject.getInt("idOeuvre");
+                if (idOeuvre == id) {
+                    typeText.setText(jsonObject.getString("type").substring(0, 1).toUpperCase() + jsonObject.getString("type").substring(1));
+                    break;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
 
 
@@ -101,7 +119,7 @@ public class JudgementActivity extends AppCompatActivity {
     public void onClickAllJudgement(View view) {
         Intent intent2 = new Intent(this, AlljudgmentActivity.class);
         intent2.putExtra("title", title);
-        intent2.putExtra("id", id);
+        intent2.putExtra("idOeuvre", id);
 
         startActivity(intent2);
 

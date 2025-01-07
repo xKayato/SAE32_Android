@@ -55,7 +55,7 @@ public class CheckProfileActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        String username = intent.getStringExtra("pseudo");
+        String username = intent.getStringExtra("login");
 
         pseudo.setText("Compte de " + username);
 
@@ -68,7 +68,7 @@ public class CheckProfileActivity extends AppCompatActivity {
         ImageButton searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
 
-        String url = UrlReader.address + "?passid=SalutJeSuisUnMotDePassePourGet&table=Avis&fields=nomOeuvre,idOeuvre&pseudo=" + pseudo;
+        String url = UrlReader.address + "?passid=SalutJeSuisUnMotDePassePourGet&table=Avis&fields=nomOeuvre,idOeuvre&login=" + username;
         fetchDataFromUrl(url);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

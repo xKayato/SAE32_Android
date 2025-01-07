@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                         // Réponse réussie
                         Toast.makeText(this, "Connexion réussie : " + response, Toast.LENGTH_LONG).show();
                         // Redirection vers l'écran d'accueil
-                        sessionManager.storeLogin(loginText);
+                        sessionManager.setLogin(loginText);
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                     }
