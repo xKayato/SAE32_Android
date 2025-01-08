@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.CustomArrayAdapter;
@@ -79,6 +81,15 @@ public class ProfileActivity extends AppCompatActivity {
         if (judgements != null) {
             parseAndUpdateData(judgements);
         }
+
+        ImageView adminPicture = findViewById(R.id.adminPicture);
+        if(Objects.equals(sessionManager.getAccess(), "1")){
+            adminPicture.setVisibility(View.VISIBLE);
+        } else {
+            adminPicture.setVisibility(View.GONE);
+        }
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

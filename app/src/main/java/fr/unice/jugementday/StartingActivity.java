@@ -11,6 +11,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -47,6 +51,8 @@ public class StartingActivity extends AppCompatActivity {
         List<String> urls = new ArrayList<>();
         urls.add(UrlReader.address + "?table=Oeuvre");
         urls.add(UrlReader.address + "?table=User&fields=login,mdp,acces");
+        urls.add(UrlReader.address + "?table=User&fields=acces&login=" + userLogin);
+
         urls.add(UrlReader.address + "?table=Avis&fields=idOeuvre,nomOeuvre,type&login=" + userLogin);
 
 
@@ -67,7 +73,22 @@ public class StartingActivity extends AppCompatActivity {
                         }
                         if (url.contains("table=User")) {
                             jsonStock.setPeople(result);
-                        }
+
+                            if (url.contains("&login=" + userLogin)) {
+                                try {
+                                    // Convertir la réponse en JSONArray
+                                    JSONArray jsonArray = new JSONArray(result);
+                                    // Accéder au premier élément du tableau (ici, index 0)
+                                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                                    // Extraire la valeur de "acces" et la stocker dans la session
+                                    sessionManager.setAccess(jsonObject.getString("acces"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();  // Log de l'exception
+                                    throw new RuntimeException(e);
+                                }
+                            }
+
+                    }
                         if (url.contains("table=Avis")) {
                             jsonStock.setJudged(result);
                         }

@@ -9,6 +9,17 @@
     tools:context=".HomeActivity">
 
 
+    <View
+        android:id="@+id/hbhv2"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#473C3C3C"
+        app:layout_constraintBottom_toBottomOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
+        app:layout_constraintVertical_bias="1.0" />
+
     <ImageView
         android:id="@+id/logoPicture"
         android:layout_width="0dp"
@@ -18,50 +29,49 @@
         android:background="#878787"
         android:contentDescription="@string/logo"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintBottom_toTopOf="@+id/AddWorkButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/logo" />
 
     <TextView
         android:id="@+id/saeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
         android:text="@string/saeText"
         android:textColor="@color/blanc"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintBottom_toTopOf="@+id/allJudgementList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
-        app:layout_constraintVertical_bias="0.053" />
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
 
     <Button
         android:id="@+id/AddWorkButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="7dp"
+        android:layout_marginStart="1dp"
         android:layout_marginBottom="8dp"
         android:text="@string/addWorkText"
         app:layout_constraintBottom_toTopOf="@+id/allJudgementList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/saeText"
-        app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ListView
         android:id="@+id/allJudgementList"
         android:layout_width="407dp"
-        android:layout_height="517dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="1dp"
         android:backgroundTint="@color/primary_background"
-        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintBottom_toTopOf="@+id/searchButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.132"
+        app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saeText"
-        app:layout_constraintVertical_bias="0.018" />
+        app:layout_constraintTop_toBottomOf="@+id/saeText" />
 
     <ImageButton
         android:id="@+id/searchButton"
@@ -102,16 +112,5 @@
         app:srcCompat="@drawable/profile"
         app:tint="#9CFFFFFF" />
 
-
-    <View
-        android:id="@+id/hbhv2"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="#473C3C3C"
-        app:layout_constraintBottom_toBottomOf="@+id/homeButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
-        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
