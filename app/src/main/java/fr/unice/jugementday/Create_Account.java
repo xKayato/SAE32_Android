@@ -65,6 +65,7 @@ public class Create_Account extends AppCompatActivity {
                             } else {
                                 Toast.makeText(this, "Enregistrement réussi : " + response, Toast.LENGTH_LONG).show();
                                 sessionManager.setLogin(loginText);
+                                sessionManager.setPassword(hashedPassword);
                                 Intent intent = new Intent(this, HomeActivity.class);
                                 startActivity(intent);
                             }

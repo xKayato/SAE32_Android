@@ -84,6 +84,8 @@ public class JudgementActivity extends AppCompatActivity {
         id = intent.getIntExtra("idOeuvre",0);
         typeText = findViewById(R.id.TypeText);
 
+
+
         try{
             JSONArray jsonArray = new JSONArray(Works);
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -127,7 +129,9 @@ public class JudgementActivity extends AppCompatActivity {
 
     public void onClickPublish(View view) {
         try {
+            /*
             JSONArray jsonArray = new JSONArray(judgements);
+
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 int idOeuvre = jsonObject.getInt("idOeuvre");
@@ -138,6 +142,8 @@ public class JudgementActivity extends AppCompatActivity {
                     return;
                 }
             }
+
+             */
             UrlSend urlSend = new UrlSend();
             String table = "Avis";
             String[] options = {
@@ -160,13 +166,13 @@ public class JudgementActivity extends AppCompatActivity {
                     }
                 });
             }).start();
-            Intent intent3 = new Intent(this, HomeActivity.class);
+            Intent intent3 = new Intent(this, StartingActivity.class);
             startActivity(intent3);
             Toast.makeText(this, "Jugement ajouté !", Toast.LENGTH_LONG).show();
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Erreur lors de l'analyse des données", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, ""+e, Toast.LENGTH_LONG).show();
         }
 
 

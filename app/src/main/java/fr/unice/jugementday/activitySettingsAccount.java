@@ -25,6 +25,9 @@ public class activitySettingsAccount extends AppCompatActivity {
     private EditText newLogin;
     private UrlUpdate urlUpdate;
     private String login;
+    private EditText oldPassword;
+    private EditText newPassword;
+    private Button changePasswordButton;
 
 
     @Override
@@ -45,6 +48,15 @@ public class activitySettingsAccount extends AppCompatActivity {
         changeLoginButton = findViewById(R.id.changeUsernameButton);
 
         changeLoginButton.setOnClickListener(v -> { changeLogin();});
+
+        oldPassword = findViewById(R.id.oldPasswordFieldButton);
+
+        newPassword = findViewById(R.id.newPasswordFieldButton);
+
+        changePasswordButton = findViewById(R.id.changePasswordButton);
+
+        changePasswordButton.setOnClickListener(v -> { changePassword();});
+
 
         // Bouton pour aller sur la page profile
         ImageButton profileButton = findViewById(R.id.profileButton);
@@ -88,6 +100,64 @@ public class activitySettingsAccount extends AppCompatActivity {
                 }
             });
         }).start();
+
+        String table2 = "Avis";
+        String[] options2 = {
+                "login=" + login,
+                "newlogin=" + newLoginText
+        };
+
+        new Thread(() -> {
+            String response = urlUpdate.updateData(table2, options2);
+            runOnUiThread(() -> {
+                if (response.startsWith("Erreur")) {
+                    Toast.makeText(this, response, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "Données update : " + response, Toast.LENGTH_LONG).show();
+                    sessionManager.setLogin(newLoginText);
+                    Intent intent = new Intent(activitySettingsAccount.this, StartingActivity.class);
+                    startActivity(intent);
+
+                }
+            });
+        }).start();
+
+    }
+
+    private void changePassword(){
+        String oldPasswordText = oldPassword.getText().toString();
+        String newPasswordText = newPassword.getText().toString();
+        String newPasswordTextEncrypted = urlUpdate.encryptToMD5(newPasswordText);
+        String oldPasswordTextEncrypted = urlUpdate.encryptToMD5(oldPasswordText);
+
+        String checkPasswordText = sessionManager.getPassword();
+
+
+            if(checkPasswordText.equals(oldPasswordTextEncrypted)){
+                String table = "User";
+                String[] options = {
+                        "login=" + login,
+                        "newmdp=" + newPasswordTextEncrypted
+                };
+
+                new Thread(() -> {
+                    String response = urlUpdate.updateData(table, options);
+                    runOnUiThread(() -> {
+                        if (response.startsWith("Erreur")) {
+                            Toast.makeText(this, response, Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(this, "Données update : " + response, Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(activitySettingsAccount.this, StartingActivity.class);
+                            startActivity(intent);
+
+                        }
+                    });
+                }).start();
+            } else {
+                Toast.makeText(this, "Mauvais mot de passe.", Toast.LENGTH_LONG).show();
+
+            }
+
 
     }
 

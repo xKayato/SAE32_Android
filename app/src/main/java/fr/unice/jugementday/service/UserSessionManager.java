@@ -11,6 +11,7 @@ public class UserSessionManager {
     // Clés pour les données de session
     private static final String KEY_LOGIN = "user_login";
     private static final String KEY_ACCESS = "user_access";
+    private static final String KEY_ENCRYPTED_PASSWORD = "user_password";
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -32,6 +33,17 @@ public class UserSessionManager {
         return sharedPreferences.getString(KEY_LOGIN, null);  // Retourne null si le login n'est pas trouvé
     }
 
+
+    // Méthode pour stocker le login
+    public void setPassword(String password) {
+        editor.putString(KEY_ENCRYPTED_PASSWORD, password);
+        editor.apply();  // Appliquer les changements de manière asynchrone
+    }
+
+    // Méthode pour récupérer le login
+    public String getPassword() {
+        return sharedPreferences.getString(KEY_ENCRYPTED_PASSWORD, null);  // Retourne null si le login n'est pas trouvé
+    }
 
     // Méthode pour stocker l'acces
     public void setAccess(String access) {

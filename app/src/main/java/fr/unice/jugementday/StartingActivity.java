@@ -46,8 +46,9 @@ public class StartingActivity extends AppCompatActivity {
 
         List<String> urls = new ArrayList<>();
         urls.add(UrlReader.address + "?table=Oeuvre");
-        urls.add(UrlReader.address + "?table=User&fields=login");
+        urls.add(UrlReader.address + "?table=User&fields=login,mdp,acces");
         urls.add(UrlReader.address + "?table=Avis&fields=idOeuvre,nomOeuvre&login=" + userLogin);
+
 
         CountDownLatch latch = new CountDownLatch(urls.size());
 
