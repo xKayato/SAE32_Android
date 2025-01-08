@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -29,7 +30,6 @@ public class UrlReader {
         try {
             url = new URL(urlString);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
             return "Erreur : URL malformée.";
         }
 
@@ -40,8 +40,7 @@ public class UrlReader {
         try {
             return future.get();
         } catch (Exception e) {
-            e.printStackTrace();
-            return "" + e.getMessage(); // Afficher l'erreur
+            return e.getMessage(); // Afficher l'erreur
         }
     }
 
@@ -55,15 +54,14 @@ public class UrlReader {
 
                 // Lecture des données
                 try (BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(connection.getInputStream(), "UTF-8"))) {
+                        new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
                     String line;
                     while ((line = reader.readLine()) != null) {
                         result.append(line).append("\n");
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
-                return "" + e.getMessage(); // Afficher l'erreur
+                return e.getMessage(); // Afficher l'erreur
             }
             shutdown();
             return result.toString();

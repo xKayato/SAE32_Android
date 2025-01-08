@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
+import androidx.core.text.HtmlCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
@@ -33,7 +34,7 @@ public class AlljudgmentActivity extends AppCompatActivity {
     private String title;
     private ArrayList<String> items = new ArrayList<>();
     private List<String> oeuvresList = new ArrayList<>();
-    private int notes = 0;
+    private float notes = 0;
     private int nb = 0;
     private int id;
     private TextView noteText;
@@ -89,7 +90,7 @@ public class AlljudgmentActivity extends AppCompatActivity {
             // Mise à jour de l'interface (doit être effectué sur le thread principal)
             runOnUiThread(() -> {
                 if (result.startsWith("Erreur")) {
-                    Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
                 } else {
                     parseAndUpdateData(result);
                 }
@@ -108,10 +109,10 @@ public class AlljudgmentActivity extends AppCompatActivity {
             // Ajouter toutes les œuvres dans la liste principale
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String texteAvis = jsonObject.getString("texteAvis");
+                String texteAvis = HtmlCompat.fromHtml(jsonObject.getString("texteAvis"), HtmlCompat.FROM_HTML_MODE_LEGACY).toString(); // Pour contrer le htmlspecialchars
                 String pseudo = jsonObject.getString("login");
                 String note = jsonObject.getString("note");
-                notes += Integer.parseInt(note);
+                notes += Float.parseFloat(note);
                 nb += 1;
 
                 float noteTot = notes/nb;

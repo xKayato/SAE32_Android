@@ -13,8 +13,8 @@ public class JsonStock {
     private static final String KEY_PEOPLE = "json_people";
     private static final String KEY_JUDGED = "json_judged";
 
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
+    private final SharedPreferences sharedPreferences;
+    private final SharedPreferences.Editor editor;
 
     // Constructeur de la classe
     public JsonStock(Context context) {

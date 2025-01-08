@@ -13,21 +13,22 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import org.json.JSONArray;
+
+import fr.unice.jugementday.service.JsonStock;
 import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.UrlUpdate;
 import fr.unice.jugementday.service.UserSessionManager;
 
 public class activitySettingsAccount extends AppCompatActivity {
 
-    private ImageButton disconnectButton;
     private UserSessionManager sessionManager;
-    private Button changeLoginButton;
     private EditText newLogin;
     private UrlUpdate urlUpdate;
     private String login;
     private EditText oldPassword;
     private EditText newPassword;
-    private Button changePasswordButton;
+    private String peoplesJson;
 
 
     @Override
@@ -41,21 +42,23 @@ public class activitySettingsAccount extends AppCompatActivity {
 
         login = sessionManager.getLogin();
 
-        disconnectButton = findViewById(R.id.disconnectButton);
+        ImageButton disconnectButton = findViewById(R.id.disconnectButton);
         disconnectButton.setOnClickListener(v -> { disconnectUser();});
 
         newLogin = findViewById(R.id.usernameFieldButton);
-        changeLoginButton = findViewById(R.id.changeUsernameButton);
-
+        Button changeLoginButton = findViewById(R.id.changeUsernameButton);
         changeLoginButton.setOnClickListener(v -> { changeLogin();});
 
         oldPassword = findViewById(R.id.oldPasswordFieldButton);
 
         newPassword = findViewById(R.id.newPasswordFieldButton);
 
-        changePasswordButton = findViewById(R.id.changePasswordButton);
+        Button changePasswordButton = findViewById(R.id.changePasswordButton);
 
         changePasswordButton.setOnClickListener(v -> { changePassword();});
+
+        JsonStock jsonStock = new JsonStock(this);
+        peoplesJson = jsonStock.getPeople();
 
 
         // Bouton pour aller sur la page profile
@@ -79,6 +82,22 @@ public class activitySettingsAccount extends AppCompatActivity {
 
         String newLoginText = newLogin.getText().toString();
 
+        try{
+            JSONArray jsonArray = new JSONArray(peoplesJson);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String login = jsonArray.getJSONObject(i).getString("login");
+                if (login.equals(newLoginText)) {
+                    Toast.makeText(this, "Ce login est déjà utilisé", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
+        } catch (Exception e){
+            Toast.makeText(this, "Erreur lors de la modification du login", Toast.LENGTH_LONG).show();
+        }
+
+
+
         String table = "User";
         String[] options = {
                 "login=" + login,
@@ -90,9 +109,7 @@ public class activitySettingsAccount extends AppCompatActivity {
             String response = urlUpdate.updateData(table, options);
             runOnUiThread(() -> {
                 if (response.startsWith("Erreur")) {
-                    Toast.makeText(this, response, Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(this, "Données update : " + response, Toast.LENGTH_LONG).show();
                     sessionManager.setLogin(newLoginText);
                     Intent intent = new Intent(activitySettingsAccount.this, StartingActivity.class);
                     startActivity(intent);
@@ -111,9 +128,9 @@ public class activitySettingsAccount extends AppCompatActivity {
             String response = urlUpdate.updateData(table2, options2);
             runOnUiThread(() -> {
                 if (response.startsWith("Erreur")) {
-                    Toast.makeText(this, response, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(this, "Données update : " + response, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.changePseudoSuccessText, Toast.LENGTH_LONG).show();
                     sessionManager.setLogin(newLoginText);
                     Intent intent = new Intent(activitySettingsAccount.this, StartingActivity.class);
                     startActivity(intent);
@@ -144,9 +161,9 @@ public class activitySettingsAccount extends AppCompatActivity {
                     String response = urlUpdate.updateData(table, options);
                     runOnUiThread(() -> {
                         if (response.startsWith("Erreur")) {
-                            Toast.makeText(this, response, Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(this, "Données update : " + response, Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, R.string.changePasswordSuccessText, Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(activitySettingsAccount.this, StartingActivity.class);
                             startActivity(intent);
 

@@ -36,7 +36,6 @@ public class SearchActivity extends AppCompatActivity {
     private List<Integer> selectedIndices = new ArrayList<>();
     private EditText searchField;
     private String category;
-    private JsonStock jsonStock;
     private String worksJson;
     private String peoplesJson;
 
@@ -57,7 +56,7 @@ public class SearchActivity extends AppCompatActivity {
 
         category = "Oeuvre";
 
-        jsonStock = new JsonStock(this);
+        JsonStock jsonStock = new JsonStock(this);
         worksJson = jsonStock.getWorks();
         peoplesJson = jsonStock.getPeople();
 

@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 public class UrlSend {
@@ -49,8 +50,7 @@ public class UrlSend {
             inputStream.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            return "Erreur : " + e.getMessage();
+            return e.getMessage();
         } finally {
             if (connection != null) {
                 connection.disconnect();
@@ -63,7 +63,7 @@ public class UrlSend {
     public String encryptToMD5(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] hashInBytes = md.digest(input.getBytes("UTF-8"));
+            byte[] hashInBytes = md.digest(input.getBytes(StandardCharsets.UTF_8));
 
             // Convertir les bytes en une chaîne hexadécimale
             StringBuilder hexString = new StringBuilder();
@@ -77,7 +77,6 @@ public class UrlSend {
             return hexString.toString();
 
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
     }

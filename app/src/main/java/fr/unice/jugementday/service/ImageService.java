@@ -25,7 +25,6 @@ public class ImageService {
             // Encoder en Base64
             return Base64.encodeToString(byteArray, Base64.DEFAULT);
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
     }

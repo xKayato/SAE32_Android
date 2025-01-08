@@ -28,12 +28,9 @@ import fr.unice.jugementday.service.UserSessionManager;
 
 public class CheckProfileActivity extends AppCompatActivity {
 
-    private TextView pseudo;
-    private UserSessionManager sessionManager;
     private UrlReader urlReader;
     private CustomArrayAdapter adapter;
     private List<ListItem> items = new ArrayList<>();
-    private String userLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +38,7 @@ public class CheckProfileActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_check_profile);
 
-        sessionManager = new UserSessionManager(this);
-
-        pseudo = findViewById(R.id.AccountOfText);
+        TextView pseudo = findViewById(R.id.AccountOfText);
 
         ListView listView = findViewById(R.id.allJudgementList);
 
@@ -57,7 +52,7 @@ public class CheckProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String username = intent.getStringExtra("login");
 
-        pseudo.setText("Compte de " + username);
+        pseudo.setText(getString(R.string.accountCommuText, username));
 
         ImageButton profileButton = findViewById(R.id.profileButton);
         profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
@@ -68,7 +63,7 @@ public class CheckProfileActivity extends AppCompatActivity {
         ImageButton searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
 
-        String url = UrlReader.address + "?passid=SalutJeSuisUnMotDePassePourGet&table=Avis&fields=nomOeuvre,idOeuvre&login=" + username;
+        String url = UrlReader.address + "?table=Avis&fields=nomOeuvre,idOeuvre&login=" + username;
         fetchDataFromUrl(url);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -85,7 +80,7 @@ public class CheckProfileActivity extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 if (result.startsWith("Erreur")) {
-                    Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
                 } else {
                     parseAndUpdateData(result);
                 }
@@ -102,35 +97,75 @@ public class CheckProfileActivity extends AppCompatActivity {
 
             // Parsing des données
             List<HashMap<String, Integer>> oeuvresList = new ArrayList<>();
-            List<HashMap<String, Integer>> randomOeuvresList = new ArrayList<>();
-
-            // Liste des indices déjà sélectionnés pour éviter les doublons
-            List<Integer> selectedIndices = new ArrayList<>();
+            List<HashMap<String, Integer>> movieOeuvresList = new ArrayList<>();
+            List<HashMap<String, Integer>> mangaOeuvresList = new ArrayList<>();
+            List<HashMap<String, Integer>> bookOeuvresList = new ArrayList<>();
+            List<HashMap<String, Integer>> animeOeuvresList = new ArrayList<>();
+            List<HashMap<String, Integer>> seriesOeuvresList = new ArrayList<>();
+            List<HashMap<String, Integer>> cartoonOeuvresList = new ArrayList<>();
 
             // Ajouter les œuvres dans la liste principale
-            for (int i = jsonArray.length()-1; i >= 0 ; i--) {
+            for (int i = jsonArray.length()-1; i > 0; i--) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String nomOeuvre = jsonObject.getString("nomOeuvre");
-                int idOeuvre = jsonObject.getInt("idOeuvre");
-
-                // Ajouter le titre avec une image par défaut
+                Integer idOeuvre = jsonObject.getInt("idOeuvre");
+                String type = jsonObject.getString("type");
                 HashMap<String, Integer> oeuvreMap = createHashMap(nomOeuvre, idOeuvre);
+
+                switch(type){
+                    case "movie":
+                        movieOeuvresList.add(oeuvreMap);
+                        break;
+                    case "manga":
+                        mangaOeuvresList.add(oeuvreMap);
+                        break;
+                    case "Livre":
+                        bookOeuvresList.add(oeuvreMap);
+                        break;
+                    case "Anime":
+                        animeOeuvresList.add(oeuvreMap);
+                        break;
+                    case "Serie":
+                        seriesOeuvresList.add(oeuvreMap);
+                        break;
+                    case "Cartoon":
+                        cartoonOeuvresList.add(oeuvreMap);
+                        break;
+                    default:
+                        break;
+
+                }
                 oeuvresList.add(oeuvreMap);
             }
 
-            // Choisir 10 œuvres au hasard parmi celles disponibles
-            while (randomOeuvresList.size() < 10 && selectedIndices.size() < oeuvresList.size()) {
-                int randomIndex = (int) (Math.random() * oeuvresList.size());
-                if (!selectedIndices.contains(randomIndex)) {
-                    selectedIndices.add(randomIndex);
-                    randomOeuvresList.add(oeuvresList.get(randomIndex));
-                }
-            }
+
+
+
+
+
 
             // Mise à jour des sections avec les nouvelles données
-            updatedItems.add(new ListItem(getString(R.string.judgedCommuText) + " ("+oeuvresList.size()+")", oeuvresList));
-            updatedItems.add(new ListItem(getString(R.string.lovedCommuText), randomOeuvresList));
-            updatedItems.add(new ListItem(getString(R.string.dislikedCommuText), randomOeuvresList));
+            if (!oeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.judgedCommuText) + " (" + oeuvresList.size() + ")", oeuvresList));
+            }
+            if (!movieOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.movieCommuText) + " (" + movieOeuvresList.size() + ")", movieOeuvresList));
+            }
+            if (!mangaOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.mangaCommuText) + " (" + mangaOeuvresList.size() + ")", mangaOeuvresList));
+            }
+            if (!bookOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.bookCommuText) + " (" + bookOeuvresList.size() + ")", bookOeuvresList));
+            }
+            if (!animeOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.animeCommuText) + " (" + animeOeuvresList.size() + ")", animeOeuvresList));
+            }
+            if (!seriesOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.seriesCommuText) + " (" + seriesOeuvresList.size() + ")", seriesOeuvresList));
+            }
+            if (!cartoonOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.cartoonCommuText) + " (" + cartoonOeuvresList.size() + ")", cartoonOeuvresList));
+            }
 
             // Mise à jour de l'adaptateur
             items.clear();
@@ -139,7 +174,7 @@ public class CheckProfileActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Erreur lors de l'analyse des données", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
         }
     }
 

@@ -47,7 +47,7 @@ public class StartingActivity extends AppCompatActivity {
         List<String> urls = new ArrayList<>();
         urls.add(UrlReader.address + "?table=Oeuvre");
         urls.add(UrlReader.address + "?table=User&fields=login,mdp,acces");
-        urls.add(UrlReader.address + "?table=Avis&fields=idOeuvre,nomOeuvre&login=" + userLogin);
+        urls.add(UrlReader.address + "?table=Avis&fields=idOeuvre,nomOeuvre,type&login=" + userLogin);
 
 
         CountDownLatch latch = new CountDownLatch(urls.size());
@@ -60,7 +60,7 @@ public class StartingActivity extends AppCompatActivity {
                 String result = urlReader.fetchData(url);
                 runOnUiThread(() -> {
                     if (result.startsWith("Erreur")) {
-                        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
                     } else {
                         if (url.contains("table=Oeuvre")) {
                             jsonStock.setWorks(result);

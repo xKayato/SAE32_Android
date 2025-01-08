@@ -105,6 +105,14 @@ public class HomeActivity extends AppCompatActivity {
             // Parsing des données
             List<HashMap<String, Integer>> oeuvresList = new ArrayList<>();
             List<HashMap<String, Integer>> randomOeuvresList = new ArrayList<>();
+            List<HashMap<String, Integer>> movieOeuvresList = new ArrayList<>();
+            List<HashMap<String, Integer>> mangaOeuvresList = new ArrayList<>();
+            List<HashMap<String, Integer>> bookOeuvresList = new ArrayList<>();
+            List<HashMap<String, Integer>> animeOeuvresList = new ArrayList<>();
+            List<HashMap<String, Integer>> seriesOeuvresList = new ArrayList<>();
+            List<HashMap<String, Integer>> cartoonOeuvresList = new ArrayList<>();
+            List<HashMap<String, Object>> bestOeuvresList = new ArrayList<>();
+
 
             // Liste des indices déjà sélectionnés pour éviter les doublons
             List<Integer> selectedIndices = new ArrayList<>();
@@ -114,11 +122,32 @@ public class HomeActivity extends AppCompatActivity {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String nomOeuvre = jsonObject.getString("nomOeuvre");
                 Integer idOeuvre = jsonObject.getInt("idOeuvre");
-
-
-
-                // Ajouter le titre avec une image par défaut
+                String type = jsonObject.getString("type");
                 HashMap<String, Integer> oeuvreMap = createHashMap(nomOeuvre, idOeuvre);
+
+                switch(type){
+                    case "movie":
+                        movieOeuvresList.add(oeuvreMap);
+                        break;
+                    case "manga":
+                        mangaOeuvresList.add(oeuvreMap);
+                        break;
+                    case "Livre":
+                        bookOeuvresList.add(oeuvreMap);
+                        break;
+                    case "Anime":
+                        animeOeuvresList.add(oeuvreMap);
+                        break;
+                    case "Serie":
+                        seriesOeuvresList.add(oeuvreMap);
+                        break;
+                    case "Cartoon":
+                        cartoonOeuvresList.add(oeuvreMap);
+                        break;
+                    default:
+                        break;
+
+                }
                 oeuvresList.add(oeuvreMap);
             }
 
@@ -131,8 +160,36 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
 
+
+
+
+
+
+
+
             // Mise à jour des sections avec les nouvelles données
-            updatedItems.add(new ListItem(getString(R.string.lastRealeseText), oeuvresList));
+            if (!oeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.lastRealeseText) + " (" + oeuvresList.size() + ")", oeuvresList));
+            }
+            if (!movieOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.lastMoviesText) + " (" + movieOeuvresList.size() + ")", movieOeuvresList));
+            }
+            if (!mangaOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.lastMangasText) + " (" + mangaOeuvresList.size() + ")", mangaOeuvresList));
+            }
+            if (!bookOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.lastBooksText) + " (" + bookOeuvresList.size() + ")", bookOeuvresList));
+            }
+            if (!animeOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.lastAnimesText) + " (" + animeOeuvresList.size() + ")", animeOeuvresList));
+            }
+            if (!seriesOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.lastSeriesText) + " (" + seriesOeuvresList.size() + ")", seriesOeuvresList));
+            }
+            if (!cartoonOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.lastCartoonsText) + " (" + cartoonOeuvresList.size() + ")", cartoonOeuvresList));
+            }
+            // Mise à jour des sections avec les nouvelles données
             updatedItems.add(new ListItem(getString(R.string.randomOeuvresText), randomOeuvresList));
 
             // Mise à jour de l'adaptateur

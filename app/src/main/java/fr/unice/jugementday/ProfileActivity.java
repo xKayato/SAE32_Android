@@ -35,7 +35,6 @@ public class ProfileActivity extends AppCompatActivity {
     private List<ListItem> items = new ArrayList<>();
     private String userLogin;
     private JsonStock jsonStock;
-    private String judgements;
 
 
     @Override
@@ -76,7 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        judgements = jsonStock.getJudged();
+        String judgements = jsonStock.getJudged();
         if (judgements != null) {
             parseAndUpdateData(judgements);
         }
@@ -98,35 +97,74 @@ public class ProfileActivity extends AppCompatActivity {
 
             // Parsing des données
             List<HashMap<String, Integer>> oeuvresList = new ArrayList<>();
-            List<HashMap<String, Integer>> randomOeuvresList = new ArrayList<>();
-
-            // Liste des indices déjà sélectionnés pour éviter les doublons
-            List<Integer> selectedIndices = new ArrayList<>();
+            List<HashMap<String, Integer>> movieOeuvresList = new ArrayList<>();
+            List<HashMap<String, Integer>> mangaOeuvresList = new ArrayList<>();
+            List<HashMap<String, Integer>> bookOeuvresList = new ArrayList<>();
+            List<HashMap<String, Integer>> animeOeuvresList = new ArrayList<>();
+            List<HashMap<String, Integer>> seriesOeuvresList = new ArrayList<>();
+            List<HashMap<String, Integer>> cartoonOeuvresList = new ArrayList<>();
 
             // Ajouter les œuvres dans la liste principale
-            for (int i = jsonArray.length()-1; i >= 0 ; i--) {
+            for (int i = jsonArray.length()-1; i > 0; i--) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String nomOeuvre = jsonObject.getString("nomOeuvre");
-                int idOeuvre = jsonObject.getInt("idOeuvre");
-
-                // Ajouter le titre avec une image par défaut
+                Integer idOeuvre = jsonObject.getInt("idOeuvre");
+                String type = jsonObject.getString("type");
                 HashMap<String, Integer> oeuvreMap = createHashMap(nomOeuvre, idOeuvre);
+
+                switch(type){
+                    case "movie":
+                        movieOeuvresList.add(oeuvreMap);
+                        break;
+                    case "manga":
+                        mangaOeuvresList.add(oeuvreMap);
+                        break;
+                    case "Livre":
+                        bookOeuvresList.add(oeuvreMap);
+                        break;
+                    case "Anime":
+                        animeOeuvresList.add(oeuvreMap);
+                        break;
+                    case "Serie":
+                        seriesOeuvresList.add(oeuvreMap);
+                        break;
+                    case "Cartoon":
+                        cartoonOeuvresList.add(oeuvreMap);
+                        break;
+                    default:
+                        break;
+
+                }
                 oeuvresList.add(oeuvreMap);
             }
 
-            // Choisir 10 œuvres au hasard parmi celles disponibles
-            while (randomOeuvresList.size() < 10 && selectedIndices.size() < oeuvresList.size()) {
-                int randomIndex = (int) (Math.random() * oeuvresList.size());
-                if (!selectedIndices.contains(randomIndex)) {
-                    selectedIndices.add(randomIndex);
-                    randomOeuvresList.add(oeuvresList.get(randomIndex));
-                }
-            }
+
+
+
 
             // Mise à jour des sections avec les nouvelles données
-            updatedItems.add(new ListItem(getString(R.string.judgedText) + " ("+oeuvresList.size()+")", oeuvresList));
-            updatedItems.add(new ListItem(getString(R.string.lovedWorksText), randomOeuvresList));
-            updatedItems.add(new ListItem(getString(R.string.dislikedWorksText), randomOeuvresList));
+            if (!oeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.judgedText) + " (" + oeuvresList.size() + ")", oeuvresList));
+            }
+            if (!movieOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.movieWorkText) + " (" + movieOeuvresList.size() + ")", movieOeuvresList));
+            }
+            if (!mangaOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.mangaWorkText) + " (" + mangaOeuvresList.size() + ")", mangaOeuvresList));
+            }
+            if (!bookOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.bookWorkText) + " (" + bookOeuvresList.size() + ")", bookOeuvresList));
+            }
+            if (!animeOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.animeWorkText) + " (" + animeOeuvresList.size() + ")", animeOeuvresList));
+            }
+            if (!seriesOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.seriesWorkText) + " (" + seriesOeuvresList.size() + ")", seriesOeuvresList));
+            }
+            if (!cartoonOeuvresList.isEmpty()) {
+                updatedItems.add(new ListItem(getString(R.string.cartoonWorkText) + " (" + cartoonOeuvresList.size() + ")", cartoonOeuvresList));
+            }
+
 
             // Mise à jour de l'adaptateur
             items.clear();
@@ -134,7 +172,6 @@ public class ProfileActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
 
         } catch (Exception e) {
-            e.printStackTrace();
             Toast.makeText(this, "Erreur lors de l'analyse des données", Toast.LENGTH_LONG).show();
         }
     }
