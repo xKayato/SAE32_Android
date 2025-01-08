@@ -6,9 +6,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -17,12 +19,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.unice.jugementday.service.ImageService;
 import fr.unice.jugementday.service.MenuButtons;
+import fr.unice.jugementday.service.UrlReader;
 import fr.unice.jugementday.service.UrlSend;
 
 public class AddWorkActivity extends AppCompatActivity {
@@ -39,6 +45,8 @@ public class AddWorkActivity extends AppCompatActivity {
     private String encodedImage;
     private UrlSend urlSend;
     private ImageService imageService;
+    private Spinner typeSpinner;
+    private UrlReader urlReader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +54,12 @@ public class AddWorkActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_work);
 
+        urlReader = new UrlReader();
+
         title = findViewById(R.id.workTitleFieldButton);
         author = findViewById(R.id.workAuthorFieldButton);
-        type = findViewById(R.id.workTypeFieldButton);
+        typeSpinner = findViewById(R.id.SpinnerType);
+        insertIntoSpinner();
         Date = findViewById(R.id.releaseDateTextFieldButton);
         publish = findViewById(R.id.publishButton);
         publish.setOnClickListener(this::publishWork);
@@ -74,6 +85,39 @@ public class AddWorkActivity extends AppCompatActivity {
             return insets;
         });
     }
+
+    public void insertIntoSpinner() {
+        new Thread(() -> {
+            UrlReader urlReader = new UrlReader();
+            String result = urlReader.fetchData(UrlReader.address + "?table=Type");
+
+            runOnUiThread(() -> {
+                if (result.contains("Erreur") || result.contains("Aucune")) {
+                    // Gestion des erreurs (facultatif)
+                } else {
+                    try {
+                        JSONArray jsonArray = new JSONArray(result);
+                        List<String> types = new ArrayList<>();
+
+                        // Parcours du JSONArray pour extraire les types
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            types.add(jsonObject.getString("nomType"));
+                        }
+
+                        // Création et attribution de l'adaptateur
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, types);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        typeSpinner.setAdapter(adapter);
+
+                    } catch (Exception e) {
+                        e.printStackTrace(); // Log de l'exception
+                    }
+                }
+            });
+        }).start();
+    }
+
 
     private void openImageChooser() {
         Intent intent = new Intent();
