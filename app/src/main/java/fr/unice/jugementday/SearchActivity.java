@@ -3,6 +3,7 @@ package fr.unice.jugementday;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -22,8 +23,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import fr.unice.jugementday.service.CustomArrayAdapter;
 import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.JsonStock;
+import fr.unice.jugementday.service.SearchCustomArrayAdapter;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -60,9 +63,10 @@ public class SearchActivity extends AppCompatActivity {
         worksJson = jsonStock.getWorks();
         peoplesJson = jsonStock.getPeople();
 
-        myAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        myAdapter = new SearchCustomArrayAdapter(this, items);
         ListView searchList = findViewById(R.id.searchList);
         searchList.setAdapter(myAdapter);
+
 
         searchField = findViewById(R.id.searchField);
         ImageButton confirmSearchButton = findViewById(R.id.confirmSearchButton);
@@ -98,8 +102,12 @@ public class SearchActivity extends AppCompatActivity {
         randomOeuvresList.clear();
         selectedIndices.clear();
         parseAndUpdateData(worksJson);
-        findViewById(R.id.PeopleButtonSearch).setBackgroundColor(getResources().getColor(R.color.primary_button));
-        findViewById(R.id.TitleButtonSearch).setBackgroundColor(getResources().getColor(R.color.secondary_button));
+        Button peopleButton = findViewById(R.id.PeopleButtonSearch);
+        peopleButton.setBackgroundColor(getResources().getColor(R.color.primary_button));
+        peopleButton.setTextColor(getResources().getColor(R.color.white));
+        Button titleButton = findViewById(R.id.TitleButtonSearch);
+        titleButton.setBackgroundColor(getResources().getColor(R.color.secondary_button));
+        titleButton.setTextColor(getResources().getColor(R.color.black));
     }
 
     private void changeCategoryToPersonne() {
@@ -108,8 +116,12 @@ public class SearchActivity extends AppCompatActivity {
         randomPersonneList.clear();
         selectedIndices.clear();
         parseAndUpdateData(peoplesJson);
-        findViewById(R.id.PeopleButtonSearch).setBackgroundColor(getResources().getColor(R.color.secondary_button));
-        findViewById(R.id.TitleButtonSearch).setBackgroundColor(getResources().getColor(R.color.primary_button));
+        Button peopleButton = findViewById(R.id.PeopleButtonSearch);
+        peopleButton.setBackgroundColor(getResources().getColor(R.color.secondary_button));
+        peopleButton.setTextColor(getResources().getColor(R.color.black));
+        Button titleButton = findViewById(R.id.TitleButtonSearch);
+        titleButton.setBackgroundColor(getResources().getColor(R.color.primary_button));
+        titleButton.setTextColor(getResources().getColor(R.color.white));
     }
 
     private void parseAndUpdateData(String jsonData) {

@@ -70,7 +70,7 @@ public class JudgementActivity extends AppCompatActivity {
         ImageButton searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
 
-        ImageButton community = findViewById(R.id.communityButton2);
+        ImageButton community = findViewById(R.id.communityButton);
         community.setOnClickListener(this::onClickAllJudgement);
 
         CritiqueText = findViewById(R.id.CritiqueText);

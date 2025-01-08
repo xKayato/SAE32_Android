@@ -59,6 +59,7 @@
         android:layout_marginEnd="37dp"
         android:gravity="center"
         android:text="TextView"
+        android:textColor="@color/primary_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectedImageButton" />
@@ -179,7 +180,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
-        android:id="@+id/communityButton2"
+        android:id="@+id/communityButton"
         android:layout_width="60dp"
         android:layout_height="45dp"
         android:backgroundTint="#00FFFFFF"

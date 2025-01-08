@@ -67,6 +67,7 @@
         android:layout_height="55dp"
         android:backgroundTint="@color/secondary_button"
         android:text="@string/titleTextSearch"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/searchList"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchPicture" />

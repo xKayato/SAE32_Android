@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.unice.jugementday.service.MenuButtons;
+import fr.unice.jugementday.service.SearchCustomArrayAdapter;
 import fr.unice.jugementday.service.UrlReader;
 
 public class AlljudgmentActivity extends AppCompatActivity {
@@ -57,9 +58,11 @@ public class AlljudgmentActivity extends AppCompatActivity {
         noteText = findViewById(R.id.noteText);
 
 
-        myAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
-        ListView searchList = findViewById(R.id.allJudgementList);
-        searchList.setAdapter(myAdapter);
+        myAdapter = new SearchCustomArrayAdapter(this, items);
+        ListView judgementsList = findViewById(R.id.allJudgementList);
+        judgementsList.setAdapter(myAdapter);
+
+
 
         fetchDataFromUrl(UrlReader.address + "?table=Avis&fields=texteAvis,login,note&idOeuvre=" + String.valueOf(id));
 
