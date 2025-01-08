@@ -116,7 +116,7 @@ public class ProfileActivity extends AppCompatActivity {
             List<HashMap<String, Integer>> cartoonOeuvresList = new ArrayList<>();
 
             // Ajouter les œuvres dans la liste principale
-            for (int i = jsonArray.length()-1; i > 0; i--) {
+            for (int i = jsonArray.length()-1; i >= 0; i--) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String nomOeuvre = jsonObject.getString("nomOeuvre");
                 Integer idOeuvre = jsonObject.getInt("idOeuvre");
@@ -124,10 +124,10 @@ public class ProfileActivity extends AppCompatActivity {
                 HashMap<String, Integer> oeuvreMap = createHashMap(nomOeuvre, idOeuvre);
 
                 switch(type){
-                    case "movie":
+                    case "Film":
                         movieOeuvresList.add(oeuvreMap);
                         break;
-                    case "manga":
+                    case "Manga":
                         mangaOeuvresList.add(oeuvreMap);
                         break;
                     case "Livre":
@@ -139,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity {
                     case "Serie":
                         seriesOeuvresList.add(oeuvreMap);
                         break;
-                    case "Cartoon":
+                    case "Dessin Anime":
                         cartoonOeuvresList.add(oeuvreMap);
                         break;
                     default:

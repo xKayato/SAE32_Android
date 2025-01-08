@@ -160,9 +160,7 @@ public class JudgementActivity extends AppCompatActivity {
 
                 runOnUiThread(() -> {
                     if (response.startsWith("Erreur")) {
-                        Toast.makeText(this, response, Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(this, "Données envoyées : " + response, Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
                     }
                 });
             }).start();

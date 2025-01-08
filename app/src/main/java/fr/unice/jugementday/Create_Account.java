@@ -52,7 +52,7 @@ public class Create_Account extends AppCompatActivity {
                     String[] options = {
                             "login=" + loginText,
                             "mdp=" + hashedPassword,
-                            "acces=1"
+                            "acces=0"
                     };
 
                     // Envoyer les données
@@ -63,7 +63,7 @@ public class Create_Account extends AppCompatActivity {
                             if (response.startsWith("Erreur")) {
                                 Toast.makeText(this, response, Toast.LENGTH_LONG).show();
                             } else {
-                                Toast.makeText(this, "Enregistrement réussi : " + response, Toast.LENGTH_LONG).show();
+                                Toast.makeText(this, response, Toast.LENGTH_LONG).show();
                                 sessionManager.setLogin(loginText);
                                 sessionManager.setPassword(hashedPassword);
                                 Intent intent = new Intent(this, HomeActivity.class);

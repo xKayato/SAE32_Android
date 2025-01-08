@@ -69,28 +69,41 @@ public class StartingActivity extends AppCompatActivity {
                         Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
                     } else {
                         if (url.contains("table=Oeuvre")) {
-                            jsonStock.setWorks(result);
+                            if(!result.contains("Aucune")){
+                                jsonStock.setWorks(result);
+                            } else {
+                                jsonStock.setWorks("[]");
+                            }
                         }
                         if (url.contains("table=User")) {
-                            jsonStock.setPeople(result);
+                            if(!result.contains("Aucune")) {
+                                if (url.contains("&login=" + userLogin)) {
 
-                            if (url.contains("&login=" + userLogin)) {
-                                try {
-                                    // Convertir la réponse en JSONArray
-                                    JSONArray jsonArray = new JSONArray(result);
-                                    // Accéder au premier élément du tableau (ici, index 0)
-                                    JSONObject jsonObject = jsonArray.getJSONObject(0);
-                                    // Extraire la valeur de "acces" et la stocker dans la session
-                                    sessionManager.setAccess(jsonObject.getString("acces"));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();  // Log de l'exception
-                                    throw new RuntimeException(e);
+                                    try {
+                                        // Convertir la réponse en JSONArray
+                                        JSONArray jsonArray = new JSONArray(result);
+                                        // Accéder au premier élément du tableau (ici, index 0)
+                                        JSONObject jsonObject = jsonArray.getJSONObject(0);
+                                        // Extraire la valeur de "acces" et la stocker dans la session
+                                        sessionManager.setAccess(jsonObject.getString("acces"));
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();  // Log de l'exception
+                                        throw new RuntimeException(e);
+                                    }
+                                } else {
+                                    jsonStock.setPeople(result);
                                 }
+                            } else {
+                                jsonStock.setPeople("[]");
                             }
 
                     }
                         if (url.contains("table=Avis")) {
-                            jsonStock.setJudged(result);
+                            if(!result.contains("Aucune")) {
+                                jsonStock.setJudged(result);
+                            } else {
+                                jsonStock.setJudged("[]");
+                            }
                         }
                     }
                     latch.countDown();
