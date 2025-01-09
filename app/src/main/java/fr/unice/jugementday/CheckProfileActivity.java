@@ -155,7 +155,6 @@ public class CheckProfileActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "" + e, Toast.LENGTH_LONG).show();
         }
     }
 

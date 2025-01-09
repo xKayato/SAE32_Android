@@ -59,6 +59,13 @@ public class SearchActivity extends AppCompatActivity {
 
         category = "Oeuvre";
 
+        Button peopleButton = findViewById(R.id.PeopleButtonSearch);
+        peopleButton.setBackgroundColor(getResources().getColor(R.color.primary_button));
+        peopleButton.setTextColor(getResources().getColor(R.color.white));
+        Button titleButton = findViewById(R.id.TitleButtonSearch);
+        titleButton.setBackgroundColor(getResources().getColor(R.color.secondary_button));
+        titleButton.setTextColor(getResources().getColor(R.color.black));
+
         JsonStock jsonStock = new JsonStock(this);
         worksJson = jsonStock.getWorks();
         peoplesJson = jsonStock.getPeople();

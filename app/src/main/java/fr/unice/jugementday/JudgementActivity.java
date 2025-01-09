@@ -32,7 +32,6 @@ import fr.unice.jugementday.service.UserSessionManager;
 public class JudgementActivity extends AppCompatActivity {
 
     private TextView CritiqueText;
-    private ImageView CritiqueImage;
     private Button publishButton;
     private Intent intent;
     private String title;
@@ -78,8 +77,6 @@ public class JudgementActivity extends AppCompatActivity {
         String critique = getString(R.string.critiqueText);
         String newTitle = critique.replace("oeuvre", title);
         CritiqueText.setText(newTitle);
-        CritiqueImage = findViewById(R.id.selectedImageButton);
-        CritiqueImage.setImageResource(intent.getIntExtra("photo", 0));
         id = intent.getIntExtra("idOeuvre",0);
         TextView typeText = findViewById(R.id.typeText);
         TextView auteurText = findViewById(R.id.auteurText);

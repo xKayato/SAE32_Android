@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,7 +23,15 @@ import androidx.core.view.WindowInsetsCompat;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +68,6 @@ public class AddWorkActivity extends AppCompatActivity {
         Date = findViewById(R.id.releaseDateTextFieldButton);
         Button publish = findViewById(R.id.publishButton);
         publish.setOnClickListener(this::publishWork);
-        selectedImage = findViewById(R.id.selectedImageButton);
         urlSend = new UrlSend();
         imageService = new ImageService();
 
@@ -71,9 +79,6 @@ public class AddWorkActivity extends AppCompatActivity {
 
         ImageButton searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
-
-
-        selectedImage.setOnClickListener(v -> openImageChooser());
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -115,29 +120,6 @@ public class AddWorkActivity extends AppCompatActivity {
         }).start();
     }
 
-    // Ouvrir la galerie pour choisir une image
-    private void openImageChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Sélectionnez une image"), PICK_IMAGE_REQUEST);
-    }
-
-
-    // Récupérer l'image sélectionnée
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri imageUri = data.getData();
-            try {
-                imageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                selectedImage.setImageBitmap(imageBitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
 
     // Publier une oeuvre
@@ -155,18 +137,6 @@ public class AddWorkActivity extends AppCompatActivity {
         }
 
         if(title.length() <= 30 && author.length() <= 30){
-            // Convertir l'image en base64
-            String imageBase64 = imageService.convertImageToBase64(imageBitmap);
-        /*
-        try {
-            encodedImage = URLEncoder.encode(imageBase64, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Encoding error", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-         */
             String table = "Oeuvre";
             String[] options = {
                     "nomOeuvre=" + title,

@@ -30,7 +30,6 @@ public class AlljudgmentActivity extends AppCompatActivity {
 
     private ArrayAdapter<String> myAdapter;
     private TextView CritiqueText;
-    private ImageView Image;
     private Intent intent;
     private String title;
     private ArrayList<String> items = new ArrayList<>();
@@ -49,12 +48,9 @@ public class AlljudgmentActivity extends AppCompatActivity {
         CritiqueText = findViewById(R.id.critiqueText);
         intent = getIntent();
         id = intent.getIntExtra("idOeuvre", 0);
-        title= getIntent().getStringExtra("title");
-        String critique = getString(R.string.critiqueText);
-        String newTitle = critique.replace("oeuvre", title);
+        title = getIntent().getStringExtra("title");
+        String newTitle = getString(R.string.critiqueOfText, title);
         CritiqueText.setText(newTitle);
-        Image = findViewById(R.id.selectedImageButton);
-        Image.setImageResource(intent.getIntExtra("photo", 0));
         noteText = findViewById(R.id.noteText);
 
 
@@ -122,7 +118,7 @@ public class AlljudgmentActivity extends AppCompatActivity {
                 if (noteTot % 1 == 0) {
                     noteText.setText((int) noteTot + "/5");
                 } else {
-                    noteText.setText(noteTot + "/5");
+                    noteText.setText(String.format("%.2f", noteTot) + "/5");
                 }
 
                 oeuvresList.add(pseudo + " (" + note + "/5) : " + texteAvis);

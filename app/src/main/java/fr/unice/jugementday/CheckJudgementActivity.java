@@ -3,6 +3,7 @@ package fr.unice.jugementday;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,20 +56,21 @@ public class CheckJudgementActivity extends AppCompatActivity {
         jsonStock = new JsonStock(this);
         Works = jsonStock.getWorks();
 
-
+        ImageButton community = findViewById(R.id.communityButton);
+        community.setOnClickListener(this::onClickAllJudgement);
 
         TextView typeText = findViewById(R.id.typeText);
         TextView auteurText = findViewById(R.id.auteurText);
         TextView dateText = findViewById(R.id.dateText);
         JudgementField = findViewById(R.id.JudgementField);
 
+
+
         // Récupère les données de l'intent
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
         userLogin = intent.getStringExtra("login");
         id = intent.getIntExtra("idOeuvre", 0);
-
-        Toast.makeText(this, userLogin, Toast.LENGTH_SHORT).show();
 
         TextView titleText = findViewById(R.id.titleText);
         titleText.setText(title);
@@ -106,6 +108,15 @@ public class CheckJudgementActivity extends AppCompatActivity {
 
     }
 
+    public void onClickAllJudgement(View view) {
+        Intent intent2 = new Intent(this, AlljudgmentActivity.class);
+        intent2.putExtra("title", title);
+        intent2.putExtra("idOeuvre", id);
+
+        startActivity(intent2);
+
+    }
+
     // Méthode pour récupérer les données depuis l'URL et mettre à jour la liste
     private void fetchDataFromUrl(String url) {
         new Thread(() -> {
@@ -135,7 +146,6 @@ public class CheckJudgementActivity extends AppCompatActivity {
             noteText.setText(note + "/5");
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "" + e, Toast.LENGTH_LONG).show();
         }
     }
 

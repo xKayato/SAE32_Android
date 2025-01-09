@@ -26,16 +26,6 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/logo" />
 
-    <ImageButton
-        android:id="@+id/selectedImageButton"
-        android:layout_width="102dp"
-        android:layout_height="158dp"
-        app:layout_constraintBottom_toTopOf="@+id/hbhv3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/workTitleFieldButton"
-        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
-        app:layout_constraintVertical_bias="0.046" />
-
     <TextView
         android:id="@+id/workTitleText"
         android:layout_width="wrap_content"
@@ -47,7 +37,7 @@
         android:textColor="@color/primary_text"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/workTitleFieldButton"
-        app:layout_constraintEnd_toStartOf="@+id/selectedImageButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
@@ -63,8 +53,6 @@
         android:textColor="@color/primary_text"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/workAuthorFieldButton"
-        app:layout_constraintEnd_toStartOf="@+id/selectedImageButton"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/workTitleFieldButton" />
 
@@ -80,8 +68,8 @@
         android:textColor="@color/primary_text"
         android:textColorHint="@color/primary_button"
         app:layout_constraintBottom_toTopOf="@+id/workAuthorText"
-        app:layout_constraintEnd_toStartOf="@+id/selectedImageButton"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.108"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/workTitleText" />
 

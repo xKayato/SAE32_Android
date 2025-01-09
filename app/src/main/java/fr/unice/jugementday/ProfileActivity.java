@@ -60,10 +60,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         ListView listView = findViewById(R.id.allJudgementList);
 
-        // Initialisation de l'adaptateur pour la liste
-        adapter = new CustomArrayAdapter(this, items, null);
-        listView.setAdapter(adapter);
-        urlReader = new UrlReader();
+
 
 
         // Vérifier si l'utilisateur est connecté
@@ -77,6 +74,11 @@ public class ProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
             startActivity(intent);
         }
+        // Initialisation de l'adaptateur pour la liste
+
+        adapter = new CustomArrayAdapter(this, items, userLogin);
+        listView.setAdapter(adapter);
+        urlReader = new UrlReader();
 
         String judgements = jsonStock.getJudged();
         if (judgements != null) {
@@ -164,7 +166,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "" + e, Toast.LENGTH_LONG).show();
         }
     }
 
