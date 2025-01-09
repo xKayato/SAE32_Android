@@ -109,7 +109,6 @@ public class AlljudgmentActivity extends AppCompatActivity {
             // Liste temporaire pour stocker les nouveaux items
             List<String> updatedItems = new ArrayList<>();
 
-            // Ajouter toutes les œuvres dans la liste principale
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String texteAvis = HtmlCompat.fromHtml(jsonObject.getString("texteAvis"), HtmlCompat.FROM_HTML_MODE_LEGACY).toString(); // Pour contrer le htmlspecialchars
@@ -120,15 +119,17 @@ public class AlljudgmentActivity extends AppCompatActivity {
 
                 float noteTot = notes/nb;
 
-                noteText.setText(noteTot + "/5");
+                if (noteTot % 1 == 0) {
+                    noteText.setText((int) noteTot + "/5");
+                } else {
+                    noteText.setText(noteTot + "/5");
+                }
 
                 oeuvresList.add(pseudo + " (" + note + "/5) : " + texteAvis);
             }
 
             // Ajouter les œuvres dans la liste principale
-            for (int i = 0; i < oeuvresList.size(); i++) {
-                updatedItems.add(oeuvresList.get(i));
-            }
+            updatedItems.addAll(oeuvresList);
 
 
 

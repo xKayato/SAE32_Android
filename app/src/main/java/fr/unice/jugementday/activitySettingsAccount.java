@@ -2,9 +2,11 @@ package fr.unice.jugementday;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -17,6 +19,7 @@ import org.json.JSONArray;
 
 import fr.unice.jugementday.service.JsonStock;
 import fr.unice.jugementday.service.MenuButtons;
+import fr.unice.jugementday.service.UrlDelete;
 import fr.unice.jugementday.service.UrlUpdate;
 import fr.unice.jugementday.service.UserSessionManager;
 
@@ -25,10 +28,16 @@ public class activitySettingsAccount extends AppCompatActivity {
     private UserSessionManager sessionManager;
     private EditText newLogin;
     private UrlUpdate urlUpdate;
+    private UrlDelete urlDelete;
     private String login;
     private EditText oldPassword;
     private EditText newPassword;
     private String peoplesJson;
+    private Button deleteAccountButton;
+    private Button confirmDeleteButton;
+    private Button cancelDeleteButton;
+    private TextView deleteAccountConfirmText;
+    private View deleteAccountView;
 
 
     @Override
@@ -39,6 +48,7 @@ public class activitySettingsAccount extends AppCompatActivity {
         sessionManager = new UserSessionManager(this);
 
         urlUpdate = new UrlUpdate();
+        urlDelete = new UrlDelete();
 
         login = sessionManager.getLogin();
 
@@ -53,12 +63,23 @@ public class activitySettingsAccount extends AppCompatActivity {
 
         newPassword = findViewById(R.id.newPasswordFieldButton);
 
+
         Button changePasswordButton = findViewById(R.id.changePasswordButton);
 
         changePasswordButton.setOnClickListener(v -> { changePassword();});
 
+        confirmDeleteButton = findViewById(R.id.confirmDeleteAccountButton);
+        cancelDeleteButton = findViewById(R.id.cancelDeleteAccountButton);
+        deleteAccountConfirmText = findViewById(R.id.confirmDeleteAccountText);
+        deleteAccountView = findViewById(R.id.deleteAccountView);
+
+        deleteAccountButton = findViewById(R.id.deleteAccountButton);
+
+        deleteAccountButton.setOnClickListener(v -> { askDeleteAccount();});
+
         JsonStock jsonStock = new JsonStock(this);
         peoplesJson = jsonStock.getPeople();
+
 
 
         // Bouton pour aller sur la page profile
@@ -175,6 +196,47 @@ public class activitySettingsAccount extends AppCompatActivity {
 
             }
 
+
+    }
+
+    public void askDeleteAccount(){
+        confirmDeleteButton.setVisibility(View.VISIBLE);
+        cancelDeleteButton.setVisibility(View.VISIBLE);
+        deleteAccountConfirmText.setVisibility(View.VISIBLE);
+        deleteAccountView.setVisibility(View.VISIBLE);
+
+        confirmDeleteButton.setOnClickListener(v -> { deleteAccount();});
+        cancelDeleteButton.setOnClickListener(v -> { cancelDeleteAccount();});
+
+    }
+
+    public void cancelDeleteAccount(){
+        confirmDeleteButton.setVisibility(View.GONE);
+        cancelDeleteButton.setVisibility(View.GONE);
+        deleteAccountConfirmText.setVisibility(View.GONE);
+        deleteAccountView.setVisibility(View.GONE);
+    }
+
+    public void deleteAccount(){
+        String table = "User";
+        String[] options = {
+                "login=" + login,
+        };
+
+        new Thread(() -> {
+            String response = urlDelete.deleteData(table, options);
+            runOnUiThread(() -> {
+                if (response.startsWith("Erreur")) {
+                    Toast.makeText(this, R.string.deleteAccountFailText, Toast.LENGTH_LONG).show();
+                } else {
+                    sessionManager.logout();
+                    Toast.makeText(this, R.string.deleteAccountSuccessText, Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(activitySettingsAccount.this, LoginActivity.class);
+                    startActivity(intent);
+
+                }
+            });
+        }).start();
 
     }
 

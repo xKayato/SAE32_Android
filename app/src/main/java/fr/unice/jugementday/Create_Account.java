@@ -79,12 +79,11 @@ public class Create_Account extends AppCompatActivity {
 
                         runOnUiThread(() -> {
                             if (response.startsWith("Erreur")) {
-                                Toast.makeText(this, response, Toast.LENGTH_LONG).show();
+                                Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
                             } else {
-                                Toast.makeText(this, response, Toast.LENGTH_LONG).show();
                                 sessionManager.setLogin(loginText);
                                 sessionManager.setPassword(hashedPassword);
-                                Intent intent = new Intent(this, HomeActivity.class);
+                                Intent intent = new Intent(this, StartingActivity.class);
                                 startActivity(intent);
                             }
                         });

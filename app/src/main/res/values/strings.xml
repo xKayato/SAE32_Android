@@ -35,7 +35,6 @@
     <string name="cartoonWorkText">Vos dessins animés jugés</string>
 
 
-
     <!-- SearchActivity -->
     <string name="searchText">Rechercher</string>
     <string name="titleTextSearch">Titre</string>
@@ -58,6 +57,7 @@
     <string name="imageText">Image</string>
     <string name="chooseImageText">Choisir une image</string>
     <string name="publishText">Publier</string>
+    <string name="maxCharAdd">Les champs ne doivent pas dépasser 30 caractères</string>
 
     <!-- addReview -->
     <string name="critiqueText">Critiquer oeuvre</string>
@@ -65,6 +65,7 @@
     <string name="JudgementFieldText">Votre jugement</string>
     <string name="addNoteText">Ajouter la note</string>
     <string name="publishReviewText">Publier</string>
+    <string name="maxCharJudgement">Votre jugement ne doit pas dépasser 150 caractères</string>
 
     <!-- Community -->
     <string name="accountCommuText">Compte de %1$s</string>
@@ -75,6 +76,7 @@
     <string name="animeCommuText">Ses animes jugés</string>
     <string name="seriesCommuText">Ses séries jugées</string>
     <string name="cartoonCommuText">Ses dessins animés jugés</string>
+    <string name="critiqueOfText">Critiques de %1$s</string>
 
 
     <!-- Account -->
@@ -93,8 +95,8 @@
     <string name="deleteAccountText">Supprimer votre compte</string>
     <string name="DeleteText">Supprimer</string>
     <string name="deleteAccountConfirmText">Voulez-vous vraiment supprimer votre compte ?</string>
-    <string name="yesText">Oui</string>
-    <string name="noText">Non</string>
+    <string name="yesText">Confirmer</string>
+    <string name="noText">Annuler</string>
     <string name="deleteAccountSuccessText">Votre compte a bien été supprimé</string>
     <string name="deleteAccountFailText">Une erreur est survenue lors de la suppression de votre compte</string>
 

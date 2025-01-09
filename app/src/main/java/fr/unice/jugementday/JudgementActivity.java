@@ -43,7 +43,6 @@ public class JudgementActivity extends AppCompatActivity {
     private JsonStock jsonStock;
     private int id;
     private String judgements;
-    private TextView typeText;
 
 
     @Override
@@ -73,7 +72,7 @@ public class JudgementActivity extends AppCompatActivity {
         ImageButton community = findViewById(R.id.communityButton);
         community.setOnClickListener(this::onClickAllJudgement);
 
-        CritiqueText = findViewById(R.id.CritiqueText);
+        CritiqueText = findViewById(R.id.JudgementOfText);
         intent = getIntent();
         title= getIntent().getStringExtra("title");
         String critique = getString(R.string.critiqueText);
@@ -82,7 +81,9 @@ public class JudgementActivity extends AppCompatActivity {
         CritiqueImage = findViewById(R.id.selectedImageButton);
         CritiqueImage.setImageResource(intent.getIntExtra("photo", 0));
         id = intent.getIntExtra("idOeuvre",0);
-        typeText = findViewById(R.id.TypeText);
+        TextView typeText = findViewById(R.id.typeText);
+        TextView auteurText = findViewById(R.id.auteurText);
+        TextView dateText = findViewById(R.id.dateText);
 
 
 
@@ -92,7 +93,9 @@ public class JudgementActivity extends AppCompatActivity {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 int idOeuvre = jsonObject.getInt("idOeuvre");
                 if (idOeuvre == id) {
-                    typeText.setText(jsonObject.getString("type").substring(0, 1).toUpperCase() + jsonObject.getString("type").substring(1));
+                    typeText.setText("Genre : " + jsonObject.getString("type").substring(0, 1).toUpperCase() + jsonObject.getString("type").substring(1));
+                    auteurText.setText("Auteur/Studio : " + jsonObject.getString("auteur_studio").substring(0, 1).toUpperCase() + jsonObject.getString("auteur_studio").substring(1));
+                    dateText.setText("Date : " + jsonObject.getString("dateSortie"));
                     break;
                 }
             }
@@ -128,7 +131,8 @@ public class JudgementActivity extends AppCompatActivity {
     }
 
     public void onClickPublish(View view) {
-        try {
+        if(JugementField.getText().toString().length() <= 150) {
+            try {
             /*
             JSONArray jsonArray = new JSONArray(judgements);
 
@@ -144,34 +148,39 @@ public class JudgementActivity extends AppCompatActivity {
             }
 
              */
-            UrlSend urlSend = new UrlSend();
-            String table = "Avis";
-            String[] options = {
-                    "idOeuvre=" + id,
-                    "texteAvis=" + JugementField.getText().toString(),
-                    "note=" + note,
-                    "date=" + new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date()),
-                    "login=" + sessionManager.getLogin()
-            };
+                UrlSend urlSend = new UrlSend();
+                String table = "Avis";
+                String[] options = {
+                        "idOeuvre=" + id,
+                        "texteAvis=" + JugementField.getText().toString(),
+                        "note=" + note,
+                        "date=" + new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date()),
+                        "login=" + sessionManager.getLogin()
+                };
 
-            // Envoyer les données
-            new Thread(() -> {
-                String response = urlSend.sendData(table, options);
+                // Envoyer les données
+                new Thread(() -> {
+                    String response = urlSend.sendData(table, options);
 
-                runOnUiThread(() -> {
-                    if (response.startsWith("Erreur")) {
-                        Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
-                    }
-                });
-            }).start();
-            Intent intent3 = new Intent(this, StartingActivity.class);
-            startActivity(intent3);
-            Toast.makeText(this, "Jugement ajouté !", Toast.LENGTH_LONG).show();
+                    runOnUiThread(() -> {
+                        if (response.startsWith("Erreur")) {
+                            Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }).start();
+                Intent intent3 = new Intent(this, StartingActivity.class);
+                startActivity(intent3);
+                Toast.makeText(this, "Jugement ajouté !", Toast.LENGTH_LONG).show();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, ""+e, Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(this, ""+e, Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(this, R.string.maxCharJudgement, Toast.LENGTH_LONG).show();
         }
+
+
 
 
 

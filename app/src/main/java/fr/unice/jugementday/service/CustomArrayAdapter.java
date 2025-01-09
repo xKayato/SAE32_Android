@@ -19,13 +19,18 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.List;
 
+import fr.unice.jugementday.CheckJudgementActivity;
 import fr.unice.jugementday.JudgementActivity;
 import fr.unice.jugementday.ListItem;
 import fr.unice.jugementday.R;
 
 public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
-    public CustomArrayAdapter(Context context, List<ListItem> items) {
+    private final String login;
+    private Intent i;
+
+    public CustomArrayAdapter(Context context, List<ListItem> items, String login) {
         super(context, 0, items);
+        this.login = login;
     }
 
     @Override
@@ -44,7 +49,21 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
         // Ajouter les boutons dynamiquement
         for (HashMap<String, Integer> Works : item.getWorks()) {
             Button photoButton = new Button(getContext());
-            Intent i = new Intent(getContext(), JudgementActivity.class);
+
+            switch (getContext().getClass().getSimpleName()) {
+                case "ProfileActivity":
+                    i = new Intent(getContext(), JudgementActivity.class);
+                    break;
+                case "HomeActivity":
+                    i = new Intent(getContext(), JudgementActivity.class);
+                    break;
+                case "CheckProfileActivity":
+                    i = new Intent(getContext(), CheckJudgementActivity.class);
+                    break;
+                default:
+                    i = new Intent(getContext(), JudgementActivity.class);
+                    break;
+            }
             for (String key : Works.keySet()) {
                 i.putExtra("idOeuvre", Works.get(key));
                 photoButton.setBackgroundResource(R.drawable.chainsawman);
@@ -58,9 +77,11 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
                 break;
             }
             photoButton.setOnClickListener(v -> {
-
                 for (String key : Works.keySet()) {
                     i.putExtra("title", key);
+                    if (login != null) {
+                        i.putExtra("login", login);
+                    }
                     break;
                 }
                 getContext().startActivity(i);

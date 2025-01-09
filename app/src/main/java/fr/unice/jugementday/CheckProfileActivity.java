@@ -43,14 +43,16 @@ public class CheckProfileActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.allJudgementList);
 
 
-        // Initialisation de l'adaptateur pour la liste
-        adapter = new CustomArrayAdapter(this, items);
-        listView.setAdapter(adapter);
-        urlReader = new UrlReader();
+
 
 
         Intent intent = getIntent();
         String username = intent.getStringExtra("login");
+
+        // Initialisation de l'adaptateur pour la liste
+        adapter = new CustomArrayAdapter(this, items, username);
+        listView.setAdapter(adapter);
+        urlReader = new UrlReader();
 
         pseudo.setText(getString(R.string.accountCommuText, username));
 
@@ -186,9 +188,4 @@ public class CheckProfileActivity extends AppCompatActivity {
         return map;
     }
 
-    public void onSettingClick(View v) {
-        Intent i = new Intent(this, activitySettingsAccount.class);
-        i.putExtra("title", "Settings");
-        startActivity(i);
-    }
 }

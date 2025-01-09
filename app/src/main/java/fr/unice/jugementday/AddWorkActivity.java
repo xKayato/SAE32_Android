@@ -154,8 +154,9 @@ public class AddWorkActivity extends AppCompatActivity {
             return;
         }
 
-        // Convertir l'image en base64
-        String imageBase64 = imageService.convertImageToBase64(imageBitmap);
+        if(title.length() <= 30 && author.length() <= 30){
+            // Convertir l'image en base64
+            String imageBase64 = imageService.convertImageToBase64(imageBitmap);
         /*
         try {
             encodedImage = URLEncoder.encode(imageBase64, "UTF-8");
@@ -166,27 +167,32 @@ public class AddWorkActivity extends AppCompatActivity {
         }
 
          */
-        String table = "Oeuvre";
-        String[] options = {
-                "nomOeuvre=" + title,
-                "auteur_studio=" + author,
-                "dateSortie=" + date,
-                "actif=1",
-                "type=" + type
-        };
+            String table = "Oeuvre";
+            String[] options = {
+                    "nomOeuvre=" + title,
+                    "auteur_studio=" + author,
+                    "dateSortie=" + date,
+                    "actif=1",
+                    "type=" + type
+            };
 
-        new Thread(() -> {
-            String response = urlSend.sendData(table, options);
+            new Thread(() -> {
+                String response = urlSend.sendData(table, options);
 
-            runOnUiThread(() -> {
-                if (response.startsWith("Erreur")) {
-                    Toast.makeText(this, encodedImage, Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(this, "Données envoyées : " + response, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(this, StartingActivity.class);
-                    startActivity(intent);
-                }
-            });
-        }).start();
+                runOnUiThread(() -> {
+                    if (response.startsWith("Erreur")) {
+                        Toast.makeText(this, encodedImage, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this, "Données envoyées : " + response, Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(this, StartingActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }).start();
+        } else {
+            Toast.makeText(this, R.string.maxCharAdd, Toast.LENGTH_LONG).show();
+        }
+
+
     }
 }

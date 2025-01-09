@@ -60,7 +60,7 @@ public class ProfileActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.allJudgementList);
 
         // Initialisation de l'adaptateur pour la liste
-        adapter = new CustomArrayAdapter(this, items);
+        adapter = new CustomArrayAdapter(this, items, null);
         listView.setAdapter(adapter);
         urlReader = new UrlReader();
 

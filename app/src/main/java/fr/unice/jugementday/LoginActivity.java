@@ -75,12 +75,10 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.contains("Erreur") || response.contains("Aucune")) {
                         Toast.makeText(this, response, Toast.LENGTH_LONG).show();
                     } else {
-                        // Réponse réussie
-                        Toast.makeText(this, "Connexion réussie : " + response, Toast.LENGTH_LONG).show();
                         // Redirection vers l'écran d'accueil
                         sessionManager.setLogin(loginText);
                         sessionManager.setPassword(hashedPassword);
-                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, StartingActivity.class);
                         startActivity(intent);
                     }
                 });

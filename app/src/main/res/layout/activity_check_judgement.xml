@@ -6,15 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_background"
-    tools:context=".JudgementActivity">
+    tools:context=".CheckJudgementActivity">
 
 
     <ImageView
         android:id="@+id/logoPicture"
         android:layout_width="412dp"
         android:layout_height="110dp"
-        android:layout_marginBottom="12dp"
 
+        android:layout_marginBottom="8dp"
         android:adjustViewBounds="true"
         android:background="#878787"
         android:contentDescription="@string/logo"
@@ -27,15 +27,31 @@
 
     <TextView
         android:id="@+id/JudgementOfText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/critiqueText"
+        android:layout_width="356dp"
+        android:layout_height="34dp"
+        android:gravity="center"
+        android:text="@string/critiqueOfText"
+        android:textColor="@color/secondary_button"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@id/titleText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="358dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:text="@string/workTitleField"
         android:textColor="@color/secondary_button"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/selectedImageButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
+        app:layout_constraintTop_toBottomOf="@+id/JudgementOfText" />
 
     <ImageView
         android:id="@+id/selectedImageButton"
@@ -44,8 +60,9 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/typeText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/JudgementOfText"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
         app:srcCompat="@android:drawable/ic_menu_report_image" />
 
     <TextView
@@ -60,6 +77,7 @@
         android:textColor="@color/primary_text"
         app:layout_constraintBottom_toTopOf="@+id/auteurText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectedImageButton" />
 
@@ -71,11 +89,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="37dp"
         android:gravity="center"
-        android:text="type de l'oeuvre"
+        android:text="Auteur"
         android:textColor="@color/primary_text"
         app:layout_constraintBottom_toTopOf="@+id/dateText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/typeText" />
 
@@ -86,154 +103,67 @@
         android:layout_marginStart="37dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="37dp"
-        android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="type de l'oeuvre"
+        android:text="Date"
         android:textColor="@color/primary_text"
-        app:layout_constraintBottom_toTopOf="@+id/addJudgementText"
+        app:layout_constraintBottom_toTopOf="@+id/noteText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/auteurText" />
 
-    <EditText
-        android:id="@+id/JudgementField"
-        android:layout_width="347dp"
-        android:layout_height="89dp"
-        android:background="@drawable/rounded_button"
-        android:backgroundTint="#2F2F2F"
-
-        android:backgroundTintMode="src_over"
-        android:ems="10"
-        android:hint="@string/JudgementFieldText"
-        android:inputType="text"
-        android:textColor="@color/primary_text"
-        android:textColorHint="@color/primary_button"
-        app:layout_constraintBottom_toTopOf="@+id/addNoteText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addJudgementText" />
-
     <TextView
-        android:id="@+id/addJudgementText"
-        android:layout_width="199dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="7dp"
+        android:id="@+id/noteText"
+        android:layout_width="337dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:text="@string/addJudgementText"
+        android:text="Note"
         android:textColor="@color/primary_text"
-        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/JudgementField"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dateText" />
 
     <TextView
-        android:id="@+id/addNoteText"
-        android:layout_width="168dp"
-        android:layout_height="26dp"
-        android:layout_marginBottom="49dp"
+        android:id="@+id/JudgementField"
+        android:layout_width="384dp"
+        android:layout_height="105dp"
+
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="64dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="#2F2F2F"
+        android:backgroundTintMode="src_over"
+        android:ems="10"
         android:gravity="center"
-        android:text="@string/addNoteText"
+        android:hint="@string/JudgementFieldText"
+        android:inputType="text"
         android:textColor="@color/primary_text"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/publishButton"
+        android:textColorHint="@color/primary_button"
+        app:layout_constraintBottom_toTopOf="@id/hbhv3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/JudgementField" />
-
-    <ImageButton
-        android:id="@+id/ratingStar1Button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="64dp"
-        android:backgroundTint="#00FFFFFF"
-        android:contentDescription="@string/_1_5"
-        android:scrollbarSize="4dp"
-        app:layout_constraintBottom_toTopOf="@id/publishButton"
-        app:layout_constraintEnd_toStartOf="@+id/ratingStar2Button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addNoteText"
-        app:srcCompat="@android:drawable/btn_star" />
-
-    <ImageButton
-        android:id="@+id/ratingStar2Button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:backgroundTint="#00FFFFFF"
-        android:contentDescription="@string/_2_5"
-        android:scrollbarSize="4dp"
-        app:layout_constraintBottom_toTopOf="@id/publishButton"
-        app:layout_constraintEnd_toStartOf="@+id/ratingStar3Button"
-        app:layout_constraintStart_toEndOf="@+id/ratingStar1Button"
-        app:layout_constraintTop_toBottomOf="@+id/addNoteText"
-        app:srcCompat="@android:drawable/btn_star" />
-
-    <ImageButton
-        android:id="@+id/ratingStar3Button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:backgroundTint="#00FFFFFF"
-        android:contentDescription="@string/_3_5"
-        android:scrollbarSize="4dp"
-        app:layout_constraintBottom_toTopOf="@id/publishButton"
-        app:layout_constraintEnd_toStartOf="@+id/ratingStar4Button"
-        app:layout_constraintStart_toEndOf="@+id/ratingStar2Button"
-        app:layout_constraintTop_toBottomOf="@+id/addNoteText"
-        app:srcCompat="@android:drawable/btn_star" />
-
-    <ImageButton
-        android:id="@+id/ratingStar4Button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:backgroundTint="#00FFFFFF"
-        android:contentDescription="@string/_4_5"
-        android:scrollbarSize="4dp"
-        app:layout_constraintBottom_toTopOf="@id/publishButton"
-        app:layout_constraintEnd_toStartOf="@+id/ratingStar5Button"
-        app:layout_constraintStart_toEndOf="@+id/ratingStar3Button"
-        app:layout_constraintTop_toBottomOf="@+id/addNoteText"
-        app:srcCompat="@android:drawable/btn_star" />
-
-    <ImageButton
-        android:id="@+id/ratingStar5Button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="64dp"
-        android:backgroundTint="#00FFFFFF"
-        android:contentDescription="@string/_5_5"
-        android:scrollbarSize="4dp"
-        app:layout_constraintBottom_toTopOf="@id/publishButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ratingStar4Button"
-        app:layout_constraintTop_toBottomOf="@id/addNoteText"
-        app:srcCompat="@android:drawable/btn_star" />
-
-    <Button
-        android:id="@+id/publishButton"
-        android:layout_width="127dp"
-        android:layout_height="49dp"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/secondary_button"
-        android:text="@string/publishReviewText"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/homeButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/noteText" />
 
     <ImageButton
         android:id="@+id/communityButton"
         android:layout_width="60dp"
         android:layout_height="45dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="#00FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/hbhv3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.985"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
-        app:layout_constraintVertical_bias="0.98"
+        app:layout_constraintTop_toBottomOf="@+id/JudgementField"
+        app:layout_constraintVertical_bias="0.85"
         app:srcCompat="@drawable/communaute" />
 
     <View
@@ -244,7 +174,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/homeButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/publishButton"
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
