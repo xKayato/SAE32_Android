@@ -6,21 +6,23 @@
     android:background="@color/primary_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Create_Account">
+    tools:context=".CreateAccountActivity">
 
 
     <ImageView
         android:id="@+id/logoPicture2"
         android:layout_width="412dp"
         android:layout_height="110dp"
-        android:adjustViewBounds="true"
 
+        android:adjustViewBounds="true"
         android:background="#878787"
         android:contentDescription="@string/logo"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/projectText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 
     <TextView

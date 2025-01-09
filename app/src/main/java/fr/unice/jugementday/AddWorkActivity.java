@@ -37,16 +37,13 @@ public class AddWorkActivity extends AppCompatActivity {
 
     private EditText title;
     private EditText author;
-    private EditText type;
     private EditText Date;
-    private Button publish;
+    private Spinner typeSpinner;
     private ImageButton selectedImage;
     private Bitmap imageBitmap;
     private String encodedImage;
     private UrlSend urlSend;
     private ImageService imageService;
-    private Spinner typeSpinner;
-    private UrlReader urlReader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +51,13 @@ public class AddWorkActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_work);
 
-        urlReader = new UrlReader();
 
         title = findViewById(R.id.workTitleFieldButton);
         author = findViewById(R.id.workAuthorFieldButton);
         typeSpinner = findViewById(R.id.SpinnerType);
         insertIntoSpinner();
         Date = findViewById(R.id.releaseDateTextFieldButton);
-        publish = findViewById(R.id.publishButton);
+        Button publish = findViewById(R.id.publishButton);
         publish.setOnClickListener(this::publishWork);
         selectedImage = findViewById(R.id.selectedImageButton);
         urlSend = new UrlSend();
@@ -86,6 +82,7 @@ public class AddWorkActivity extends AppCompatActivity {
         });
     }
 
+    // Récupérer les types d'oeuvres pour les afficher dans le spinner (liste déroulante). Dynamique
     public void insertIntoSpinner() {
         new Thread(() -> {
             UrlReader urlReader = new UrlReader();
@@ -118,7 +115,7 @@ public class AddWorkActivity extends AppCompatActivity {
         }).start();
     }
 
-
+    // Ouvrir la galerie pour choisir une image
     private void openImageChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -127,6 +124,7 @@ public class AddWorkActivity extends AppCompatActivity {
     }
 
 
+    // Récupérer l'image sélectionnée
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -141,11 +139,13 @@ public class AddWorkActivity extends AppCompatActivity {
         }
     }
 
-    public void publishWork(View view) {
 
+    // Publier une oeuvre
+    public void publishWork(View view) {
+        // Récupérer les données des champs
         String title = this.title.getText().toString();
         String author = this.author.getText().toString();
-        String type = this.type.getText().toString();
+        String type = this.typeSpinner.getSelectedItem().toString();
         String date = this.Date.getText().toString();
 
         // Vérifier que les champs sont remplis
@@ -176,6 +176,7 @@ public class AddWorkActivity extends AppCompatActivity {
                     "type=" + type
             };
 
+            // Envoyer les données au serveur
             new Thread(() -> {
                 String response = urlSend.sendData(table, options);
 

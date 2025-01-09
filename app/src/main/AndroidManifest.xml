@@ -43,7 +43,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Create_Account"
+            android:name=".CreateAccountActivity"
             android:exported="false" />
         <activity
             android:name=".JudgementActivity"

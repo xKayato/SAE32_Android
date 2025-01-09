@@ -31,12 +31,12 @@ import fr.unice.jugementday.service.SearchCustomArrayAdapter;
 public class SearchActivity extends AppCompatActivity {
 
     private ArrayAdapter<String> myAdapter;
-    private ArrayList<String> items = new ArrayList<>();
-    private List<HashMap<Integer, String>> oeuvresList = new ArrayList<>();
-    private List<String> personnesList = new ArrayList<>();
+    private final ArrayList<String> items = new ArrayList<>();
+    private final List<HashMap<Integer, String>> oeuvresList = new ArrayList<>();
+    private final List<String> personnesList = new ArrayList<>();
     private List<Integer> randomOeuvresList = new ArrayList<>();
-    private List<String> randomPersonneList = new ArrayList<>();
-    private List<Integer> selectedIndices = new ArrayList<>();
+    private final List<String> randomPersonneList = new ArrayList<>();
+    private final List<Integer> selectedIndices = new ArrayList<>();
     private EditText searchField;
     private String category;
     private String worksJson;
@@ -102,6 +102,7 @@ public class SearchActivity extends AppCompatActivity {
         randomOeuvresList.clear();
         selectedIndices.clear();
         parseAndUpdateData(worksJson);
+        // Changer les couleurs
         Button peopleButton = findViewById(R.id.PeopleButtonSearch);
         peopleButton.setBackgroundColor(getResources().getColor(R.color.primary_button));
         peopleButton.setTextColor(getResources().getColor(R.color.white));
@@ -116,6 +117,7 @@ public class SearchActivity extends AppCompatActivity {
         randomPersonneList.clear();
         selectedIndices.clear();
         parseAndUpdateData(peoplesJson);
+        // Changer les couleurs
         Button peopleButton = findViewById(R.id.PeopleButtonSearch);
         peopleButton.setBackgroundColor(getResources().getColor(R.color.secondary_button));
         peopleButton.setTextColor(getResources().getColor(R.color.black));
@@ -140,8 +142,9 @@ public class SearchActivity extends AppCompatActivity {
                 } else if (Objects.equals(category, "Oeuvre") && jsonObject.has("idOeuvre") && jsonObject.has("nomOeuvre")) {
                     int idOeuvre = jsonObject.getInt("idOeuvre");
                     String nomOeuvre = jsonObject.getString("nomOeuvre");
+                    String type = jsonObject.getString("type");
                     HashMap<Integer, String> oeuvreMap = new HashMap<>();
-                    oeuvreMap.put(idOeuvre, nomOeuvre);
+                    oeuvreMap.put(idOeuvre, nomOeuvre + " [" + type + "]");
                     oeuvresList.add(oeuvreMap);
                 }
             }
@@ -201,17 +204,23 @@ public class SearchActivity extends AppCompatActivity {
 
     private void performSearch(String query) {
         List<String> searchResults = new ArrayList<>();
+        String lowerCaseQuery = query.toLowerCase();
 
         if (Objects.equals(category, "Oeuvre")) {
             for (HashMap<Integer, String> oeuvreMap : oeuvresList) {
                 String oeuvre = oeuvreMap.values().iterator().next();
-                if (oeuvre.toLowerCase().contains(query.toLowerCase())) {
+                // Séparer le titre et le type
+                String titre = oeuvre.replaceAll("\\[.*?\\]", "").trim(); // Enlève le type [type]
+                String type = oeuvre.replaceAll(".*\\[(.*?)\\].*", "$1").toLowerCase(); // Extrait le type [type]
+
+                // Vérifie si la requête correspond soit au titre (partielle) soit au type (exacte)
+                if (titre.toLowerCase().contains(lowerCaseQuery) || type.equals(lowerCaseQuery)) {
                     searchResults.add(oeuvre);
                 }
             }
         } else if (Objects.equals(category, "Personne")) {
             for (String personne : personnesList) {
-                if (personne.toLowerCase().contains(query.toLowerCase())) {
+                if (personne.toLowerCase().contains(lowerCaseQuery)) {
                     searchResults.add(personne);
                 }
             }
@@ -222,9 +231,11 @@ public class SearchActivity extends AppCompatActivity {
         myAdapter.notifyDataSetChanged();
     }
 
+
+
     private void openDetailActivityOeuvre(String title, int id) {
         Intent intent = new Intent(SearchActivity.this, JudgementActivity.class);
-        intent.putExtra("title", title);
+        intent.putExtra("title", title.split("\\[")[0]);
         intent.putExtra("idOeuvre", id);
         startActivity(intent);
     }

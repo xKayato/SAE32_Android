@@ -13,25 +13,16 @@
 
     <!-- HomeActivity -->
     <string name="lastRealeseText">Derniers ajouts</string>
-    <string name="mostAppreciatedText">Les plus appréciés</string>
-    <string name="leastViewedText">Les moins appréciés</string>
+
     <string name="randomOeuvresText">Œuvres aléatoires</string>
-    <string name="lastMoviesText">Derniers films ajoutés</string>
-    <string name="lastMangasText">Derniers mangas ajoutés</string>
-    <string name="lastBooksText">Derniers livres ajoutés</string>
-    <string name="lastAnimesText">Derniers animes ajoutés</string>
-    <string name="lastSeriesText">Dernières séries ajoutées</string>
-    <string name="lastCartoonsText">Derniers dessins animés ajoutés</string>
+    <string name="lastXadded">Derniers %1$ss ajouté(e)s</string>
+
     <string name="addWorkText">Ajouter une oeuvre</string>
 
     <!-- ProfileActivity -->
     <string name="hello">Bonjour, pseudo</string>
     <string name="judgedText">Vos œuvres jugées</string>
-    <string name="movieWorkText">Vos films jugés</string>
-    <string name="mangaWorkText">Vos mangas jugés</string>
-    <string name="bookWorkText">Vos livres jugés</string>
-    <string name="animeWorkText">Vos animes jugés</string>
-    <string name="seriesWorkText">Vos séries jugées</string>
+    <string name="XWorkText">Vos %1$ss jugé(e)s</string>
     <string name="cartoonWorkText">Vos dessins animés jugés</string>
 
 
@@ -70,12 +61,7 @@
     <!-- Community -->
     <string name="accountCommuText">Compte de %1$s</string>
     <string name="judgedCommuText">Ses œuvres jugées</string>
-    <string name="movieCommuText">Ses films jugés</string>
-    <string name="mangaCommuText">Ses mangas jugés</string>
-    <string name="bookCommuText">Ses livres jugés</string>
-    <string name="animeCommuText">Ses animes jugés</string>
-    <string name="seriesCommuText">Ses séries jugées</string>
-    <string name="cartoonCommuText">Ses dessins animés jugés</string>
+    <string name="XCommuText">Ses %1$ss jugé(e)s</string>
     <string name="critiqueOfText">Critiques de %1$s</string>
 
 
@@ -118,6 +104,7 @@
     <string name="createAccountFailText2">Les mots de passe ne correspondent pas</string>
     <string name="createText">S\'identifier</string>
     <string name="goToLoginText">Deja un compte ? Se connecter</string>
+    <string name="login_already_exists_error">Ce login est déjà utilisé</string>
     <string name="_2_5">2/5</string>
     <string name="_1_5">1/5</string>
     <string name="_3_5">3/5</string>

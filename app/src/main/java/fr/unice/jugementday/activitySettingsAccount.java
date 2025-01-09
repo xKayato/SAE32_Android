@@ -106,9 +106,10 @@ public class activitySettingsAccount extends AppCompatActivity {
         try{
             JSONArray jsonArray = new JSONArray(peoplesJson);
 
+            // Vérifier si le login existe déjà
             for (int i = 0; i < jsonArray.length(); i++) {
                 String login = jsonArray.getJSONObject(i).getString("login");
-                if (login.equals(newLoginText)) {
+                if (login.equalsIgnoreCase(newLoginText)) {
                     Toast.makeText(this, "Ce login est déjà utilisé", Toast.LENGTH_LONG).show();
                     return;
                 }

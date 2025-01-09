@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.CustomArrayAdapter;
@@ -99,59 +100,36 @@ public class HomeActivity extends AppCompatActivity {
         try {
             JSONArray jsonArray = new JSONArray(jsonData);
 
-            // Liste temporaire pour stocker les nouveaux items
-            List<ListItem> updatedItems = new ArrayList<>();
+            // Récupération des types dynamiques depuis le serveur
+            List<String> typesDisponibles = fetchTypesFromServer();
 
-            // Parsing des données
+            // Map pour stocker les œuvres par type
+            Map<String, List<HashMap<String, Integer>>> oeuvresParType = new HashMap<>();
+            for (String type : typesDisponibles) {
+                oeuvresParType.put(type, new ArrayList<>());
+            }
+
+            // Liste principale et liste pour les œuvres aléatoires
             List<HashMap<String, Integer>> oeuvresList = new ArrayList<>();
             List<HashMap<String, Integer>> randomOeuvresList = new ArrayList<>();
-            List<HashMap<String, Integer>> movieOeuvresList = new ArrayList<>();
-            List<HashMap<String, Integer>> mangaOeuvresList = new ArrayList<>();
-            List<HashMap<String, Integer>> bookOeuvresList = new ArrayList<>();
-            List<HashMap<String, Integer>> animeOeuvresList = new ArrayList<>();
-            List<HashMap<String, Integer>> seriesOeuvresList = new ArrayList<>();
-            List<HashMap<String, Integer>> cartoonOeuvresList = new ArrayList<>();
-            List<HashMap<String, Object>> bestOeuvresList = new ArrayList<>();
-
-
-            // Liste des indices déjà sélectionnés pour éviter les doublons
             List<Integer> selectedIndices = new ArrayList<>();
 
-            // Ajouter les œuvres dans la liste principale
-            for (int i = jsonArray.length()-1; i >= 0; i--) {
+            // Parsing des données
+            for (int i = jsonArray.length() - 1; i >= 0; i--) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String nomOeuvre = jsonObject.getString("nomOeuvre");
                 Integer idOeuvre = jsonObject.getInt("idOeuvre");
                 String type = jsonObject.getString("type");
                 HashMap<String, Integer> oeuvreMap = createHashMap(nomOeuvre, idOeuvre);
 
-                switch(type){
-                    case "Film":
-                        movieOeuvresList.add(oeuvreMap);
-                        break;
-                    case "Manga":
-                        mangaOeuvresList.add(oeuvreMap);
-                        break;
-                    case "Livre":
-                        bookOeuvresList.add(oeuvreMap);
-                        break;
-                    case "Anime":
-                        animeOeuvresList.add(oeuvreMap);
-                        break;
-                    case "Serie":
-                        seriesOeuvresList.add(oeuvreMap);
-                        break;
-                    case "Dessin Anime":
-                        cartoonOeuvresList.add(oeuvreMap);
-                        break;
-                    default:
-                        break;
-
+                // Ajout dans la liste du type approprié
+                if (oeuvresParType.containsKey(type)) {
+                    oeuvresParType.get(type).add(oeuvreMap);
                 }
                 oeuvresList.add(oeuvreMap);
             }
 
-            // Choisir 10 œuvres au hasard parmi celles disponibles
+            // Sélection aléatoire de 10 œuvres
             while (randomOeuvresList.size() < 10 && selectedIndices.size() < oeuvresList.size()) {
                 int randomIndex = (int) (Math.random() * oeuvresList.size());
                 if (!selectedIndices.contains(randomIndex)) {
@@ -160,36 +138,19 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
 
-
-
-
-
-
-
-
-            // Mise à jour des sections avec les nouvelles données
+            // Mise à jour des sections dynamiques (si un type est rajouté, il sera affiché)
+            List<ListItem> updatedItems = new ArrayList<>();
             if (!oeuvresList.isEmpty()) {
                 updatedItems.add(new ListItem(getString(R.string.lastRealeseText) + " (" + oeuvresList.size() + ")", oeuvresList));
             }
-            if (!movieOeuvresList.isEmpty()) {
-                updatedItems.add(new ListItem(getString(R.string.lastMoviesText) + " (" + movieOeuvresList.size() + ")", movieOeuvresList));
+            for (String type : typesDisponibles) {
+                List<HashMap<String, Integer>> typeList = oeuvresParType.get(type);
+                if (!typeList.isEmpty()) {
+                    updatedItems.add(new ListItem(String.format(getString(R.string.lastXadded), type.toLowerCase()) + " (" + typeList.size() + ")", typeList));
+                }
             }
-            if (!mangaOeuvresList.isEmpty()) {
-                updatedItems.add(new ListItem(getString(R.string.lastMangasText) + " (" + mangaOeuvresList.size() + ")", mangaOeuvresList));
-            }
-            if (!bookOeuvresList.isEmpty()) {
-                updatedItems.add(new ListItem(getString(R.string.lastBooksText) + " (" + bookOeuvresList.size() + ")", bookOeuvresList));
-            }
-            if (!animeOeuvresList.isEmpty()) {
-                updatedItems.add(new ListItem(getString(R.string.lastAnimesText) + " (" + animeOeuvresList.size() + ")", animeOeuvresList));
-            }
-            if (!seriesOeuvresList.isEmpty()) {
-                updatedItems.add(new ListItem(getString(R.string.lastSeriesText) + " (" + seriesOeuvresList.size() + ")", seriesOeuvresList));
-            }
-            if (!cartoonOeuvresList.isEmpty()) {
-                updatedItems.add(new ListItem(getString(R.string.lastCartoonsText) + " (" + cartoonOeuvresList.size() + ")", cartoonOeuvresList));
-            }
-            // Mise à jour des sections avec les nouvelles données
+
+            // Ajout des œuvres aléatoires
             updatedItems.add(new ListItem(getString(R.string.randomOeuvresText), randomOeuvresList));
 
             // Mise à jour de l'adaptateur
@@ -202,6 +163,26 @@ public class HomeActivity extends AppCompatActivity {
             Toast.makeText(this, "" + e, Toast.LENGTH_LONG).show();
         }
     }
+
+    // Méthode pour récupérer les types dynamiques depuis le serveur
+    private List<String> fetchTypesFromServer() {
+        List<String> types = new ArrayList<>();
+        try {
+            UrlReader urlReader = new UrlReader();
+            String result = urlReader.fetchData(UrlReader.address + "?table=Type");
+            if (!(result.contains("Erreur") || result.contains("Aucune"))) {
+                JSONArray jsonArray = new JSONArray(result);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    types.add(jsonObject.getString("nomType"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return types;
+    }
+
 
 
     private HashMap<String, Integer> createHashMap(String key, Integer value) {
