@@ -121,6 +121,20 @@
     <string name="_3_5">3/5</string>
     <string name="_4_5">4/5</string>
     <string name="_5_5">5/5</string>
+        <!-- Placeholders -->
+    <string name="login_hint">Entrez votre identifiant</string>
+    <string name="password_hint">Entrez votre mot de passe</string>
+    <string name="confirm_password_hint">Confirmez votre mot de passe</string>
+    <string name="create_account_text">Se créer un compte</string>
+    <string name="create_button_text">Créer un compte</string>
 
+        <!-- Error Messages -->
+    <string name="login_too_long_error">Le login est trop long. Veuillez utiliser moins de 20 caractères.</string>
+    <string name="password_too_long_error">Le mot de passe est trop long. Veuillez utiliser moins de 20 caractères.</string>
+    <string name="invalid_login_error">Le login ne doit contenir que des lettres et des chiffres, sans espaces ni caractères spéciaux.</string>
+    <string name="invalid_password_error">Le mot de passe ne doit contenir que des lettres et des chiffres, sans espaces ni caractères spéciaux.</string>
+    <string name="fill_fields_error">Remplissez tous les champs</string>
+    <string name="password_mismatch_error">Les mots de passe ne correspondent pas</string>
+    <string name="password_hash_error">Erreur de hachage du mot de passe</string>
 
 </resources>

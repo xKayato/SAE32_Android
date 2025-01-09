@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             // Hachage du mot de passe en MD5
             String hashedPassword = encryptToMD5(passwordText);
 
-            // Construire l'URL pour envoyer les données au serveur
+            // Construire l'URL pour envoyer les données au serveurzzzz
             String baseUrl = UrlReader.address;
             String table = "User";
             String[] options = {

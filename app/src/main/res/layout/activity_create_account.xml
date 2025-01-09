@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".Create_Account">
 
+
     <ImageView
         android:id="@+id/logoPicture2"
         android:layout_width="412dp"
