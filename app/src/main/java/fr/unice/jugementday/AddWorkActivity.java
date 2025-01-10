@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,10 +23,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -35,7 +30,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.unice.jugementday.service.ImageService;
+import fr.unice.jugementday.service.JsonStock;
 import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.UrlReader;
 import fr.unice.jugementday.service.UrlSend;
@@ -50,9 +45,7 @@ public class AddWorkActivity extends AppCompatActivity {
     private Spinner typeSpinner;
     private ImageButton selectedImage;
     private Bitmap imageBitmap;
-    private String encodedImage;
     private UrlSend urlSend;
-    private ImageService imageService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +61,8 @@ public class AddWorkActivity extends AppCompatActivity {
         Date = findViewById(R.id.releaseDateTextFieldButton);
         Button publish = findViewById(R.id.publishButton);
         publish.setOnClickListener(this::publishWork);
+        selectedImage = findViewById(R.id.selectedImageButton);
         urlSend = new UrlSend();
-        imageService = new ImageService();
 
         ImageButton profileButton = findViewById(R.id.profileButton);
         profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
@@ -80,6 +73,7 @@ public class AddWorkActivity extends AppCompatActivity {
         ImageButton searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
 
+        selectedImage.setOnClickListener(v -> openImageChooser());
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -120,6 +114,30 @@ public class AddWorkActivity extends AppCompatActivity {
         }).start();
     }
 
+    // Ouvrir la galerie pour choisir une image
+    private void openImageChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Sélectionnez une image"), PICK_IMAGE_REQUEST);
+    }
+    // Récupérer l'image sélectionnée
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
+            try {
+                // On redimensionne l'image pour l'afficher dans l'ImageButton
+                imageBitmap = resizeImage(MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri), selectedImage.getWidth(), selectedImage.getHeight());
+                // On affiche l'image dans l'ImageButton
+                selectedImage.setImageBitmap(imageBitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 
     // Publier une oeuvre
@@ -136,7 +154,12 @@ public class AddWorkActivity extends AppCompatActivity {
             return;
         }
 
+        // Vérifier que les champs ne dépassent pas 30 caractères
         if(title.length() <= 30 && author.length() <= 30){
+
+            // Envoyer l'image au serveur
+            uploadImageToServer(imageBitmap);
+
             String table = "Oeuvre";
             String[] options = {
                     "nomOeuvre=" + title,
@@ -148,17 +171,8 @@ public class AddWorkActivity extends AppCompatActivity {
 
             // Envoyer les données au serveur
             new Thread(() -> {
-                String response = urlSend.sendData(table, options);
+                urlSend.sendData(table, options);
 
-                runOnUiThread(() -> {
-                    if (response.startsWith("Erreur")) {
-                        Toast.makeText(this, encodedImage, Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(this, "Données envoyées : " + response, Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(this, StartingActivity.class);
-                        startActivity(intent);
-                    }
-                });
             }).start();
         } else {
             Toast.makeText(this, R.string.maxCharAdd, Toast.LENGTH_LONG).show();
@@ -166,4 +180,75 @@ public class AddWorkActivity extends AppCompatActivity {
 
 
     }
+
+    private Bitmap resizeImage(Bitmap bitmap, int newWidth, int newHeight) {
+        return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
+    }
+
+
+    private void uploadImageToServer(Bitmap bitmap) {
+        new Thread(() -> {
+            try {
+                // Réduire la taille de l'image à 200x150
+                Bitmap resizedBitmap = resizeImage(bitmap, 200, 300);
+
+                // Convertir l'image redimensionnée en Base64
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                String encodedImage = android.util.Base64.encodeToString(byteArray, android.util.Base64.DEFAULT);
+
+                // Préparer les données JSON (image et nom du fichier)
+                JSONObject jsonData = new JSONObject();
+                jsonData.put("image", encodedImage);
+                jsonData.put("filename", this.title.getText().toString().replace(" ", "_") + ".jpg");
+
+                // Envoyer les données au serveur en POST
+                String serverUrl = "http://10.3.122.146/importphoto.php";
+                HttpURLConnection connection = (HttpURLConnection) new URL(serverUrl).openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                connection.setDoOutput(true);
+
+                OutputStream os = connection.getOutputStream();
+                os.write(jsonData.toString().getBytes("UTF-8"));
+                os.close();
+
+                // Vérifier la réponse du serveur
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    // Si l'image est envoyée avec succès, envoyer les autres données au serveur
+                    String table = "Oeuvre";
+                    String[] options = {
+                            "nomOeuvre=" + title.getText().toString(),
+                            "auteur_studio=" + author.getText().toString(),
+                            "dateSortie=" + Date.getText().toString(),
+                            "actif=1",
+                            "type=" + typeSpinner.getSelectedItem().toString()
+                    };
+
+                    // Envoyer les autres données
+                    urlSend.sendData(table, options);
+
+                    // Si tout est envoyé avec succès, lancer StartingActivity
+                    runOnUiThread(() -> {
+                        Intent intent = new Intent(this, StartingActivity.class);
+                        startActivity(intent);
+                    });
+                } else {
+                    runOnUiThread(() -> Toast.makeText(this, "Erreur lors de l'upload de l'image", Toast.LENGTH_SHORT).show());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                runOnUiThread(() -> Toast.makeText(this, "Erreur : " + e.getMessage(), Toast.LENGTH_LONG).show());
+            }
+        }).start();
+    }
+
+
+
+
+
+
+
 }

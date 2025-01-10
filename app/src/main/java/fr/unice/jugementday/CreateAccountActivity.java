@@ -83,7 +83,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 return;
             }
 
-            if (!passwordText.matches("^[a-zA-Z0-9]+$")) {
+            if (!passwordText.matches("^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]+$")) {
                 Toast.makeText(this, getString(R.string.invalid_password_error), Toast.LENGTH_SHORT).show();
                 return;
             }

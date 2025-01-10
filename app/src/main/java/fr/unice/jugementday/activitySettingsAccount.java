@@ -103,6 +103,16 @@ public class activitySettingsAccount extends AppCompatActivity {
 
         String newLoginText = newLogin.getText().toString();
 
+        if (!newLoginText.matches("^[a-zA-Z0-9]+$")) {
+            Toast.makeText(this, getString(R.string.invalid_login_error), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (newLoginText.length() >= 20) {
+            Toast.makeText(this, getString(R.string.login_too_long_error), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         try{
             JSONArray jsonArray = new JSONArray(peoplesJson);
 
@@ -166,13 +176,27 @@ public class activitySettingsAccount extends AppCompatActivity {
     private void changePassword(){
         String oldPasswordText = oldPassword.getText().toString();
         String newPasswordText = newPassword.getText().toString();
+
+        if (!newPasswordText.matches("^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]+$")) {
+            Toast.makeText(this, getString(R.string.invalid_password_error), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (newPasswordText.length() >= 20) {
+            Toast.makeText(this, getString(R.string.password_too_long_error), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String newPasswordTextEncrypted = urlUpdate.encryptToMD5(newPasswordText);
         String oldPasswordTextEncrypted = urlUpdate.encryptToMD5(oldPasswordText);
 
         String checkPasswordText = sessionManager.getPassword();
 
 
-            if(checkPasswordText.equals(oldPasswordTextEncrypted)){
+
+
+
+        if(checkPasswordText.equals(oldPasswordTextEncrypted)){
                 String table = "User";
                 String[] options = {
                         "login=" + login,
