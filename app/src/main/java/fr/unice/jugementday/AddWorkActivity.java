@@ -27,10 +27,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.unice.jugementday.service.JsonStock;
+import fr.unice.jugementday.service.Address;
 import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.UrlReader;
 import fr.unice.jugementday.service.UrlSend;
@@ -85,31 +86,32 @@ public class AddWorkActivity extends AppCompatActivity {
     public void insertIntoSpinner() {
         new Thread(() -> {
             UrlReader urlReader = new UrlReader();
-            String result = urlReader.fetchData(UrlReader.address + "?table=Type");
+            String result = urlReader.fetchData("&table=Type");
 
             runOnUiThread(() -> {
-                if (result.contains("Erreur") || result.contains("Aucune")) {
-                    // Gestion des erreurs (facultatif)
-                } else {
-                    try {
-                        JSONArray jsonArray = new JSONArray(result);
-                        List<String> types = new ArrayList<>();
+                if (!result.contains("Erreur") || result.contains("Aucune")) {
 
-                        // Parcours du JSONArray pour extraire les types
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            types.add(jsonObject.getString("nomType"));
+                        try {
+                            JSONArray jsonArray = new JSONArray(result);
+                            List<String> types = new ArrayList<>();
+
+                            // Parcours du JSONArray pour extraire les types
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                types.add(jsonObject.getString("nomType"));
+                            }
+
+                            // Création et attribution de l'adaptateur
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, types);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            typeSpinner.setAdapter(adapter);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         }
 
-                        // Création et attribution de l'adaptateur
-                        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, types);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        typeSpinner.setAdapter(adapter);
 
-                    } catch (Exception e) {
-                        e.printStackTrace(); // Log de l'exception
-                    }
-                }
             });
         }).start();
     }
@@ -149,8 +151,8 @@ public class AddWorkActivity extends AppCompatActivity {
         String date = this.Date.getText().toString();
 
         // Vérifier que les champs sont remplis
-        if (title.isEmpty() || author.isEmpty() || type.isEmpty() || date.isEmpty()) {
-            Toast.makeText(this, "Veuillez remplir tous les champs et sélectionner une image", Toast.LENGTH_LONG).show();
+        if (title.isEmpty() || author.isEmpty() || type.isEmpty() || date.isEmpty() || imageBitmap == null) {
+            Toast.makeText(this, R.string.fill_fields_error, Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -204,14 +206,13 @@ public class AddWorkActivity extends AppCompatActivity {
                 jsonData.put("filename", this.title.getText().toString().replace(" ", "_") + ".jpg");
 
                 // Envoyer les données au serveur en POST
-                String serverUrl = "http://10.3.122.146/importphoto.php";
-                HttpURLConnection connection = (HttpURLConnection) new URL(serverUrl).openConnection();
+                HttpURLConnection connection = (HttpURLConnection) new URL(Address.getImportPhotoPage()).openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                 connection.setDoOutput(true);
 
                 OutputStream os = connection.getOutputStream();
-                os.write(jsonData.toString().getBytes("UTF-8"));
+                os.write(jsonData.toString().getBytes(StandardCharsets.UTF_8));
                 os.close();
 
                 // Vérifier la réponse du serveur
@@ -232,15 +233,12 @@ public class AddWorkActivity extends AppCompatActivity {
 
                     // Si tout est envoyé avec succès, lancer StartingActivity
                     runOnUiThread(() -> {
-                        Intent intent = new Intent(this, StartingActivity.class);
+                        Intent intent = new Intent(this, LoadingActivity.class);
                         startActivity(intent);
                     });
-                } else {
-                    runOnUiThread(() -> Toast.makeText(this, "Erreur lors de l'upload de l'image", Toast.LENGTH_SHORT).show());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                runOnUiThread(() -> Toast.makeText(this, "Erreur : " + e.getMessage(), Toast.LENGTH_LONG).show());
             }
         }).start();
     }

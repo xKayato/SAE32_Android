@@ -2,12 +2,6 @@ package fr.unice.jugementday.service;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
-
-import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
 
 public class JsonStock {
 

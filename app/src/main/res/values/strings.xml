@@ -1,129 +1,140 @@
 <resources>
-    <string name="app_name">JugementDay</string>
-    <string name="saeText">SAE32</string>
-    <string name="credit">Deloup, Guibert, Teles Fache, Viger</string>
+    <string name="app_name">JugementDay.</string>
+    <string name="saeText">SAE32.</string>
+    <string name="credit">Deloup, Guibert, Teles Fache, Viger.</string>
 
     <!-- Buttons -->
-    <string name="homeButton">Accueil</string>
-    <string name="searchButton">Rechercher</string>
-    <string name="profileButton">Profil</string>
+    <string name="homeButton">Accueil.</string>
+    <string name="searchButton">Rechercher.</string>
+    <string name="profileButton">Profil.</string>
 
     <!-- Images -->
-    <string name="logo">logo</string>
+    <string name="logo">logo.</string>
 
     <!-- HomeActivity -->
-    <string name="lastRealeseText">Derniers ajouts</string>
+    <string name="lastRealeseText">Derniers ajouts.</string>
 
-    <string name="randomOeuvresText">Œuvres aléatoires</string>
-    <string name="lastXadded">Derniers %1$ss ajouté(e)s</string>
+    <string name="randomOeuvresText">Œuvres aléatoires.</string>
+    <string name="lastXadded">Derniers %1$ss ajouté(e)s.</string>
 
-    <string name="addWorkText">Ajouter une oeuvre</string>
+    <string name="addWorkText">Ajouter une oeuvre.</string>
 
     <!-- ProfileActivity -->
-    <string name="hello">Bonjour, pseudo</string>
-    <string name="judgedText">Vos œuvres jugées</string>
-    <string name="XWorkText">Vos %1$ss jugé(e)s</string>
-    <string name="cartoonWorkText">Vos dessins animés jugés</string>
+    <string name="hello">Bonjour, pseudo.</string>
+    <string name="judgedText">Vos œuvres jugées.</string>
+    <string name="XWorkText">Vos %1$ss jugé(e)s.</string>
+    <string name="cartoonWorkText">Vos dessins animés jugés.</string>
 
 
     <!-- SearchActivity -->
-    <string name="searchText">Rechercher</string>
-    <string name="titleTextSearch">Titre</string>
-    <string name="genreTextSearch">Genre</string>
-    <string name="tagsTextSearch">Tag</string>
-    <string name="peopleTextSearch">Personnes</string>
+    <string name="searchText">Rechercher.</string>
+    <string name="titleTextSearch">Titre.</string>
+    <string name="genreTextSearch">Genre.</string>
+    <string name="tagsTextSearch">Tag.</string>
+    <string name="peopleTextSearch">Personnes.</string>
 
 
     <!-- addArt -->
-    <string name="titleText">Titre de l\'œuvre</string>
-    <string name="workTitleField">Titre</string>
-    <string name="workAuthorText">Auteur de l\'œuvre</string>
-    <string name="workAuthorField">Auteur</string>
-    <string name="dateText">Date de sortie de l\'œuvre</string>
-    <string name="releaseDateTextField">Date de sortie</string>
-    <string name="categoryText">Genre de l\'œuvre</string>
-    <string name="genreSelectField">Genre</string>
-    <string name="tagsText">Tags de l\'œuvre</string>
-    <string name="tagsCheckboxField">Tags</string>
-    <string name="imageText">Image</string>
-    <string name="chooseImageText">Choisir une image</string>
-    <string name="publishText">Publier</string>
-    <string name="maxCharAdd">Les champs ne doivent pas dépasser 30 caractères</string>
+    <string name="titleText">Titre de l\'œuvre.</string>
+    <string name="workTitleField">Titre.</string>
+    <string name="workAuthorText">Auteur de l\'œuvre.</string>
+    <string name="workAuthorField">Auteur.</string>
+    <string name="dateText">Date de sortie de l\'œuvre.</string>
+    <string name="releaseDateTextField">Date de sortie.</string>
+    <string name="categoryText">Genre de l\'œuvre.</string>
+    <string name="genreSelectField">Genre.</string>
+    <string name="tagsText">Tags de l\'œuvre.</string>
+    <string name="tagsCheckboxField">Tags.</string>
+    <string name="imageText">Image.</string>
+    <string name="chooseImageText">Choisir une image.</string>
+    <string name="publishText">Publier.</string>
+    <string name="maxCharAdd">Les champs ne doivent pas dépasser 30 caractères.</string>
+
 
     <!-- addReview -->
-    <string name="critiqueText">Critiquer oeuvre</string>
-    <string name="addJudgementText">Ajouter un jugement</string>
-    <string name="JudgementFieldText">Votre jugement</string>
-    <string name="addNoteText">Ajouter la note</string>
-    <string name="publishReviewText">Publier</string>
-    <string name="maxCharJudgement">Votre jugement ne doit pas dépasser 150 caractères</string>
-
+    <string name="critiqueText">Critiquer oeuvre.</string>
+    <string name="addJudgementText">Ajouter un jugement.</string>
+    <string name="JudgementFieldText">Votre jugement.</string>
+    <string name="addNoteText">Ajouter la note.</string>
+    <string name="publishReviewText">Publier.</string>
+    <string name="maxCharJudgement">Votre jugement ne doit pas dépasser 150 caractères.</string>
+    <string name="addedJudgementText">Votre jugement a bien été ajouté.</string>
     <!-- Community -->
-    <string name="accountCommuText">Compte de %1$s</string>
-    <string name="judgedCommuText">Ses œuvres jugées</string>
-    <string name="XCommuText">Ses %1$ss jugé(e)s</string>
-    <string name="critiqueOfText">Critiques de %1$s</string>
+    <string name="accountCommuText">Compte de %1$s.</string>
+    <string name="judgedCommuText">Ses œuvres jugées.</string>
+    <string name="XCommuText">Ses %1$ss jugé(e)s.</string>
+    <string name="critiqueOfText">Critiques de %1$s.</string>
 
 
     <!-- Account -->
-    <string name="accountText">Paramètres de votre compte</string>
-    <string name="logoutText">Se déconnecter</string>
-    <string name="changePseudoText">Modifier votre login</string>
-    <string name="pseudoText">Login</string>
-    <string name="changePasswordText">Modifier votre mot de passe</string>
-    <string name="changeApplyText">Modifier</string>
-    <string name="oldPasswordText">Ancien mot de passe</string>
-    <string name="newPasswordText">Nouveau mot de passe</string>
-    <string name="confirmText">Confirmer</string>
-    <string name="changePseudoSuccessText">Votre login a bien été modifié</string>
-    <string name="errorText">Une erreur est survenue</string>
-    <string name="changePasswordSuccessText">Votre mot de passe a bien été modifié</string>
-    <string name="deleteAccountText">Supprimer votre compte</string>
-    <string name="DeleteText">Supprimer</string>
-    <string name="deleteAccountConfirmText">Voulez-vous vraiment supprimer votre compte ?</string>
-    <string name="yesText">Confirmer</string>
-    <string name="noText">Annuler</string>
-    <string name="deleteAccountSuccessText">Votre compte a bien été supprimé</string>
-    <string name="deleteAccountFailText">Une erreur est survenue lors de la suppression de votre compte</string>
+    <string name="accountText">Paramètres de votre compte.</string>
+    <string name="logoutText">Se déconnecter.</string>
+    <string name="changePseudoText">Modifier votre login.</string>
+    <string name="pseudoText">Login.</string>
+    <string name="changePasswordText">Modifier votre mot de passe.</string>
+    <string name="changeApplyText">Modifier.</string>
+    <string name="oldPasswordText">Ancien mot de passe.</string>
+    <string name="newPasswordText">Nouveau mot de passe.</string>
+    <string name="confirmText">Confirmer.</string>
+    <string name="changePseudoSuccessText">Votre login a bien été modifié.</string>
+    <string name="errorText">Une erreur est survenue.</string>
+    <string name="changePasswordSuccessText">Votre mot de passe a bien été modifié.</string>
+    <string name="deleteAccountText">Supprimer votre compte.</string>
+    <string name="DeleteText">Supprimer.</string>
+    <string name="deleteAccountConfirmText">Voulez-vous vraiment supprimer votre compte ?.</string>
+    <string name="yesText">Confirmer.</string>
+    <string name="noText">Annuler.</string>
+    <string name="deleteAccountSuccessText">Votre compte a bien été supprimé.</string>
+    <string name="deleteAccountFailText">Une erreur est survenue lors de la suppression de votre compte.</string>
 
     <!-- Connection -->
-    <string name="connectionText">Se connecter</string>
-    <string name="loginText">Login</string>
-    <string name="passwordText">Mot de passe</string>
-    <string name="connectionFailText">La connexion a échoué</string>
-    <string name="goToCreateAccountText">Pas de compte ? Créer un compte</string>
+    <string name="connectionText">Se connecter.</string>
+    <string name="loginText">Login.</string>
+    <string name="passwordText">Mot de passe.</string>
+    <string name="connectionFailText">La connexion a échoué.</string>
+    <string name="goToCreateAccountText">Pas de compte ? Créer un compte.</string>
 
 
     <!-- CreateAccount -->
-    <string name="createAccountText">Se créer un compte</string>
-    <string name="pseudoAlreadyUsedText">Ce pseudo est déjà utilisé</string>
-    <string name="createAccountFailText">La création de compte a échoué</string>
-    <string name="createAccountSuccessText">Votre compte a bien été créé</string>
-    <string name="createAccountSuccessText2">Vous pouvez maintenant vous connecter</string>
-    <string name="confirmPasswordText">Confirmer mot de passe</string>
-    <string name="createAccountFailText2">Les mots de passe ne correspondent pas</string>
-    <string name="createText">S\'identifier</string>
-    <string name="goToLoginText">Deja un compte ? Se connecter</string>
-    <string name="login_already_exists_error">Ce login est déjà utilisé</string>
-    <string name="_2_5">2/5</string>
-    <string name="_1_5">1/5</string>
-    <string name="_3_5">3/5</string>
-    <string name="_4_5">4/5</string>
-    <string name="_5_5">5/5</string>
+    <string name="createAccountText">Se créer un compte.</string>
+    <string name="pseudoAlreadyUsedText">Ce pseudo est déjà utilisé.</string>
+    <string name="createAccountFailText">La création de compte a échoué.</string>
+    <string name="createAccountSuccessText">Votre compte a bien été créé.</string>
+    <string name="createAccountSuccessText2">Vous pouvez maintenant vous connecter.</string>
+    <string name="confirmPasswordText">Confirmer mot de passe.</string>
+    <string name="createAccountFailText2">Les mots de passe ne correspondent pas.</string>
+    <string name="createText">S\'identifier.</string>
+    <string name="goToLoginText">Deja un compte ? Se connecter.</string>
+    <string name="login_already_exists_error">Ce login est déjà utilisé.</string>
+    <string name="_2_5">2/5.</string>
+    <string name="_1_5">1/5.</string>
+    <string name="_3_5">3/5.</string>
+    <string name="_4_5">4/5.</string>
+    <string name="_5_5">5/5.</string>
         <!-- Placeholders -->
-    <string name="login_hint">Entrez votre identifiant</string>
-    <string name="password_hint">Entrez votre mot de passe</string>
-    <string name="confirm_password_hint">Confirmez votre mot de passe</string>
-    <string name="create_account_text">Se créer un compte</string>
-    <string name="create_button_text">Créer un compte</string>
+    <string name="login_hint">Entrez votre identifiant.</string>
+    <string name="password_hint">Entrez votre mot de passe.</string>
+    <string name="confirm_password_hint">Confirmez votre mot de passe.</string>
+    <string name="create_account_text">Se créer un compte.</string>
+    <string name="create_button_text">Créer un compte.</string>
 
         <!-- Error Messages -->
     <string name="login_too_long_error">Le login est trop long. Veuillez utiliser moins de 20 caractères.</string>
     <string name="password_too_long_error">Le mot de passe est trop long. Veuillez utiliser moins de 20 caractères.</string>
     <string name="invalid_login_error">Le login ne doit contenir que des lettres et des chiffres, sans espaces ni caractères spéciaux.</string>
     <string name="invalid_password_error">Le mot de passe ne doit contenir que des lettres et des chiffres, sans espaces ni caractères spéciaux.</string>
-    <string name="fill_fields_error">Remplissez tous les champs</string>
-    <string name="password_mismatch_error">Les mots de passe ne correspondent pas</string>
-    <string name="password_hash_error">Erreur de hachage du mot de passe</string>
+    <string name="fill_fields_error">Veuillez remplir tous les champs.</string>
+    <string name="password_mismatch_error">Les mots de passe ne correspondent pas.</string>
+    <string name="password_hash_error">Erreur de hachage du mot de passe.</string>
+    <string name="loginError">Erreur lors de la modification du login.</string>
+    <string name="passwordError">Mot de passe incorect.</string>
 
-</resources>
+        <!-- Descriptions -->
+    <string name="selectedImageButtonDescription">Selectionner une image</string>
+    <string name="communityButtonDescription">Accéder à tous les jugements</string>
+    <string name="settingsButtonDescription">Accéder au paramètres</string>
+    <string name="searchButtonDescription">Appliquer la recherche</string>
+    <string name="logoutButtonDescription">Se déconnecter</string>
+
+
+.</resources>

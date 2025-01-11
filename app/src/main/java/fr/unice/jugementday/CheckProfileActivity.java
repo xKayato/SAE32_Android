@@ -2,7 +2,6 @@ package fr.unice.jugementday;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,16 +21,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.unice.jugementday.service.ListItem;
 import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.CustomArrayAdapter;
 import fr.unice.jugementday.service.UrlReader;
-import fr.unice.jugementday.service.UserSessionManager;
 
 public class CheckProfileActivity extends AppCompatActivity {
 
-    private UrlReader urlReader;
     private CustomArrayAdapter adapter;
-    private List<ListItem> items = new ArrayList<>();
+    private final List<ListItem> items = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +51,6 @@ public class CheckProfileActivity extends AppCompatActivity {
         // Initialisation de l'adaptateur pour la liste
         adapter = new CustomArrayAdapter(this, items, username);
         listView.setAdapter(adapter);
-        urlReader = new UrlReader();
 
         pseudo.setText(getString(R.string.accountCommuText, username));
 
@@ -66,8 +63,8 @@ public class CheckProfileActivity extends AppCompatActivity {
         ImageButton searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
 
-        String url = UrlReader.address + "?table=Avis&fields=nomOeuvre,idOeuvre&login=" + username;
-        fetchDataFromUrl(url);
+        String options = "&table=Avis&fields=nomOeuvre,idOeuvre&login=" + username;
+        fetchDataFromUrl(options);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -77,10 +74,13 @@ public class CheckProfileActivity extends AppCompatActivity {
     }
 
 
+    // Méthode pour récupérer les données depuis l'URL et mettre à jour la liste
     private void fetchDataFromUrl(String url) {
         new Thread(() -> {
-            String result = urlReader.fetchData(url);
+            // Ici, on appelle la méthode pour récupérer les données de l'URL
+            String result = new UrlReader().fetchData(url);
 
+            // Mise à jour de l'interface (doit être effectué sur le thread principal)
             runOnUiThread(() -> {
                 if (result.startsWith("Erreur")) {
                     Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
@@ -163,7 +163,7 @@ public class CheckProfileActivity extends AppCompatActivity {
         List<String> types = new ArrayList<>();
         try {
             UrlReader urlReader = new UrlReader();
-            String result = urlReader.fetchData(UrlReader.address + "?table=Type");
+            String result = urlReader.fetchData("&table=Type");
             if (!(result.contains("Erreur") || result.contains("Aucune"))) {
                 JSONArray jsonArray = new JSONArray(result);
                 for (int i = 0; i < jsonArray.length(); i++) {

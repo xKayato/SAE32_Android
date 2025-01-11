@@ -11,9 +11,6 @@ import java.security.MessageDigest;
 
 public class UrlSend {
 
-    private static final String PASSID = "SalutJeSuisUnMotDePassePourImport";  // Le passid constant
-    private static final String address = "http://10.3.122.146/importdata.php";
-
     public String sendData(String table, String... options) {
         StringBuilder result = new StringBuilder();
         HttpURLConnection connection = null;
@@ -22,7 +19,6 @@ public class UrlSend {
             // Construire l'URL avec les paramètres
             StringBuilder params = new StringBuilder();
             params.append("table=").append(URLEncoder.encode(table, "UTF-8"));
-            params.append("&passid=").append(URLEncoder.encode(PASSID, "UTF-8"));  // Ajout du passid
 
             // Ajouter les options dynamiques
             for (String option : options) {
@@ -30,7 +26,7 @@ public class UrlSend {
             }
 
             // Construire l'URL finale
-            String finalUrl = address + "?" + params.toString();
+            String finalUrl = Address.getImportPage() + "&" + params.toString();
             URL url = new URL(finalUrl);
 
             // Connexion HTTP

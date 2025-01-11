@@ -28,13 +28,13 @@
             android:name=".AlljudgmentActivity"
             android:exported="false" />
         <activity
-            android:name=".activitySettingsAccount"
+            android:name=".AccountSettingsActivity"
             android:exported="true" />
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".StartingActivity"
+            android:name=".LoadingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

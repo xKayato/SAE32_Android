@@ -11,9 +11,6 @@ import java.security.MessageDigest;
 
 public class UrlUpdate {
 
-    private static final String PASSID = "SalutJeSuisUnMotDePassePourUpdate";  // Le passid constant pour update
-    private static final String address = "http://10.3.122.146/updatedata.php";
-
     public String updateData(String table, String... options) {
         StringBuilder result = new StringBuilder();
         HttpURLConnection connection = null;
@@ -22,7 +19,6 @@ public class UrlUpdate {
             // Construire l'URL avec les paramètres
             StringBuilder params = new StringBuilder();
             params.append("table=").append(URLEncoder.encode(table, "UTF-8"));
-            params.append("&passid=").append(URLEncoder.encode(PASSID, "UTF-8"));  // Ajout du passid
 
             // Ajouter les options dynamiques
             for (String option : options) {
@@ -30,7 +26,7 @@ public class UrlUpdate {
             }
 
             // Construire l'URL finale
-            String finalUrl = address + "?" + params.toString();
+            String finalUrl = Address.getUpdatePage() + "&" + params.toString();
             URL url = new URL(finalUrl);
 
             // Connexion HTTP

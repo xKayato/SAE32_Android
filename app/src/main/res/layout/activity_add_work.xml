@@ -30,6 +30,7 @@
         android:id="@+id/selectedImageButton"
         android:layout_width="102dp"
         android:layout_height="158dp"
+        android:contentDescription="@string/selectedImageButtonDescription"
         app:layout_constraintBottom_toTopOf="@+id/hbhv3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/workTitleFieldButton"
@@ -51,6 +52,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
 
+    <EditText
+        android:id="@+id/workTitleFieldButton"
+        android:layout_width="263dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="@string/workTitleField"
+        android:inputType="text"
+        android:textColor="@color/primary_text"
+        android:textColorHint="@color/primary_button"
+        app:layout_constraintBottom_toTopOf="@+id/workAuthorText"
+        app:layout_constraintEnd_toStartOf="@+id/selectedImageButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workTitleText" />
+
     <TextView
         android:id="@+id/workAuthorText"
         android:layout_width="wrap_content"
@@ -68,39 +86,9 @@
         app:layout_constraintTop_toBottomOf="@+id/workTitleFieldButton" />
 
     <EditText
-        android:id="@+id/workTitleFieldButton"
-        android:layout_width="263dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:hint="@string/workTitleField"
-        android:inputType="text"
-        android:textColor="@color/primary_text"
-        android:textColorHint="@color/primary_button"
-        app:layout_constraintBottom_toTopOf="@+id/workAuthorText"
-        app:layout_constraintEnd_toStartOf="@+id/selectedImageButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workTitleText" />
-
-    <Spinner
-        android:id="@+id/SpinnerType"
-        android:layout_width="263dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/releaseDateText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/genreSelectText" />
-
-    <EditText
         android:id="@+id/workAuthorFieldButton"
         android:layout_width="263dp"
-        android:layout_height="42dp"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
@@ -132,6 +120,19 @@
         app:layout_constraintTop_toBottomOf="@+id/workAuthorFieldButton"
         app:layout_constraintVertical_bias="0.411" />
 
+    <Spinner
+        android:id="@+id/SpinnerType"
+        android:layout_width="263dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/releaseDateText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genreSelectText" />
+
     <TextView
         android:id="@+id/releaseDateText"
         android:layout_width="wrap_content"
@@ -151,20 +152,21 @@
     <EditText
         android:id="@+id/releaseDateTextFieldButton"
         android:layout_width="263dp"
-        android:layout_height="42dp"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="@string/releaseDateTextField"
-        android:inputType="text"
+        android:inputType="date"
         android:textColor="@color/primary_text"
         android:textColorHint="@color/primary_button"
         app:layout_constraintBottom_toTopOf="@+id/publishButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/releaseDateText" />
+        app:layout_constraintTop_toBottomOf="@+id/releaseDateText"
+        tools:text="@tools:sample/date/ddmmyy" />
 
     <Button
         android:id="@+id/publishButton"
@@ -189,8 +191,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/publishButton" />
 
     <ImageButton
         android:id="@+id/searchButton"

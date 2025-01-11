@@ -1,4 +1,4 @@
-package fr.unice.jugementday;
+package fr.unice.jugementday.service;
 import java.util.List;
 import java.util.HashMap;
 public class ListItem {

@@ -14,17 +14,15 @@ import java.util.concurrent.Future;
 public class UrlReader {
 
     private final ExecutorService executorService;
-    private static final String PASSID = "&passid=SalutJeSuisUnMotDePassePourGet";  // Le passid constant
-    public static String address = "http://10.3.122.146/getdata.php";
 
     // Constructeur : initialise le gestionnaire de threads
     public UrlReader() {
         this.executorService = Executors.newSingleThreadExecutor(); // Lancement d'un thread
     }
 
-    public String fetchData(String urlString) {
+    public String fetchData(String options) {
         URL url;
-        urlString += PASSID;  // Ajout du passid
+        String urlString = Address.getGetPage() + options;  // Ajout du passid
 
         // Validation de l'URL
         try {
@@ -74,7 +72,7 @@ public class UrlReader {
 
     public String buildUrl(String baseUrl, String table, String[] options) {
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
-        urlBuilder.append("?table=").append(table);
+        urlBuilder.append("&table=").append(table);
 
         for (String option : options) {
             urlBuilder.append("&").append(option);

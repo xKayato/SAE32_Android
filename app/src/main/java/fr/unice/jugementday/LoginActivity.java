@@ -16,11 +16,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText loginField;
     private EditText passwordField;
-    private Button loginButton;
-    private TextView signupLink;
     private UserSessionManager sessionManager;
-
-    private final String passid = "SalutJeSuisUnMotDePassePourGet";  // Passid fixe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +33,8 @@ public class LoginActivity extends AppCompatActivity {
 
         loginField = findViewById(R.id.loginFieldButton);
         passwordField = findViewById(R.id.passwordFieldButton);
-        loginButton = findViewById(R.id.loginButton);
-        signupLink = findViewById(R.id.createAccountButton);
+        Button loginButton = findViewById(R.id.loginButton);
+        TextView signupLink = findViewById(R.id.createAccountButton);
 
         loginButton.setOnClickListener(v -> handleLogin());
         signupLink.setOnClickListener(v -> {
@@ -55,20 +51,14 @@ public class LoginActivity extends AppCompatActivity {
             // Hachage du mot de passe en MD5
             String hashedPassword = encryptToMD5(passwordText);
 
-            // Construire l'URL pour envoyer les données au serveurzzzz
-            String baseUrl = UrlReader.address;
-            String table = "User";
-            String[] options = {
-                    "login=" + loginText,
-                    "pseudo=" + loginText,
-                    "mdp=" + hashedPassword,
-                    "passid=" + passid
-            };
+            // Construire l'URL pour envoyer les données au serveur
+            String options = "&table=User&login=" + loginText + "&mdp=" + hashedPassword;
+
 
             // Envoyer les données avec UrlReader
             new Thread(() -> {
                 UrlReader urlReader = new UrlReader();
-                String response = urlReader.fetchData(urlReader.buildUrl(baseUrl, table, options));
+                String response = urlReader.fetchData(options);
 
                 runOnUiThread(() -> {
                     if (response.contains("Erreur") || response.contains("Aucune")) {
@@ -77,13 +67,13 @@ public class LoginActivity extends AppCompatActivity {
                         // Redirection vers l'écran d'accueil
                         sessionManager.setLogin(loginText);
                         sessionManager.setPassword(hashedPassword);
-                        Intent intent = new Intent(LoginActivity.this, StartingActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, LoadingActivity.class);
                         startActivity(intent);
                     }
                 });
             }).start();
         } else {
-            Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.fill_fields_error, Toast.LENGTH_SHORT).show();
         }
     }
 

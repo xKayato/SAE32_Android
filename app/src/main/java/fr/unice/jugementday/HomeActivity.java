@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.unice.jugementday.service.ListItem;
 import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.CustomArrayAdapter;
 import fr.unice.jugementday.service.UrlReader;
@@ -29,14 +29,8 @@ import fr.unice.jugementday.service.UserSessionManager;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private UrlReader urlReader;
     private CustomArrayAdapter adapter;
-    private List<ListItem> items = new ArrayList<>();
-    private JsonStock jsonStock;
-    private Button addWorkButton;
-    private String userLogin;
-    private UserSessionManager sessionManager;
-    private String Works;
+    private final List<ListItem> items = new ArrayList<>();
 
 
     @Override
@@ -45,12 +39,10 @@ public class HomeActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
 
-        jsonStock = new JsonStock(this);
-        sessionManager = new UserSessionManager(this);
+        JsonStock jsonStock = new JsonStock(this);
+        UserSessionManager sessionManager = new UserSessionManager(this);
         // Vérifier si l'utilisateur est connecté
-        if (sessionManager.isLoggedIn()) {
-            userLogin = sessionManager.getLogin();
-        } else {
+        if (!sessionManager.isLoggedIn()) {
             // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(intent);
@@ -65,13 +57,11 @@ public class HomeActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         // Initialisation du lecteur d'URL
-        urlReader = new UrlReader();
-
-        Works = jsonStock.getWorks();
-        parseAndUpdateData(Works);
+        String works = jsonStock.getWorks();
+        parseAndUpdateData(works);
 
 
-        addWorkButton = findViewById(R.id.AddWorkButton);
+        Button addWorkButton = findViewById(R.id.AddWorkButton);
         addWorkButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddWorkActivity.class);
             startActivity(intent);
@@ -129,8 +119,8 @@ public class HomeActivity extends AppCompatActivity {
                 oeuvresList.add(oeuvreMap);
             }
 
-            // Sélection aléatoire de 10 œuvres
-            while (randomOeuvresList.size() < 10 && selectedIndices.size() < oeuvresList.size()) {
+            // Sélection aléatoire de 20 œuvres
+            while (randomOeuvresList.size() < 20 && selectedIndices.size() < oeuvresList.size()) {
                 int randomIndex = (int) (Math.random() * oeuvresList.size());
                 if (!selectedIndices.contains(randomIndex)) {
                     selectedIndices.add(randomIndex);
@@ -160,7 +150,6 @@ public class HomeActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "" + e, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -169,7 +158,7 @@ public class HomeActivity extends AppCompatActivity {
         List<String> types = new ArrayList<>();
         try {
             UrlReader urlReader = new UrlReader();
-            String result = urlReader.fetchData(UrlReader.address + "?table=Type");
+            String result = urlReader.fetchData("&table=Type");
             if (!(result.contains("Erreur") || result.contains("Aucune"))) {
                 JSONArray jsonArray = new JSONArray(result);
                 for (int i = 0; i < jsonArray.length(); i++) {

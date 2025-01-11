@@ -2,7 +2,6 @@ package fr.unice.jugementday;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,10 +16,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import fr.unice.jugementday.service.JsonStock;
 import fr.unice.jugementday.service.MenuButtons;
@@ -29,12 +24,8 @@ import fr.unice.jugementday.service.UserSessionManager;
 
 public class CheckJudgementActivity extends AppCompatActivity {
 
-    private String userLogin;
-    private UserSessionManager sessionManager;
     private String title;
     private int id;
-    private JsonStock jsonStock;
-    private String Works;
     private TextView JudgementField;
 
     @Override
@@ -52,9 +43,9 @@ public class CheckJudgementActivity extends AppCompatActivity {
         ImageButton searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
 
-        sessionManager = new UserSessionManager(this);
-        jsonStock = new JsonStock(this);
-        Works = jsonStock.getWorks();
+        UserSessionManager sessionManager = new UserSessionManager(this);
+        JsonStock jsonStock = new JsonStock(this);
+        String works = jsonStock.getWorks();
 
         ImageButton community = findViewById(R.id.communityButton);
         community.setOnClickListener(this::onClickAllJudgement);
@@ -69,7 +60,7 @@ public class CheckJudgementActivity extends AppCompatActivity {
         // Récupère les données de l'intent
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
-        userLogin = intent.getStringExtra("login");
+        String userLogin = intent.getStringExtra("login");
         id = intent.getIntExtra("idOeuvre", 0);
 
         TextView titleText = findViewById(R.id.titleText);
@@ -79,17 +70,17 @@ public class CheckJudgementActivity extends AppCompatActivity {
         String formattedText = getString(R.string.critiqueOfText, userLogin);
         pseudo.setText(formattedText);
 
-        fetchDataFromUrl(UrlReader.address + "?table=Avis&idOeuvre=" + String.valueOf(id) + "&login=" + userLogin);
+        fetchDataFromUrl("&table=Avis&idOeuvre=" + String.valueOf(id) + "&login=" + userLogin);
 
         try{
-            JSONArray jsonArray = new JSONArray(Works);
+            JSONArray jsonArray = new JSONArray(works);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 int idOeuvre = jsonObject.getInt("idOeuvre");
                 if (idOeuvre == id) {
-                    typeText.setText("Genre : " + jsonObject.getString("type").substring(0, 1).toUpperCase() + jsonObject.getString("type").substring(1));
-                    auteurText.setText("Auteur/Studio : " + jsonObject.getString("auteur_studio").substring(0, 1).toUpperCase() + jsonObject.getString("auteur_studio").substring(1));
-                    dateText.setText("Date : " + jsonObject.getString("dateSortie"));
+                    typeText.setText(String.format("Genre : %s", capitalizeFirstLetter(jsonObject.getString("type"))));
+                    auteurText.setText(String.format("Auteur/Studio : %s", capitalizeFirstLetter(jsonObject.getString("auteur_studio"))));
+                    dateText.setText(String.format("Date : %s", jsonObject.getString("dateSortie")));
                     break;
                 }
             }
@@ -108,6 +99,13 @@ public class CheckJudgementActivity extends AppCompatActivity {
 
     }
 
+    private String capitalizeFirstLetter(String input) {
+        if (input == null || input.isEmpty()) {
+            return input;
+        }
+        return input.substring(0, 1).toUpperCase() + input.substring(1);
+    }
+
     public void onClickAllJudgement(View view) {
         Intent intent2 = new Intent(this, AlljudgmentActivity.class);
         intent2.putExtra("title", title);
@@ -118,10 +116,10 @@ public class CheckJudgementActivity extends AppCompatActivity {
     }
 
     // Méthode pour récupérer les données depuis l'URL et mettre à jour la liste
-    private void fetchDataFromUrl(String url) {
+    private void fetchDataFromUrl(String options) {
         new Thread(() -> {
             // Ici, on appelle la méthode pour récupérer les données de l'URL
-            String result = new UrlReader().fetchData(url);
+            String result = new UrlReader().fetchData(options);
 
             // Mise à jour de l'interface (doit être effectué sur le thread principal)
             runOnUiThread(() -> {
@@ -143,7 +141,7 @@ public class CheckJudgementActivity extends AppCompatActivity {
             String note = jsonObject.getString("note");
             JudgementField.setText(texteAvis);
             TextView noteText = findViewById(R.id.noteText);
-            noteText.setText(note + "/5");
+            noteText.setText(String.format("%s/5", note));
         } catch (Exception e) {
             e.printStackTrace();
         }

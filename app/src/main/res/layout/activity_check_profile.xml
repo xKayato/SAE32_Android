@@ -26,8 +26,8 @@
 
     <TextView
         android:id="@+id/AccountOfText"
-        android:layout_width="316dp"
-        android:layout_height="32dp"
+        android:layout_width="344dp"
+        android:layout_height="27dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="15dp"
         android:text="@string/accountCommuText"

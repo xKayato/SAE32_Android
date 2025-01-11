@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,15 +30,10 @@ import fr.unice.jugementday.service.UserSessionManager;
 
 public class JudgementActivity extends AppCompatActivity {
 
-    private TextView CritiqueText;
-    private Button publishButton;
-    private Intent intent;
     private String title;
     private EditText JugementField;
-    private UrlReader urlReader;
     int note = 0;
     private UserSessionManager sessionManager;
-    private JsonStock jsonStock;
     private int id;
     private String judgements;
 
@@ -50,13 +44,25 @@ public class JudgementActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_judgement);
 
+
         sessionManager = new UserSessionManager(this);
+        String userLogin = sessionManager.getLogin();
+
+        // Vérifier si l'utilisateur est connecté
+        if (!sessionManager.isLoggedIn()) {
+            // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
+            Intent intent = new Intent(JudgementActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
+
 
         JugementField = findViewById(R.id.JudgementField);
 
-        jsonStock = new JsonStock(this);
+        JsonStock jsonStock = new JsonStock(this);
         String Works = jsonStock.getWorks();
         judgements = jsonStock.getJudged();
+
+
 
 
         ImageButton profileButton = findViewById(R.id.profileButton);
@@ -71,16 +77,35 @@ public class JudgementActivity extends AppCompatActivity {
         ImageButton community = findViewById(R.id.communityButton);
         community.setOnClickListener(this::onClickAllJudgement);
 
-        CritiqueText = findViewById(R.id.JudgementOfText);
-        intent = getIntent();
+        TextView critiqueText = findViewById(R.id.JudgementOfText);
+        Intent intent = getIntent();
         title= getIntent().getStringExtra("title");
         String critique = getString(R.string.critiqueText);
         String newTitle = critique.replace("oeuvre", title);
-        CritiqueText.setText(newTitle);
+        critiqueText.setText(newTitle);
         id = intent.getIntExtra("idOeuvre",0);
         TextView typeText = findViewById(R.id.typeText);
         TextView auteurText = findViewById(R.id.auteurText);
         TextView dateText = findViewById(R.id.dateText);
+
+        try{
+            JSONArray jsonArray = new JSONArray(judgements);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                int idOeuvre = jsonObject.getInt("idOeuvre");
+                if (idOeuvre == id) {
+                    Intent intent3 = new Intent(this, CheckJudgementActivity.class);
+                    intent3.putExtra("idOeuvre", idOeuvre);
+                    intent3.putExtra("title", title);
+                    intent3.putExtra("login", userLogin);
+                    startActivity(intent3);
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
 
@@ -102,10 +127,7 @@ public class JudgementActivity extends AppCompatActivity {
         }
 
 
-
-
-
-        publishButton = findViewById(R.id.publishButton);
+        Button publishButton = findViewById(R.id.publishButton);
 
         publishButton.setOnClickListener(this::onClickPublish);
 
@@ -130,21 +152,10 @@ public class JudgementActivity extends AppCompatActivity {
     public void onClickPublish(View view) {
         if(JugementField.getText().toString().length() <= 150) {
             try {
-            /*
-            JSONArray jsonArray = new JSONArray(judgements);
 
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                int idOeuvre = jsonObject.getInt("idOeuvre");
-                if (idOeuvre == id) {
-                    Toast.makeText(this, "Vous avez déjà donné votre avis sur cette oeuvre", Toast.LENGTH_LONG).show();
-                    Intent intent3 = new Intent(this, HomeActivity.class);
-                    startActivity(intent3);
-                    return;
-                }
-            }
 
-             */
+
+
                 UrlSend urlSend = new UrlSend();
                 String table = "Avis";
                 String[] options = {
@@ -165,13 +176,12 @@ public class JudgementActivity extends AppCompatActivity {
                         }
                     });
                 }).start();
-                Intent intent3 = new Intent(this, StartingActivity.class);
+                Intent intent3 = new Intent(this, LoadingActivity.class);
                 startActivity(intent3);
-                Toast.makeText(this, "Jugement ajouté !", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.addedJudgementText, Toast.LENGTH_LONG).show();
 
             } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(this, ""+e, Toast.LENGTH_LONG).show();
             }
         } else {
             Toast.makeText(this, R.string.maxCharJudgement, Toast.LENGTH_LONG).show();

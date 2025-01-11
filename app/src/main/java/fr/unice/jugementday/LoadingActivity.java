@@ -25,20 +25,19 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 
+import fr.unice.jugementday.service.Address;
 import fr.unice.jugementday.service.JsonStock;
 import fr.unice.jugementday.service.UrlReader;
 import fr.unice.jugementday.service.UserSessionManager;
 
-public class StartingActivity extends AppCompatActivity {
+public class LoadingActivity extends AppCompatActivity {
 
     private JsonStock jsonStock;
     private String userLogin;
     private UserSessionManager sessionManager;
     private UrlReader urlReader;
-    private ProgressBar progressBar;
     private TextView loadingStatus; // Déclaration du TextView
 
     @Override
@@ -46,18 +45,18 @@ public class StartingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
-        setContentView(R.layout.activity_starting);
+        setContentView(R.layout.activity_loading);
 
         jsonStock = new JsonStock(this);
         sessionManager = new UserSessionManager(this);
         urlReader = new UrlReader();
-        progressBar = findViewById(R.id.progressBar);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
         loadingStatus = findViewById(R.id.loadingStatus); // Initialisation du TextView
 
         if (sessionManager.isLoggedIn()) {
             userLogin = sessionManager.getLogin();
         } else {
-            Intent intent = new Intent(StartingActivity.this, LoginActivity.class);
+            Intent intent = new Intent(LoadingActivity.this, LoginActivity.class);
             startActivity(intent);
             return;
         }
@@ -67,10 +66,10 @@ public class StartingActivity extends AppCompatActivity {
         loadingStatus.setText("Téléchargement des données...");
 
         String[] urls = {
-                UrlReader.address + "?table=Oeuvre",
-                UrlReader.address + "?table=User&fields=login,acces",
-                UrlReader.address + "?table=User&fields=acces&login=" + userLogin,
-                UrlReader.address + "?table=Avis&fields=idOeuvre,nomOeuvre,type&login=" + userLogin
+                "&table=Oeuvre",
+                "&table=User&fields=login,acces",
+                "&table=User&fields=acces&login=" + userLogin,
+                "&table=Avis&fields=idOeuvre,nomOeuvre,type&login=" + userLogin
         };
 
         CountDownLatch latch = new CountDownLatch(urls.length);
@@ -93,13 +92,9 @@ public class StartingActivity extends AppCompatActivity {
             try {
                 latch.await();
                 // Mettre à jour l'état du chargement
-                runOnUiThread(() -> loadingStatus.setText("Téléchargement des images..."));
+                runOnUiThread(() -> loadingStatus.setText("Vérification des images..."));
 
                 downloadImages();
-                runOnUiThread(() -> {
-                    Intent intent = new Intent(StartingActivity.this, HomeActivity.class);
-                    startActivity(intent);
-                });
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -152,25 +147,29 @@ public class StartingActivity extends AppCompatActivity {
 
                     // Vérifier si l'image est déjà en cache
                     File imageFile = new File(cacheDir, idOeuvre + ".png");
-                    if (imageFile.exists()) {
-
-                        continue; // Passer à l'oeuvre suivante
-                    }
                     String nomOeuvre = work.getString("nomOeuvre");
-                    String imageUrl = "http://10.3.122.146/getphoto.php?title=" + URLEncoder.encode(nomOeuvre.replace(" ", "_"), "UTF-8");
-
-                    try (InputStream input = new URL(imageUrl).openStream()) {
-                        Bitmap bitmap = BitmapFactory.decodeStream(input);
-                        if (bitmap != null) {
-                            // Sauvegarder l'image dans le cache
-                            try (FileOutputStream fos = new FileOutputStream(imageFile)) {
-                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    if (!imageFile.exists()) {
+                        // Télécharger l'image
+                        String imageUrl = Address.getGetPhotoPage() + "&title=" + URLEncoder.encode(nomOeuvre.replace(" ", "_"), "UTF-8");
+                        try (InputStream input = new URL(imageUrl).openStream()) {
+                            Bitmap bitmap = BitmapFactory.decodeStream(input);
+                            if (bitmap != null) {
+                                runOnUiThread(() -> loadingStatus.setText("Téléchargement des images...\n" + nomOeuvre));
+                                try (FileOutputStream fos = new FileOutputStream(imageFile)) {
+                                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                                }
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } else{
+                        // Mettre à jour l'état du chargement (image déjà téléchargée dans le cache)
+                        runOnUiThread(() -> loadingStatus.setText("Vérification des images...\n" + nomOeuvre));
                     }
+
                 }
+                Intent intent = new Intent(LoadingActivity.this, HomeActivity.class);
+                startActivity(intent);
 
 
             } catch (JSONException | UnsupportedEncodingException e) {

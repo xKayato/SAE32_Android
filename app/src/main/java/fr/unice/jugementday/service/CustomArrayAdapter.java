@@ -11,7 +11,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,22 +26,20 @@ import java.util.List;
 
 import fr.unice.jugementday.CheckJudgementActivity;
 import fr.unice.jugementday.JudgementActivity;
-import fr.unice.jugementday.ListItem;
 import fr.unice.jugementday.R;
 
 public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
     private final String login;
-    private final JsonStock jsonStock;
 
     public CustomArrayAdapter(Context context, List<ListItem> items, String login) {
         super(context, 0, items);
         this.login = login;
-        this.jsonStock = new JsonStock(context);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
+            // Attribuer un layout personnalisé à la vue
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_items_home, parent, false);
         }
 
@@ -82,10 +79,10 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
             photoButton.setBackground(new BitmapDrawable(getContext().getResources(), bitmap));
         } else {
             // Définir un style par défaut si aucune image n'est trouvée
-            photoButton.setBackgroundColor(Color.GRAY);
+            photoButton.setBackground(new BitmapDrawable(getContext().getResources(), BitmapFactory.decodeResource(getContext().getResources(), android.R.drawable.ic_menu_report_image)));
         }
 
-        // Appliquer du texte avec un fond et un texte coloré
+        // Appliquer du texte avec un fond
         Spannable text = new SpannableString(title);
         text.setSpan(new ForegroundColorSpan(Color.WHITE), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         text.setSpan(new BackgroundColorSpan(Color.BLACK), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -132,10 +129,12 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
         // Déterminer l'activité à lancer
         switch (currentActivity) {
             case "ProfileActivity":
+                intent = new Intent(getContext(), JudgementActivity.class);
             case "CheckProfileActivity":
                 intent = new Intent(getContext(), CheckJudgementActivity.class);
                 break;
             case "HomeActivity":
+                intent = new Intent(getContext(), JudgementActivity.class);
             default:
                 intent = new Intent(getContext(), JudgementActivity.class);
                 break;

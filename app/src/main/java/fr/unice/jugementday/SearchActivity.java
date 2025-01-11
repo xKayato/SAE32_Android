@@ -34,7 +34,7 @@ public class SearchActivity extends AppCompatActivity {
     private final ArrayList<String> items = new ArrayList<>();
     private final List<HashMap<Integer, String>> oeuvresList = new ArrayList<>();
     private final List<String> personnesList = new ArrayList<>();
-    private List<Integer> randomOeuvresList = new ArrayList<>();
+    private final List<Integer> randomOeuvresList = new ArrayList<>();
     private final List<String> randomPersonneList = new ArrayList<>();
     private final List<Integer> selectedIndices = new ArrayList<>();
     private EditText searchField;
@@ -157,9 +157,9 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             if (Objects.equals(category, "Personne")) {
-                items.addAll(getRandomItems(personnesList, randomPersonneList, 10));
+                items.addAll(getRandomItems(personnesList, randomPersonneList, 30));
             } else if (Objects.equals(category, "Oeuvre")) {
-                for (int randomIndex : getRandomIndices(oeuvresList.size(), 10)) {
+                for (int randomIndex : getRandomIndices(oeuvresList.size(), 30)) {
                     randomOeuvresList.add(getIdByIndex(randomIndex));
                     items.add(getTitleByIndex(randomIndex));
                 }
@@ -206,7 +206,7 @@ public class SearchActivity extends AppCompatActivity {
                 return oeuvre.keySet().iterator().next();
             }
         }
-        return -1; // ID not found
+        return -1; // Si l'œuvre n'est pas trouvée
     }
 
     private void performSearch(String query) {

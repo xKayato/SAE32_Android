@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +20,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.SearchCustomArrayAdapter;
@@ -29,14 +29,10 @@ import fr.unice.jugementday.service.UrlReader;
 public class AlljudgmentActivity extends AppCompatActivity {
 
     private ArrayAdapter<String> myAdapter;
-    private TextView CritiqueText;
-    private Intent intent;
-    private String title;
-    private ArrayList<String> items = new ArrayList<>();
-    private List<String> oeuvresList = new ArrayList<>();
+    private final ArrayList<String> items = new ArrayList<>();
+    private final List<String> oeuvresList = new ArrayList<>();
     private float notes = 0;
     private int nb = 0;
-    private int id;
     private TextView noteText;
 
     @Override
@@ -45,25 +41,21 @@ public class AlljudgmentActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_alljudgment);
 
-        CritiqueText = findViewById(R.id.critiqueText);
-        intent = getIntent();
-        id = intent.getIntExtra("idOeuvre", 0);
-        title = getIntent().getStringExtra("title");
+        TextView critiqueText = findViewById(R.id.critiqueText);
+        Intent intent = getIntent();
+        int id = intent.getIntExtra("idOeuvre", 0);
+        String title = getIntent().getStringExtra("title");
         String newTitle = getString(R.string.critiqueOfText, title);
-        CritiqueText.setText(newTitle);
+        critiqueText.setText(newTitle);
         noteText = findViewById(R.id.noteText);
-
-
         myAdapter = new SearchCustomArrayAdapter(this, items);
         ListView judgementsList = findViewById(R.id.allJudgementList);
         judgementsList.setAdapter(myAdapter);
 
+        // Appel de la méthode pour récupérer les données depuis l'URL
+        fetchDataFromUrl("&table=Avis&fields=texteAvis,login,note&idOeuvre=" + id);
 
-
-        fetchDataFromUrl(UrlReader.address + "?table=Avis&fields=texteAvis,login,note&idOeuvre=" + String.valueOf(id));
-
-
-
+        // Gestion des boutons du menu
         ImageButton profileButton = findViewById(R.id.profileButton);
         profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
 
@@ -81,10 +73,10 @@ public class AlljudgmentActivity extends AppCompatActivity {
     }
 
     // Méthode pour récupérer les données depuis l'URL et mettre à jour la liste
-    private void fetchDataFromUrl(String url) {
+    private void fetchDataFromUrl(String options) {
         new Thread(() -> {
             // Ici, on appelle la méthode pour récupérer les données de l'URL
-            String result = new UrlReader().fetchData(url);
+            String result = new UrlReader().fetchData(options);
 
             // Mise à jour de l'interface (doit être effectué sur le thread principal)
             runOnUiThread(() -> {
@@ -102,9 +94,6 @@ public class AlljudgmentActivity extends AppCompatActivity {
         try {
             JSONArray jsonArray = new JSONArray(jsonData);
 
-            // Liste temporaire pour stocker les nouveaux items
-            List<String> updatedItems = new ArrayList<>();
-
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String texteAvis = HtmlCompat.fromHtml(jsonObject.getString("texteAvis"), HtmlCompat.FROM_HTML_MODE_LEGACY).toString(); // Pour contrer le htmlspecialchars
@@ -116,30 +105,24 @@ public class AlljudgmentActivity extends AppCompatActivity {
                 float noteTot = notes/nb;
 
                 if (noteTot % 1 == 0) {
-                    noteText.setText((int) noteTot + "/5");
+                    noteText.setText(String.format(Locale.getDefault(), "%.0f/5", noteTot));
                 } else {
-                    noteText.setText(String.format("%.2f", noteTot) + "/5");
+                    noteText.setText(String.format(Locale.getDefault(), "%.2f/5", noteTot));
                 }
 
                 oeuvresList.add(pseudo + " (" + note + "/5) : " + texteAvis);
             }
 
-            // Ajouter les œuvres dans la liste principale
-            updatedItems.addAll(oeuvresList);
-
-
-
-
             // Mise à jour de la liste des éléments
             items.clear();
-            items.addAll(updatedItems);
+            items.addAll(oeuvresList);
 
             // Mise à jour de l'adaptateur
             myAdapter.notifyDataSetChanged();
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Erreur lors de l'analyse des données", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
         }
     }
 }

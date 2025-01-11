@@ -23,7 +23,7 @@ import fr.unice.jugementday.service.UrlDelete;
 import fr.unice.jugementday.service.UrlUpdate;
 import fr.unice.jugementday.service.UserSessionManager;
 
-public class activitySettingsAccount extends AppCompatActivity {
+public class AccountSettingsActivity extends AppCompatActivity {
 
     private UserSessionManager sessionManager;
     private EditText newLogin;
@@ -33,7 +33,6 @@ public class activitySettingsAccount extends AppCompatActivity {
     private EditText oldPassword;
     private EditText newPassword;
     private String peoplesJson;
-    private Button deleteAccountButton;
     private Button confirmDeleteButton;
     private Button cancelDeleteButton;
     private TextView deleteAccountConfirmText;
@@ -73,7 +72,7 @@ public class activitySettingsAccount extends AppCompatActivity {
         deleteAccountConfirmText = findViewById(R.id.confirmDeleteAccountText);
         deleteAccountView = findViewById(R.id.deleteAccountView);
 
-        deleteAccountButton = findViewById(R.id.deleteAccountButton);
+        Button deleteAccountButton = findViewById(R.id.deleteAccountButton);
 
         deleteAccountButton.setOnClickListener(v -> { askDeleteAccount();});
 
@@ -120,12 +119,12 @@ public class activitySettingsAccount extends AppCompatActivity {
             for (int i = 0; i < jsonArray.length(); i++) {
                 String login = jsonArray.getJSONObject(i).getString("login");
                 if (login.equalsIgnoreCase(newLoginText)) {
-                    Toast.makeText(this, "Ce login est déjà utilisé", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.login_already_exists_error,Toast.LENGTH_LONG).show();
                     return;
                 }
             }
         } catch (Exception e){
-            Toast.makeText(this, "Erreur lors de la modification du login", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.loginError, Toast.LENGTH_LONG).show();
         }
 
 
@@ -141,10 +140,11 @@ public class activitySettingsAccount extends AppCompatActivity {
             String response = urlUpdate.updateData(table, options);
             runOnUiThread(() -> {
                 if (response.startsWith("Erreur")) {
+                    Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
+
                 } else {
                     sessionManager.setLogin(newLoginText);
-                    Intent intent = new Intent(activitySettingsAccount.this, StartingActivity.class);
-                    startActivity(intent);
+                    Toast.makeText(this, R.string.changePseudoSuccessText, Toast.LENGTH_LONG).show();
 
                 }
             });
@@ -159,14 +159,9 @@ public class activitySettingsAccount extends AppCompatActivity {
         new Thread(() -> {
             String response = urlUpdate.updateData(table2, options2);
             runOnUiThread(() -> {
-                if (response.startsWith("Erreur")) {
-                    Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(this, R.string.changePseudoSuccessText, Toast.LENGTH_LONG).show();
-                    sessionManager.setLogin(newLoginText);
-                    Intent intent = new Intent(activitySettingsAccount.this, StartingActivity.class);
+                if (!response.startsWith("Erreur")) {
+                    Intent intent = new Intent(AccountSettingsActivity.this, LoadingActivity.class);
                     startActivity(intent);
-
                 }
             });
         }).start();
@@ -210,14 +205,14 @@ public class activitySettingsAccount extends AppCompatActivity {
                             Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(this, R.string.changePasswordSuccessText, Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(activitySettingsAccount.this, StartingActivity.class);
+                            Intent intent = new Intent(AccountSettingsActivity.this, LoadingActivity.class);
                             startActivity(intent);
 
                         }
                     });
                 }).start();
             } else {
-                Toast.makeText(this, "Mauvais mot de passe.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.passwordError, Toast.LENGTH_LONG).show();
 
             }
 
@@ -229,7 +224,6 @@ public class activitySettingsAccount extends AppCompatActivity {
         cancelDeleteButton.setVisibility(View.VISIBLE);
         deleteAccountConfirmText.setVisibility(View.VISIBLE);
         deleteAccountView.setVisibility(View.VISIBLE);
-
         confirmDeleteButton.setOnClickListener(v -> { deleteAccount();});
         cancelDeleteButton.setOnClickListener(v -> { cancelDeleteAccount();});
 
@@ -256,7 +250,7 @@ public class activitySettingsAccount extends AppCompatActivity {
                 } else {
                     sessionManager.logout();
                     Toast.makeText(this, R.string.deleteAccountSuccessText, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(activitySettingsAccount.this, LoginActivity.class);
+                    Intent intent = new Intent(AccountSettingsActivity.this, LoginActivity.class);
                     startActivity(intent);
 
                 }
@@ -270,7 +264,7 @@ public class activitySettingsAccount extends AppCompatActivity {
         // Supprimer les données de session
         sessionManager.logout();
         // Rediriger vers la page de connexion
-        Intent intent = new Intent(activitySettingsAccount.this, LoginActivity.class);
+        Intent intent = new Intent(AccountSettingsActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 }

@@ -7,7 +7,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import fr.unice.jugementday.service.ListItem;
 import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.CustomArrayAdapter;
 import fr.unice.jugementday.service.JsonStock;
@@ -174,7 +174,7 @@ public class ProfileActivity extends AppCompatActivity {
         List<String> types = new ArrayList<>();
         try {
             UrlReader urlReader = new UrlReader();
-            String result = urlReader.fetchData(UrlReader.address + "?table=Type");
+            String result = urlReader.fetchData("&table=Type");
             if (!(result.contains("Erreur") || result.contains("Aucune"))) {
                 JSONArray jsonArray = new JSONArray(result);
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -195,7 +195,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void onSettingClick(View v) {
-        Intent i = new Intent(this, activitySettingsAccount.class);
+        Intent i = new Intent(this, AccountSettingsActivity.class);
         i.putExtra("title", "Settings");
         startActivity(i);
     }

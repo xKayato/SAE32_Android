@@ -59,6 +59,7 @@
         android:background="@drawable/rounded_button"
         android:backgroundTint="@color/secondary_button"
         android:contextClickable="false"
+        android:contentDescription="@string/searchButtonDescription"
         app:layout_constraintBottom_toTopOf="@+id/PeopleButtonSearch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/searchField"

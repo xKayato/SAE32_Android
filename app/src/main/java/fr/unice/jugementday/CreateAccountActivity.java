@@ -17,12 +17,10 @@ import fr.unice.jugementday.service.UserSessionManager;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
-    private Button registerButton;
     private EditText loginField;
     private EditText passwordField;
     private EditText passwordFieldConfirm;
     private UserSessionManager sessionManager;
-    private JsonStock jsonStock;
     private String People;
 
     @Override
@@ -37,10 +35,10 @@ public class CreateAccountActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        jsonStock = new JsonStock(this);
+        JsonStock jsonStock = new JsonStock(this);
         People = jsonStock.getPeople();
 
-        registerButton = findViewById(R.id.registerButton);
+        Button registerButton = findViewById(R.id.registerButton);
         loginField = findViewById(R.id.loginFieldButton);
         passwordField = findViewById(R.id.passwordFieldButton);
         passwordFieldConfirm = findViewById(R.id.passwordFieldConfirmButton);
@@ -60,7 +58,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String loginPeople = jsonObject.getString("login");
-                if (loginPeople.toLowerCase().equals(loginText.toLowerCase())) {
+                if (loginPeople.equalsIgnoreCase(loginText)) {
                     Toast.makeText(this, getString(R.string.login_already_exists_error), Toast.LENGTH_SHORT).show();
                     // Vider les champs
                     loginField.setText("");
@@ -126,7 +124,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                                 } else {
                                     sessionManager.setLogin(loginText);
                                     sessionManager.setPassword(hashedPassword);
-                                    Intent intent = new Intent(this, StartingActivity.class);
+                                    Intent intent = new Intent(this, LoadingActivity.class);
                                     startActivity(intent);
                                 }
                             });

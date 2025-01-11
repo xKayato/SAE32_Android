@@ -9,8 +9,6 @@ import java.net.URLEncoder;
 
 public class UrlDelete {
 
-    private static final String PASSID = "SalutJeSuisUnMotDePassePourDelete";  // Le passid constant
-    private static final String address = "http://10.3.122.146/deletedata.php";
 
     public String deleteData(String table, String... options) {
         StringBuilder result = new StringBuilder();
@@ -20,7 +18,6 @@ public class UrlDelete {
             // Construire l'URL avec les paramètres
             StringBuilder params = new StringBuilder();
             params.append("table=").append(URLEncoder.encode(table, "UTF-8"));
-            params.append("&passid=").append(URLEncoder.encode(PASSID, "UTF-8"));  // Ajout du passid
 
             // Ajouter les options dynamiques
             for (String option : options) {
@@ -28,7 +25,7 @@ public class UrlDelete {
             }
 
             // Construire l'URL finale
-            String finalUrl = address + "?" + params.toString();
+            String finalUrl = Address.getDeletePage() + "&" + params.toString();
             URL url = new URL(finalUrl);
 
             // Connexion HTTP

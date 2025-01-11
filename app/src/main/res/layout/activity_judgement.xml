@@ -215,8 +215,9 @@
     <ImageButton
         android:id="@+id/communityButton"
         android:layout_width="60dp"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:backgroundTint="#00FFFFFF"
+        android:contentDescription="@string/communityButtonDescription"
         app:layout_constraintBottom_toTopOf="@+id/hbhv3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.985"
