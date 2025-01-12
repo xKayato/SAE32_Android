@@ -20,40 +20,76 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import fr.unice.jugementday.service.ListItem;
 import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.CustomArrayAdapter;
 import fr.unice.jugementday.service.UrlReader;
+import fr.unice.jugementday.service.UserSessionManager;
 
 public class CheckProfileActivity extends AppCompatActivity {
 
     private CustomArrayAdapter adapter;
-    private final List<ListItem> items = new ArrayList<>();
+    private final List<ListItem> items = new ArrayList<>(); // Liste pour contenir les éléments à afficher
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_check_profile);
+        EdgeToEdge.enable(this);  // Permet l'affichage complet (plein écran)
+        setContentView(R.layout.activity_check_profile);  // Charge le layout
 
+        // Vérification de la session utilisateur
+        checkUserSession();
+
+        // Initialisation des éléments de l'interface utilisateur
         TextView pseudo = findViewById(R.id.AccountOfText);
-
         ListView listView = findViewById(R.id.allJudgementList);
 
-
-
-
-
+        // Récupération des informations de l'intent
         Intent intent = getIntent();
         String username = intent.getStringExtra("login");
 
-        // Initialisation de l'adaptateur pour la liste
+        // Configuration de l'adaptateur pour la ListView
         adapter = new CustomArrayAdapter(this, items, username);
         listView.setAdapter(adapter);
 
+        // Mise à jour du texte pour afficher le pseudo de l'utilisateur
         pseudo.setText(getString(R.string.accountCommuText, username));
 
+        setupMenuButtons();
+
+        // Récupération des données à partir de l'URL
+        String options = "&table=Avis&fields=nomOeuvre,idOeuvre&login=" + username;
+        fetchDataFromUrl(options);
+
+        // Gestion des fenêtres et des barres système
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+
+    /**
+     * Vérifie si l'utilisateur est connecté, sinon le redirige vers la page de connexion.
+     */
+    private void checkUserSession() {
+        UserSessionManager sessionManager = new UserSessionManager(this);
+        if (!sessionManager.isLoggedIn()) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private void showToast(int messageId) {
+        Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Configure les boutons de navigation du menu.
+     */
+    private void setupMenuButtons() {
         ImageButton profileButton = findViewById(R.id.profileButton);
         profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
 
@@ -62,28 +98,18 @@ public class CheckProfileActivity extends AppCompatActivity {
 
         ImageButton searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
-
-        String options = "&table=Avis&fields=nomOeuvre,idOeuvre&login=" + username;
-        fetchDataFromUrl(options);
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
     }
 
-
-    // Méthode pour récupérer les données depuis l'URL et mettre à jour la liste
+    /**
+     * Récupère les données depuis l'URL et met à jour la liste.
+     */
     private void fetchDataFromUrl(String url) {
         new Thread(() -> {
-            // Ici, on appelle la méthode pour récupérer les données de l'URL
             String result = new UrlReader().fetchData(url);
 
-            // Mise à jour de l'interface (doit être effectué sur le thread principal)
             runOnUiThread(() -> {
                 if (result.startsWith("Erreur")) {
-                    Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
+                    showToast(R.string.errorText);
                 } else {
                     parseAndUpdateData(result);
                 }
@@ -91,6 +117,9 @@ public class CheckProfileActivity extends AppCompatActivity {
         }).start();
     }
 
+    /**
+     * Analyse les données JSON et met à jour la liste d'affichage.
+     */
     private void parseAndUpdateData(String jsonData) {
         try {
             JSONArray jsonArray = new JSONArray(jsonData);
@@ -104,12 +133,12 @@ public class CheckProfileActivity extends AppCompatActivity {
                 oeuvresParType.put(type, new ArrayList<>());
             }
 
-            // Liste principale et liste pour les œuvres aléatoires
+            // Listes pour les œuvres (toutes et aléatoires)
             List<HashMap<String, Integer>> oeuvresList = new ArrayList<>();
             List<HashMap<String, Integer>> randomOeuvresList = new ArrayList<>();
             List<Integer> selectedIndices = new ArrayList<>();
 
-            // Parsing des données
+            // Parsing des œuvres
             for (int i = jsonArray.length() - 1; i >= 0; i--) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String nomOeuvre = jsonObject.getString("nomOeuvre");
@@ -117,14 +146,14 @@ public class CheckProfileActivity extends AppCompatActivity {
                 String type = jsonObject.getString("type");
                 HashMap<String, Integer> oeuvreMap = createHashMap(nomOeuvre, idOeuvre);
 
-                // Ajout dans la liste du type approprié
+                // Ajout dans la liste correspondante selon le type
                 if (oeuvresParType.containsKey(type)) {
-                    oeuvresParType.get(type).add(oeuvreMap);
+                    Objects.requireNonNull(oeuvresParType.get(type)).add(oeuvreMap);
                 }
                 oeuvresList.add(oeuvreMap);
             }
 
-            // Sélection aléatoire de 10 œuvres
+            // Sélection de 10 œuvres aléatoires
             while (randomOeuvresList.size() < 10 && selectedIndices.size() < oeuvresList.size()) {
                 int randomIndex = (int) (Math.random() * oeuvresList.size());
                 if (!selectedIndices.contains(randomIndex)) {
@@ -133,7 +162,7 @@ public class CheckProfileActivity extends AppCompatActivity {
                 }
             }
 
-            // Mise à jour des sections dynamiques (si un type est rajouté, il sera affiché)
+            // Mise à jour des sections d'affichage
             List<ListItem> updatedItems = new ArrayList<>();
             if (!oeuvresList.isEmpty()) {
                 updatedItems.add(new ListItem(getString(R.string.lastRealeseText) + " (" + oeuvresList.size() + ")", oeuvresList));
@@ -158,7 +187,9 @@ public class CheckProfileActivity extends AppCompatActivity {
         }
     }
 
-    // Méthode pour récupérer les types dynamiques depuis le serveur
+    /**
+     * Récupère la liste des types d'œuvres depuis le serveur.
+     */
     private List<String> fetchTypesFromServer() {
         List<String> types = new ArrayList<>();
         try {
@@ -177,10 +208,12 @@ public class CheckProfileActivity extends AppCompatActivity {
         return types;
     }
 
+    /**
+     * Crée un HashMap avec le nom de l'œuvre et son ID.
+     */
     private HashMap<String, Integer> createHashMap(String key, Integer value) {
         HashMap<String, Integer> map = new HashMap<>();
-        map.put(key, value); // La valeur est l'image par défaut ici
+        map.put(key, value);
         return map;
     }
-
 }

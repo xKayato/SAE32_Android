@@ -66,7 +66,7 @@ public class LoadingActivity extends AppCompatActivity {
         loadingStatus.setText("Téléchargement des données...");
 
         String[] urls = {
-                "&table=Oeuvre",
+                "&table=Oeuvre&actif=1",
                 "&table=User&fields=login,acces",
                 "&table=User&fields=acces&login=" + userLogin,
                 "&table=Avis&fields=idOeuvre,nomOeuvre,type&login=" + userLogin
@@ -79,7 +79,7 @@ public class LoadingActivity extends AppCompatActivity {
                 String result = urlReader.fetchData(url);
                 runOnUiThread(() -> {
                     if (result.startsWith("Erreur")) {
-                        Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
+                        showToast(R.string.errorText);
                     } else {
                         processResult(url, result);
                     }
@@ -107,7 +107,19 @@ public class LoadingActivity extends AppCompatActivity {
         });
     }
 
-    // Une fois les données récupérées, les traiter et les stocker dans JsonStock (Si vide, stocker "[]")
+    /**
+     * Affiche un message toast.
+     * @param messageId ID du message
+     */
+    private void showToast(int messageId) {
+        Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Traite les résultats des requêtes.
+     * @param url URL de la requête
+     * @param result Résultat de la requête
+     */
     private void processResult(String url, String result) {
         try {
             if (url.contains("table=Oeuvre")) {
@@ -128,7 +140,9 @@ public class LoadingActivity extends AppCompatActivity {
         }
     }
 
-    // Télécharger les images des œuvres
+    /**
+     * Télécharge les images des œuvres depuis le serveur.
+     */
     private void downloadImages() {
         new Thread(() -> {
             try {

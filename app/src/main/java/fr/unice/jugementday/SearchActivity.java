@@ -27,6 +27,7 @@ import fr.unice.jugementday.service.CustomArrayAdapter;
 import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.JsonStock;
 import fr.unice.jugementday.service.SearchCustomArrayAdapter;
+import fr.unice.jugementday.service.UserSessionManager;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -47,6 +48,13 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_search);
+
+        UserSessionManager sessionManager = new UserSessionManager(this);
+        if (!sessionManager.isLoggedIn()) {
+            // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
 
         ImageButton profileButton = findViewById(R.id.profileButton);
         profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
@@ -104,6 +112,10 @@ public class SearchActivity extends AppCompatActivity {
         findViewById(R.id.PeopleButtonSearch).setOnClickListener(v -> changeCategoryToPersonne());
     }
 
+
+    /**
+     * Changer la catégorie de recherche en "Oeuvre".
+     */
     private void changeCategoryToOeuvre() {
         category = "Oeuvre";
         randomOeuvresList.clear();
@@ -118,6 +130,10 @@ public class SearchActivity extends AppCompatActivity {
         titleButton.setTextColor(getResources().getColor(R.color.black));
     }
 
+
+    /**
+     * Changer la catégorie de recherche en "Personne".
+     */
     private void changeCategoryToPersonne() {
         category = "Personne";
         personnesList.clear();
@@ -133,6 +149,11 @@ public class SearchActivity extends AppCompatActivity {
         titleButton.setTextColor(getResources().getColor(R.color.white));
     }
 
+
+    /**
+     * Analyser les données JSON et mettre à jour la liste d'affichage.
+     * @param jsonData Données JSON contenant les informations des œuvres ou des personnes.
+     */
     private void parseAndUpdateData(String jsonData) {
         try {
             JSONArray jsonArray = new JSONArray(jsonData);
@@ -169,10 +190,16 @@ public class SearchActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
+
+    /**
+     * Obtenir une liste d'indices aléatoires.
+     * @param size Taille de la liste source
+     * @param limit Limite de la liste aléatoire
+     * @return
+     */
     private List<Integer> getRandomIndices(int size, int limit) {
         List<Integer> indices = new ArrayList<>();
         while (indices.size() < limit && selectedIndices.size() < size) {
@@ -185,12 +212,20 @@ public class SearchActivity extends AppCompatActivity {
         return indices;
     }
 
+    /**
+     * Obtenir une liste d'éléments aléatoires.
+     * @param sourceList Liste source
+     * @param targetList Liste cible
+     * @param limit Limite de la liste aléatoire
+     * @return
+     */
     private List<String> getRandomItems(List<String> sourceList, List<String> targetList, int limit) {
         for (int randomIndex : getRandomIndices(sourceList.size(), limit)) {
             targetList.add(sourceList.get(randomIndex));
         }
         return targetList;
     }
+
 
     private int getIdByIndex(int index) {
         return oeuvresList.get(index).keySet().iterator().next();
@@ -209,6 +244,10 @@ public class SearchActivity extends AppCompatActivity {
         return -1; // Si l'œuvre n'est pas trouvée
     }
 
+    /**
+     * Effectuer une recherche dans la liste d'œuvres ou de personnes.
+     * @param query
+     */
     private void performSearch(String query) {
         List<String> searchResults = new ArrayList<>();
         String lowerCaseQuery = query.toLowerCase();
@@ -239,7 +278,11 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Ouvrir l'activité de détail d'une œuvre.
+     * @param title Titre de l'œuvre
+     * @param id ID de l'œuvre
+     */
     private void openDetailActivityOeuvre(String title, int id) {
         Intent intent = new Intent(SearchActivity.this, JudgementActivity.class);
         intent.putExtra("title", title.split("\\[")[0]);
@@ -247,6 +290,10 @@ public class SearchActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Ouvrir l'activité de détail d'une personne.
+     * @param login Login de la personne
+     */
     private void openDetailActivityPeople(String login) {
         Intent intent = new Intent(SearchActivity.this, CheckProfileActivity.class);
         intent.putExtra("login", login);

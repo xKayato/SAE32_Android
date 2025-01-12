@@ -35,7 +35,6 @@ public class JudgementActivity extends AppCompatActivity {
     int note = 0;
     private UserSessionManager sessionManager;
     private int id;
-    private String judgements;
 
 
     @Override
@@ -44,35 +43,23 @@ public class JudgementActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_judgement);
 
-
         sessionManager = new UserSessionManager(this);
         String userLogin = sessionManager.getLogin();
 
-        // Vérifier si l'utilisateur est connecté
-        if (!sessionManager.isLoggedIn()) {
-            // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
-            Intent intent = new Intent(JudgementActivity.this, LoginActivity.class);
-            startActivity(intent);
-        }
+        checkUserSession();
 
 
         JugementField = findViewById(R.id.JudgementField);
 
         JsonStock jsonStock = new JsonStock(this);
         String Works = jsonStock.getWorks();
-        judgements = jsonStock.getJudged();
+        String judgements = jsonStock.getJudged();
 
+        Button publishButton = findViewById(R.id.publishButton);
 
+        publishButton.setOnClickListener(this::onClickPublish);
 
-
-        ImageButton profileButton = findViewById(R.id.profileButton);
-        profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
-
-        ImageButton homeButton = findViewById(R.id.homeButton);
-        homeButton.setOnClickListener(v -> MenuButtons.homeClick(this));
-
-        ImageButton searchButton = findViewById(R.id.searchButton);
-        searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
+        setupMenuButtons();
 
         ImageButton community = findViewById(R.id.communityButton);
         community.setOnClickListener(this::onClickAllJudgement);
@@ -106,9 +93,6 @@ public class JudgementActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
         try{
             JSONArray jsonArray = new JSONArray(Works);
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -127,9 +111,7 @@ public class JudgementActivity extends AppCompatActivity {
         }
 
 
-        Button publishButton = findViewById(R.id.publishButton);
 
-        publishButton.setOnClickListener(this::onClickPublish);
 
 
         onClickStarJudge();
@@ -140,6 +122,36 @@ public class JudgementActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Vérifie si l'utilisateur est connecté et le redirige si nécessaire.
+     */
+    private void checkUserSession() {
+        UserSessionManager sessionManager = new UserSessionManager(this);
+        if (!sessionManager.isLoggedIn()) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    /**
+     * Configure les boutons de navigation.
+     */
+    private void setupMenuButtons() {
+        ImageButton profileButton = findViewById(R.id.profileButton);
+        profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
+
+        ImageButton homeButton = findViewById(R.id.homeButton);
+        homeButton.setOnClickListener(v -> MenuButtons.homeClick(this));
+
+        ImageButton searchButton = findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
+    }
+
+    /**
+     * Rediriger vers la page de tous les avis
+     * @param view Vue actuelle
+     */
     public void onClickAllJudgement(View view) {
         Intent intent2 = new Intent(this, AlljudgmentActivity.class);
         intent2.putExtra("title", title);
@@ -149,13 +161,21 @@ public class JudgementActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Afficher un message toast
+     * @param messageId ID du message
+     */
+    private void showToast(int messageId) {
+        Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Ajouter un avis sur une œuvre
+     * @param view
+     */
     public void onClickPublish(View view) {
         if(JugementField.getText().toString().length() <= 150) {
             try {
-
-
-
-
                 UrlSend urlSend = new UrlSend();
                 String table = "Avis";
                 String[] options = {
@@ -172,27 +192,25 @@ public class JudgementActivity extends AppCompatActivity {
 
                     runOnUiThread(() -> {
                         if (response.startsWith("Erreur")) {
-                            Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
+                            showToast(R.string.errorText);
                         }
                     });
                 }).start();
                 Intent intent3 = new Intent(this, LoadingActivity.class);
                 startActivity(intent3);
-                Toast.makeText(this, R.string.addedJudgementText, Toast.LENGTH_LONG).show();
+                showToast(R.string.addedJudgementText);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
-            Toast.makeText(this, R.string.maxCharJudgement, Toast.LENGTH_LONG).show();
+            showToast(R.string.maxCharJudgement);
         }
-
-
-
-
-
     }
 
+    /**
+     * Gestion des étoiles de notation
+     */
     public void onClickStarJudge() {
         // Récupérer les boutons
         ImageButton starButton1 = findViewById(R.id.ratingStar1Button);

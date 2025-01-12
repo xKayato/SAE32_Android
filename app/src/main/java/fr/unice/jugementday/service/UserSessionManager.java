@@ -1,5 +1,6 @@
 package fr.unice.jugementday.service;
 
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -66,5 +67,6 @@ public class UserSessionManager {
         editor.remove(KEY_LOGIN);  // Supprimer le login
         editor.apply();  // Appliquer les changements
     }
+
 
 }

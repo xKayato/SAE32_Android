@@ -38,59 +38,84 @@ public class AccountSettingsActivity extends AppCompatActivity {
     private TextView deleteAccountConfirmText;
     private View deleteAccountView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_settings_account);
-        sessionManager = new UserSessionManager(this);
 
+        initializeServices();
+        checkUserLogin();
+
+        setupUIComponents();
+        configureNavigationButtons();
+        configureWindowInsets();
+    }
+
+    private void initializeServices() {
         urlUpdate = new UrlUpdate();
         urlDelete = new UrlDelete();
-
+        sessionManager = new UserSessionManager(this);
         login = sessionManager.getLogin();
+        JsonStock jsonStock = new JsonStock(this);
+        peoplesJson = jsonStock.getPeople();
+    }
 
-        ImageButton disconnectButton = findViewById(R.id.disconnectButton);
-        disconnectButton.setOnClickListener(v -> { disconnectUser();});
+    private void checkUserLogin() {
+        if (!sessionManager.isLoggedIn()) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
+    }
 
+    private void setupUIComponents() {
         newLogin = findViewById(R.id.usernameFieldButton);
-        Button changeLoginButton = findViewById(R.id.changeUsernameButton);
-        changeLoginButton.setOnClickListener(v -> { changeLogin();});
-
         oldPassword = findViewById(R.id.oldPasswordFieldButton);
-
         newPassword = findViewById(R.id.newPasswordFieldButton);
 
+        setupChangeLoginButton();
+        setupChangePasswordButton();
+        setupDeleteAccountButtons();
+        setupDisconnectButton();
+    }
 
+    private void setupChangeLoginButton() {
+        Button changeLoginButton = findViewById(R.id.changeUsernameButton);
+        changeLoginButton.setOnClickListener(v -> changeLogin());
+    }
+
+    private void setupChangePasswordButton() {
         Button changePasswordButton = findViewById(R.id.changePasswordButton);
+        changePasswordButton.setOnClickListener(v -> changePassword());
+    }
 
-        changePasswordButton.setOnClickListener(v -> { changePassword();});
-
+    private void setupDeleteAccountButtons() {
         confirmDeleteButton = findViewById(R.id.confirmDeleteAccountButton);
         cancelDeleteButton = findViewById(R.id.cancelDeleteAccountButton);
         deleteAccountConfirmText = findViewById(R.id.confirmDeleteAccountText);
         deleteAccountView = findViewById(R.id.deleteAccountView);
 
         Button deleteAccountButton = findViewById(R.id.deleteAccountButton);
+        deleteAccountButton.setOnClickListener(v -> askDeleteAccount());
+    }
 
-        deleteAccountButton.setOnClickListener(v -> { askDeleteAccount();});
+    private void setupDisconnectButton() {
+        ImageButton disconnectButton = findViewById(R.id.disconnectButton);
+        disconnectButton.setOnClickListener(v -> disconnectUser());
+    }
 
-        JsonStock jsonStock = new JsonStock(this);
-        peoplesJson = jsonStock.getPeople();
-
-
-
-        // Bouton pour aller sur la page profile
+    private void configureNavigationButtons() {
         ImageButton profileButton = findViewById(R.id.profileButton);
         profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
-        // Bouton pour aller sur la page Accueil
+
         ImageButton homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(v -> MenuButtons.homeClick(this));
-        // Bouton pour aller sur la page Rechercher
+
         ImageButton searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
+    }
 
+    private void configureWindowInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -99,65 +124,68 @@ public class AccountSettingsActivity extends AppCompatActivity {
     }
 
     private void changeLogin() {
-
         String newLoginText = newLogin.getText().toString();
+        if (!isValidLogin(newLoginText)) return;
 
+        if (isLoginAlreadyExists(newLoginText)) return;
+
+        updateLogin(newLoginText);
+    }
+
+    private boolean isValidLogin(String newLoginText) {
         if (!newLoginText.matches("^[a-zA-Z0-9]+$")) {
-            Toast.makeText(this, getString(R.string.invalid_login_error), Toast.LENGTH_SHORT).show();
-            return;
+            showToast(R.string.invalid_login_error);
+            return false;
         }
 
         if (newLoginText.length() >= 20) {
-            Toast.makeText(this, getString(R.string.login_too_long_error), Toast.LENGTH_SHORT).show();
-            return;
+            showToast(R.string.login_too_long_error);
+            return false;
         }
+        return true;
+    }
 
-        try{
+    private boolean isLoginAlreadyExists(String newLoginText) {
+        try {
             JSONArray jsonArray = new JSONArray(peoplesJson);
-
-            // Vérifier si le login existe déjà
             for (int i = 0; i < jsonArray.length(); i++) {
-                String login = jsonArray.getJSONObject(i).getString("login");
-                if (login.equalsIgnoreCase(newLoginText)) {
-                    Toast.makeText(this, R.string.login_already_exists_error,Toast.LENGTH_LONG).show();
-                    return;
+                String existingLogin = jsonArray.getJSONObject(i).getString("login");
+                if (existingLogin.equalsIgnoreCase(newLoginText)) {
+                    showToast(R.string.login_already_exists_error);
+                    return true;
                 }
             }
-        } catch (Exception e){
-            Toast.makeText(this, R.string.loginError, Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            showToast(R.string.loginError);
         }
+        return false;
+    }
 
-
-
+    private void updateLogin(String newLoginText) {
         String table = "User";
-        String[] options = {
-                "login=" + login,
-                "newlogin=" + newLoginText
-        };
-
+        String[] options = {"login=" + login, "newlogin=" + newLoginText};
 
         new Thread(() -> {
             String response = urlUpdate.updateData(table, options);
             runOnUiThread(() -> {
                 if (response.startsWith("Erreur")) {
-                    Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
-
+                    showToast(R.string.errorText);
                 } else {
                     sessionManager.setLogin(newLoginText);
-                    Toast.makeText(this, R.string.changePseudoSuccessText, Toast.LENGTH_LONG).show();
-
+                    showToast(R.string.changePseudoSuccessText);
                 }
             });
         }).start();
 
-        String table2 = "Avis";
-        String[] options2 = {
-                "login=" + login,
-                "newlogin=" + newLoginText
-        };
+        updateLoginInReviews(newLoginText);
+    }
+
+    private void updateLoginInReviews(String newLoginText) {
+        String table = "Avis";
+        String[] options = {"login=" + login, "newlogin=" + newLoginText};
 
         new Thread(() -> {
-            String response = urlUpdate.updateData(table2, options2);
+            String response = urlUpdate.updateData(table, options);
             runOnUiThread(() -> {
                 if (!response.startsWith("Erreur")) {
                     Intent intent = new Intent(AccountSettingsActivity.this, LoadingActivity.class);
@@ -165,106 +193,95 @@ public class AccountSettingsActivity extends AppCompatActivity {
                 }
             });
         }).start();
-
     }
 
-    private void changePassword(){
+    private void changePassword() {
         String oldPasswordText = oldPassword.getText().toString();
         String newPasswordText = newPassword.getText().toString();
 
-        if (!newPasswordText.matches("^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]+$")) {
-            Toast.makeText(this, getString(R.string.invalid_password_error), Toast.LENGTH_SHORT).show();
+        if (!isValidPassword(newPasswordText)) return;
+
+        String oldPasswordEncrypted = urlUpdate.encryptToMD5(oldPasswordText);
+        if (!oldPasswordEncrypted.equals(sessionManager.getPassword())) {
+            showToast(R.string.passwordError);
             return;
         }
 
-        if (newPasswordText.length() >= 20) {
-            Toast.makeText(this, getString(R.string.password_too_long_error), Toast.LENGTH_SHORT).show();
-            return;
+        updatePassword(newPasswordText);
+    }
+
+    private boolean isValidPassword(String password) {
+        if (!password.matches("^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]+$")) {
+            showToast(R.string.invalid_password_error);
+            return false;
         }
 
-        String newPasswordTextEncrypted = urlUpdate.encryptToMD5(newPasswordText);
-        String oldPasswordTextEncrypted = urlUpdate.encryptToMD5(oldPasswordText);
-
-        String checkPasswordText = sessionManager.getPassword();
-
-
-
-
-
-        if(checkPasswordText.equals(oldPasswordTextEncrypted)){
-                String table = "User";
-                String[] options = {
-                        "login=" + login,
-                        "newmdp=" + newPasswordTextEncrypted
-                };
-
-                new Thread(() -> {
-                    String response = urlUpdate.updateData(table, options);
-                    runOnUiThread(() -> {
-                        if (response.startsWith("Erreur")) {
-                            Toast.makeText(this, R.string.errorText, Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(this, R.string.changePasswordSuccessText, Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(AccountSettingsActivity.this, LoadingActivity.class);
-                            startActivity(intent);
-
-                        }
-                    });
-                }).start();
-            } else {
-                Toast.makeText(this, R.string.passwordError, Toast.LENGTH_LONG).show();
-
-            }
-
-
+        if (password.length() >= 20) {
+            showToast(R.string.password_too_long_error);
+            return false;
+        }
+        return true;
     }
 
-    public void askDeleteAccount(){
-        confirmDeleteButton.setVisibility(View.VISIBLE);
-        cancelDeleteButton.setVisibility(View.VISIBLE);
-        deleteAccountConfirmText.setVisibility(View.VISIBLE);
-        deleteAccountView.setVisibility(View.VISIBLE);
-        confirmDeleteButton.setOnClickListener(v -> { deleteAccount();});
-        cancelDeleteButton.setOnClickListener(v -> { cancelDeleteAccount();});
-
-    }
-
-    public void cancelDeleteAccount(){
-        confirmDeleteButton.setVisibility(View.GONE);
-        cancelDeleteButton.setVisibility(View.GONE);
-        deleteAccountConfirmText.setVisibility(View.GONE);
-        deleteAccountView.setVisibility(View.GONE);
-    }
-
-    public void deleteAccount(){
+    private void updatePassword(String newPassword) {
+        String newPasswordEncrypted = urlUpdate.encryptToMD5(newPassword);
         String table = "User";
-        String[] options = {
-                "login=" + login,
-        };
+        String[] options = {"login=" + login, "newmdp=" + newPasswordEncrypted};
+
+        new Thread(() -> {
+            String response = urlUpdate.updateData(table, options);
+            runOnUiThread(() -> {
+                if (response.startsWith("Erreur")) {
+                    showToast(R.string.errorText);
+                } else {
+                    showToast(R.string.changePasswordSuccessText);
+                    startActivity(new Intent(this, LoadingActivity.class));
+                }
+            });
+        }).start();
+    }
+
+    public void askDeleteAccount() {
+        setDeleteAccountViewVisibility(View.VISIBLE);
+        confirmDeleteButton.setOnClickListener(v -> deleteAccount());
+        cancelDeleteButton.setOnClickListener(v -> cancelDeleteAccount());
+    }
+
+    public void cancelDeleteAccount() {
+        setDeleteAccountViewVisibility(View.GONE);
+    }
+
+    private void setDeleteAccountViewVisibility(int visibility) {
+        confirmDeleteButton.setVisibility(visibility);
+        cancelDeleteButton.setVisibility(visibility);
+        deleteAccountConfirmText.setVisibility(visibility);
+        deleteAccountView.setVisibility(visibility);
+    }
+
+    public void deleteAccount() {
+        String table = "User";
+        String[] options = {"login=" + login};
 
         new Thread(() -> {
             String response = urlDelete.deleteData(table, options);
             runOnUiThread(() -> {
                 if (response.startsWith("Erreur")) {
-                    Toast.makeText(this, R.string.deleteAccountFailText, Toast.LENGTH_LONG).show();
+                    showToast(R.string.deleteAccountFailText);
                 } else {
                     sessionManager.logout();
-                    Toast.makeText(this, R.string.deleteAccountSuccessText, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(AccountSettingsActivity.this, LoginActivity.class);
-                    startActivity(intent);
-
+                    showToast(R.string.deleteAccountSuccessText);
+                    startActivity(new Intent(this, LoginActivity.class));
                 }
             });
         }).start();
-
     }
 
-    // Fonction pour déconnecter l'utilisateur
     private void disconnectUser() {
-        // Supprimer les données de session
         sessionManager.logout();
-        // Rediriger vers la page de connexion
-        Intent intent = new Intent(AccountSettingsActivity.this, LoginActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    private void showToast(int messageId) {
+        Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
     }
 }

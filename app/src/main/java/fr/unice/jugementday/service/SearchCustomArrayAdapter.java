@@ -31,8 +31,6 @@ public class SearchCustomArrayAdapter extends ArrayAdapter<String> {
         // Définir la couleur du texte ici
         textView.setText(getItem(position));
 
-
-
         textView.setTextColor(Color.WHITE); // Texte par défaut
 
 

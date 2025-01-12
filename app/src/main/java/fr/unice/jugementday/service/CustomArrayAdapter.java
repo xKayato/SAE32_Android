@@ -53,8 +53,6 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
 
         buttonContainer.removeAllViews(); // Nettoyer les anciens boutons
 
-        // Obtenir les images associées aux œuvres
-
         // Ajouter les boutons dynamiquement
         for (HashMap<String, Integer> works : item.getWorks()) {
             for (String key : works.keySet()) {

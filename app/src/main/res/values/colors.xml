@@ -8,6 +8,7 @@
     <color name="secondary_text">#efc41e</color>
     <color name="primary_button">#767676</color>
     <color name="secondary_button">#efc41e</color>
+    <color name="logobackground">#878787</color>
 
     <color name="tonteinte">#FF6200EE</color>
     <color name="tonteinteplusfoncee">#FF3700B3</color>

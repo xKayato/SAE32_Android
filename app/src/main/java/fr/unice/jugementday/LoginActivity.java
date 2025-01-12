@@ -43,6 +43,17 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Affiche un message toast
+     * @param messageId
+     */
+    private void showToast(int messageId) {
+        Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Gestion de la connexion
+     */
     private void handleLogin() {
         String loginText = loginField.getText().toString().trim();
         String passwordText = passwordField.getText().toString().trim();
@@ -62,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 runOnUiThread(() -> {
                     if (response.contains("Erreur") || response.contains("Aucune")) {
-                        Toast.makeText(this, response, Toast.LENGTH_LONG).show();
+                        showToast(R.string.errorText);
                     } else {
                         // Redirection vers l'écran d'accueil
                         sessionManager.setLogin(loginText);
@@ -73,12 +84,16 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }).start();
         } else {
-            Toast.makeText(this, R.string.fill_fields_error, Toast.LENGTH_SHORT).show();
+            showToast(R.string.fill_fields_error);
         }
     }
 
 
-    // Méthode pour hacher le mot de passe en MD5
+    /**
+     * Hachage du mot de passe en MD5
+     * @param password le mot de passe à hacher
+     * @return le mot de passe haché
+     */
     private String encryptToMD5(String password) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");

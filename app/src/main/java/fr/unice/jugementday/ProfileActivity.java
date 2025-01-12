@@ -7,6 +7,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,7 +40,6 @@ public class ProfileActivity extends AppCompatActivity {
     private String userLogin;
     private JsonStock jsonStock;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +47,35 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         sessionManager = new UserSessionManager(this);
+        if (!sessionManager.isLoggedIn()) {
+            redirectToLogin();
+        }
+
         jsonStock = new JsonStock(this);
 
+        setupMenuButtons();
+        setupListView();
+        setupAdminPicture();
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+
+    /**
+     * Redirige l'utilisateur vers la page de connexion.
+     */
+    private void redirectToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Configure les boutons du menu.
+     */
+    private void setupMenuButtons() {
         ImageButton profileButton = findViewById(R.id.profileButton);
         profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
 
@@ -57,24 +84,21 @@ public class ProfileActivity extends AppCompatActivity {
 
         ImageButton searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
+    }
 
+    /**
+     * Configure la ListView et initialise l'adaptateur.
+     */
+    private void setupListView() {
         ListView listView = findViewById(R.id.allJudgementList);
 
-
-
-
-        // Vérifier si l'utilisateur est connecté
         if (sessionManager.isLoggedIn()) {
             userLogin = sessionManager.getLogin();
-            // Utilisez le login comme vous voulez
             TextView usernameTextView = findViewById(R.id.AccountOfText);
             usernameTextView.setText("Bonjour, " + userLogin);
         } else {
-            // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
-            Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-            startActivity(intent);
+            redirectToLogin();
         }
-        // Initialisation de l'adaptateur pour la liste
 
         adapter = new CustomArrayAdapter(this, items, userLogin);
         listView.setAdapter(adapter);
@@ -84,89 +108,119 @@ public class ProfileActivity extends AppCompatActivity {
         if (judgements != null) {
             parseAndUpdateData(judgements);
         }
+    }
 
+    /**
+     * Configure l'affichage de l'image d'admin.
+     */
+    private void setupAdminPicture() {
         ImageView adminPicture = findViewById(R.id.adminPicture);
-        if(Objects.equals(sessionManager.getAccess(), "1")){
+        if (Objects.equals(sessionManager.getAccess(), "1")) {
             adminPicture.setVisibility(View.VISIBLE);
         } else {
             adminPicture.setVisibility(View.GONE);
         }
-
-
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
     }
 
-
+    /**
+     * Parse les données JSON et met à jour la liste des items.
+     * @param jsonData Les données JSON à parser.
+     */
     private void parseAndUpdateData(String jsonData) {
         try {
             JSONArray jsonArray = new JSONArray(jsonData);
 
-            // Récupération des types dynamiques depuis le serveur
             List<String> typesDisponibles = fetchTypesFromServer();
+            Map<String, List<HashMap<String, Integer>>> oeuvresParType = initializeOeuvresParType(typesDisponibles);
 
-            // Map pour stocker les œuvres par type
-            Map<String, List<HashMap<String, Integer>>> oeuvresParType = new HashMap<>();
-            for (String type : typesDisponibles) {
-                oeuvresParType.put(type, new ArrayList<>());
-            }
-
-            // Liste principale et liste pour les œuvres aléatoires
             List<HashMap<String, Integer>> oeuvresList = new ArrayList<>();
             List<HashMap<String, Integer>> randomOeuvresList = new ArrayList<>();
             List<Integer> selectedIndices = new ArrayList<>();
 
-            // Parsing des données
-            for (int i = jsonArray.length() - 1; i >= 0; i--) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String nomOeuvre = jsonObject.getString("nomOeuvre");
-                Integer idOeuvre = jsonObject.getInt("idOeuvre");
-                String type = jsonObject.getString("type");
-                HashMap<String, Integer> oeuvreMap = createHashMap(nomOeuvre, idOeuvre);
+            parseJsonArray(jsonArray, oeuvresParType, oeuvresList);
+            selectRandomOeuvres(oeuvresList, randomOeuvresList, selectedIndices);
 
-                // Ajout dans la liste du type approprié
-                if (oeuvresParType.containsKey(type)) {
-                    oeuvresParType.get(type).add(oeuvreMap);
-                }
-                oeuvresList.add(oeuvreMap);
-            }
-
-            // Sélection aléatoire de 10 œuvres
-            while (randomOeuvresList.size() < 10 && selectedIndices.size() < oeuvresList.size()) {
-                int randomIndex = (int) (Math.random() * oeuvresList.size());
-                if (!selectedIndices.contains(randomIndex)) {
-                    selectedIndices.add(randomIndex);
-                    randomOeuvresList.add(oeuvresList.get(randomIndex));
-                }
-            }
-
-            // Mise à jour des sections dynamiques (si un type est rajouté, il sera affiché)
-            List<ListItem> updatedItems = new ArrayList<>();
-            if (!oeuvresList.isEmpty()) {
-                updatedItems.add(new ListItem(getString(R.string.lastRealeseText) + " (" + oeuvresList.size() + ")", oeuvresList));
-            }
-            for (String type : typesDisponibles) {
-                List<HashMap<String, Integer>> typeList = oeuvresParType.get(type);
-                if (!typeList.isEmpty()) {
-                    updatedItems.add(new ListItem(String.format(getString(R.string.XWorkText), type.toLowerCase()) + " (" + typeList.size() + ")", typeList));
-                }
-            }
-
-            // Ajout des œuvres aléatoires
-            updatedItems.add(new ListItem(getString(R.string.randomOeuvresText), randomOeuvresList));
-
-            // Mise à jour de l'adaptateur
-            items.clear();
-            items.addAll(updatedItems);
-            adapter.notifyDataSetChanged();
+            updateAdapterItems(typesDisponibles, oeuvresParType, oeuvresList, randomOeuvresList);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Initialise la map des œuvres par type.
+     * @param typesDisponibles Les types disponibles.
+     * @return La map initialisée.
+     */
+    private Map<String, List<HashMap<String, Integer>>> initializeOeuvresParType(List<String> typesDisponibles) {
+        Map<String, List<HashMap<String, Integer>>> oeuvresParType = new HashMap<>();
+        for (String type : typesDisponibles) {
+            oeuvresParType.put(type, new ArrayList<>());
+        }
+        return oeuvresParType;
+    }
+
+    /**
+     * Parse le tableau JSON et remplit les listes d'œuvres.
+     * @param jsonArray Le tableau JSON à parser.
+     * @param oeuvresParType La map des œuvres par type.
+     * @param oeuvresList La liste des œuvres.
+     */
+    private void parseJsonArray(JSONArray jsonArray, Map<String, List<HashMap<String, Integer>>> oeuvresParType, List<HashMap<String, Integer>> oeuvresList) throws Exception {
+        for (int i = jsonArray.length() - 1; i >= 0; i--) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            String nomOeuvre = jsonObject.getString("nomOeuvre");
+            Integer idOeuvre = jsonObject.getInt("idOeuvre");
+            String type = jsonObject.getString("type");
+            HashMap<String, Integer> oeuvreMap = createHashMap(nomOeuvre, idOeuvre);
+
+            if (oeuvresParType.containsKey(type)) {
+                oeuvresParType.get(type).add(oeuvreMap);
+            }
+            oeuvresList.add(oeuvreMap);
+        }
+    }
+
+    /**
+     * Sélectionne aléatoirement 10 œuvres.
+     * @param oeuvresList La liste des œuvres.
+     * @param randomOeuvresList La liste des œuvres aléatoires.
+     * @param selectedIndices Les indices sélectionnés.
+     */
+    private void selectRandomOeuvres(List<HashMap<String, Integer>> oeuvresList, List<HashMap<String, Integer>> randomOeuvresList, List<Integer> selectedIndices) {
+        while (randomOeuvresList.size() < 10 && selectedIndices.size() < oeuvresList.size()) {
+            int randomIndex = (int) (Math.random() * oeuvresList.size());
+            if (!selectedIndices.contains(randomIndex)) {
+                selectedIndices.add(randomIndex);
+                randomOeuvresList.add(oeuvresList.get(randomIndex));
+            }
+        }
+    }
+
+    /**
+     * Met à jour les items de l'adaptateur.
+     * @param typesDisponibles Les types disponibles.
+     * @param oeuvresParType La map des œuvres par type.
+     * @param oeuvresList La liste des œuvres.
+     * @param randomOeuvresList La liste des œuvres aléatoires.
+     */
+    private void updateAdapterItems(List<String> typesDisponibles, Map<String, List<HashMap<String, Integer>>> oeuvresParType, List<HashMap<String, Integer>> oeuvresList, List<HashMap<String, Integer>> randomOeuvresList) {
+        List<ListItem> updatedItems = new ArrayList<>();
+        if (!oeuvresList.isEmpty()) {
+            updatedItems.add(new ListItem(getString(R.string.lastRealeseText) + " (" + oeuvresList.size() + ")", oeuvresList));
+        }
+        for (String type : typesDisponibles) {
+            List<HashMap<String, Integer>> typeList = oeuvresParType.get(type);
+            if (!typeList.isEmpty()) {
+                updatedItems.add(new ListItem(String.format(getString(R.string.XWorkText), type.toLowerCase()) + " (" + typeList.size() + ")", typeList));
+            }
+        }
+
+        updatedItems.add(new ListItem(getString(R.string.randomOeuvresText), randomOeuvresList));
+
+        items.clear();
+        items.addAll(updatedItems);
+        adapter.notifyDataSetChanged();
     }
 
     // Méthode pour récupérer les types dynamiques depuis le serveur
@@ -194,9 +248,11 @@ public class ProfileActivity extends AppCompatActivity {
         return map;
     }
 
+
     public void onSettingClick(View v) {
         Intent i = new Intent(this, AccountSettingsActivity.class);
         i.putExtra("title", "Settings");
         startActivity(i);
     }
+
 }
