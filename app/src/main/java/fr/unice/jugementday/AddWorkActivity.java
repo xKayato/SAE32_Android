@@ -176,23 +176,40 @@ public class AddWorkActivity extends AppCompatActivity {
     /**
      * Publie une œuvre en envoyant ses données au serveur.
      */
-    private void publishWork(View view) {
+    public void publishWork(View view) {
+        // Récupérer les données des champs
         String title = this.title.getText().toString();
         String author = this.author.getText().toString();
         String type = this.typeSpinner.getSelectedItem().toString();
         String date = this.date.getText().toString();
+        UrlSend urlSend = new UrlSend();
 
+        // Vérifier que les champs sont remplis
         if (title.isEmpty() || author.isEmpty() || type.isEmpty() || date.isEmpty() || imageBitmap == null) {
-            showToast(R.string.fill_fields_error);
+            Toast.makeText(this, R.string.fill_fields_error, Toast.LENGTH_LONG).show();
             return;
         }
 
-        if (title.length() > 30 || author.length() > 30) {
-            showToast(R.string.maxCharAdd);
-            return;
+        // Vérifier que les champs ne dépassent pas 30 caractères
+        if(title.length() <= 30 && author.length() <= 30){
+            // Envoyer l'image au serveur
+            uploadImageToServer(imageBitmap);
+            String table = "Oeuvre";
+            String[] options = {
+                    "nomOeuvre=" + title,
+                    "auteur_studio=" + author,
+                    "dateSortie=" + date,
+                    "actif=1",
+                    "type=" + type
+            };
+            // Envoyer les données au serveur
+            new Thread(() -> {
+                urlSend.sendData(table, options);
+            }).start();
+        } else {
+            Toast.makeText(this, R.string.maxCharAdd, Toast.LENGTH_LONG).show();
         }
 
-        uploadImageToServer(imageBitmap);
     }
 
     private Bitmap resizeImage(Bitmap bitmap, int newWidth, int newHeight) {

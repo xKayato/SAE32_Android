@@ -55,10 +55,6 @@ public class LoadingActivity extends AppCompatActivity {
 
         if (sessionManager.isLoggedIn()) {
             userLogin = sessionManager.getLogin();
-        } else {
-            Intent intent = new Intent(LoadingActivity.this, LoginActivity.class);
-            startActivity(intent);
-            return;
         }
 
         // Afficher la barre de chargement
