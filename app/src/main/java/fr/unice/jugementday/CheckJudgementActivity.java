@@ -1,18 +1,26 @@
 package fr.unice.jugementday;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
 import androidx.core.text.HtmlCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.io.File;
 
 import fr.unice.jugementday.service.JsonStock;
 import fr.unice.jugementday.service.MenuButtons;
@@ -72,8 +80,31 @@ public class CheckJudgementActivity extends AppCompatActivity {
         String works = jsonStock.getWorks();
         updateWorkInfo(works);  // Met à jour les informations de l'œuvre
 
+        int id = intent.getIntExtra("idOeuvre", 0);
+        ImageView selectedImageButton = findViewById(R.id.selectedImageButton);
+        selectedImageButton.setImageBitmap(getImageFromCache(id));
+
         // Initialisation du champ d'avis
         JudgementField = findViewById(R.id.JudgementField);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
+
+    private Bitmap getImageFromCache(int idOeuvre) {
+        // Accéder au répertoire images dans le cache
+        File cacheDir = new File(getCacheDir(), "images");
+        File imageFile = new File(cacheDir, idOeuvre + ".png");
+
+        if (imageFile.exists()) {
+            // Si le fichier d'image existe, charger l'image en tant que Bitmap
+            return BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+        }
+
+        return null; // Retourner null si l'image n'existe pas
     }
 
     /**

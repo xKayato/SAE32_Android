@@ -54,6 +54,7 @@ public class CheckProfileActivity extends AppCompatActivity {
         adapter = new CustomArrayAdapter(this, items, username);
         listView.setAdapter(adapter);
 
+
         // Mise à jour du texte pour afficher le pseudo de l'utilisateur
         pseudo.setText(getString(R.string.accountCommuText, username));
 

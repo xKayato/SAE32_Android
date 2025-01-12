@@ -28,30 +28,45 @@
 
     <TextView
         android:id="@+id/critiqueText"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="@string/critiqueOfText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="123dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="120dp"
+        android:text="@string/critiqueText"
         android:textColor="@color/secondary_button"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/noteText"
+        app:layout_constraintBottom_toTopOf="@+id/selectedImageButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoPicture" />
+    <ImageView
+        android:id="@+id/selectedImageButton"
+        android:layout_width="102dp"
+        android:layout_height="158dp"
+        android:layout_marginStart="154dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="155dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/noteText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/critiqueText"
+        app:srcCompat="@android:drawable/ic_menu_report_image" />
 
     <TextView
         android:id="@+id/noteText"
-        android:layout_width="55dp"
-        android:layout_height="19dp"
-        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="194dp"
+        android:layout_marginEnd="195dp"
         android:text="X/5"
         android:textColor="@color/secondary_text"
         android:textColorLink="@color/secondary_text"
-        app:layout_constraintBottom_toTopOf="@+id/allJudgementList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/critiqueText" />
+        app:layout_constraintTop_toBottomOf="@+id/selectedImageButton" />
 
     <ListView
         android:id="@+id/allJudgementList"

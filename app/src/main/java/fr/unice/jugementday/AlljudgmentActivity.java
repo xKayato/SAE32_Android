@@ -1,9 +1,12 @@
 package fr.unice.jugementday;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -42,10 +46,25 @@ public class AlljudgmentActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_alljudgment);
 
+
+
         checkUserSession(); // Vérifie la session utilisateur
         setupUI();          // Initialise les éléments de l'interface
         setupMenuButtons(); // Configure les boutons du menu
         fetchData();        // Charge les données depuis le serveur
+    }
+
+    private Bitmap getImageFromCache(int idOeuvre) {
+        // Accéder au répertoire images dans le cache
+        File cacheDir = new File(getCacheDir(), "images");
+        File imageFile = new File(cacheDir, idOeuvre + ".png");
+
+        if (imageFile.exists()) {
+            // Si le fichier d'image existe, charger l'image en tant que Bitmap
+            return BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+        }
+
+        return null; // Retourner null si l'image n'existe pas
     }
 
     /**
@@ -76,6 +95,10 @@ public class AlljudgmentActivity extends AppCompatActivity {
         myAdapter = new SearchCustomArrayAdapter(this, items);
         ListView judgementsList = findViewById(R.id.allJudgementList);
         judgementsList.setAdapter(myAdapter);
+
+        int id = intent.getIntExtra("idOeuvre", 0);
+        ImageView selectedImageButton = findViewById(R.id.selectedImageButton);
+        selectedImageButton.setImageBitmap(getImageFromCache(id));
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

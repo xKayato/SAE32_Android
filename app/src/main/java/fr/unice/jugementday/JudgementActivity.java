@@ -1,11 +1,16 @@
 package fr.unice.jugementday;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,10 +23,12 @@ import androidx.core.view.WindowInsetsCompat;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import fr.unice.jugementday.service.CustomArrayAdapter;
 import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.JsonStock;
 import fr.unice.jugementday.service.UrlReader;
@@ -74,6 +81,8 @@ public class JudgementActivity extends AppCompatActivity {
         TextView typeText = findViewById(R.id.typeText);
         TextView auteurText = findViewById(R.id.auteurText);
         TextView dateText = findViewById(R.id.dateText);
+        ImageView selectedImageButton = findViewById(R.id.selectedImageButton);
+        selectedImageButton.setImageBitmap(getImageFromCache(id));
 
         try{
             JSONArray jsonArray = new JSONArray(judgements);
@@ -86,6 +95,7 @@ public class JudgementActivity extends AppCompatActivity {
                     intent3.putExtra("idOeuvre", idOeuvre);
                     intent3.putExtra("title", title);
                     intent3.putExtra("login", userLogin);
+
                     startActivity(intent3);
                     return;
                 }
@@ -121,6 +131,20 @@ public class JudgementActivity extends AppCompatActivity {
             return insets;
         });
     }
+
+    private Bitmap getImageFromCache(int idOeuvre) {
+        // Accéder au répertoire images dans le cache
+        File cacheDir = new File(getCacheDir(), "images");
+        File imageFile = new File(cacheDir, idOeuvre + ".png");
+
+        if (imageFile.exists()) {
+            // Si le fichier d'image existe, charger l'image en tant que Bitmap
+            return BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+        }
+
+        return null; // Retourner null si l'image n'existe pas
+    }
+
 
     /**
      * Vérifie si l'utilisateur est connecté et le redirige si nécessaire.

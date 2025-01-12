@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
             // Rediriger vers l'activité de création de compte
             startActivity(new Intent(LoginActivity.this, CreateAccountActivity.class));
         });
+
     }
 
     /**
