@@ -193,7 +193,6 @@ public class AddWorkActivity extends AppCompatActivity {
         // Vérifier que les champs ne dépassent pas 30 caractères
         if(title.length() <= 30 && author.length() <= 30){
             // Envoyer l'image au serveur
-            uploadImageToServer(imageBitmap);
             String table = "Oeuvre";
             String[] options = {
                     "nomOeuvre=" + title,
@@ -206,6 +205,8 @@ public class AddWorkActivity extends AppCompatActivity {
             new Thread(() -> {
                 urlSend.sendData(table, options);
             }).start();
+            uploadImageToServer(imageBitmap);
+
         } else {
             Toast.makeText(this, R.string.maxCharAdd, Toast.LENGTH_LONG).show();
         }
