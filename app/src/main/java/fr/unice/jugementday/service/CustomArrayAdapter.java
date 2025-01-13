@@ -177,12 +177,13 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
         switch (currentActivity) {
             case "ProfileActivity":
             case "HomeActivity":
-            case "CheckProfileActivity":
                 if (alreadyJudged(idOeuvre)) {
                     intent = new Intent(getContext(), CheckJudgementActivity.class);
                 } else {
                     intent = new Intent(getContext(), JudgementActivity.class);
                 }
+            case "CheckProfileActivity":
+                intent = new Intent(getContext(), CheckJudgementActivity.class);
                 break;
             default:
                 intent = new Intent(getContext(), JudgementActivity.class);
