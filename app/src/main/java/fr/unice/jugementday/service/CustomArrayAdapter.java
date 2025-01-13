@@ -19,8 +19,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.text.HtmlCompat;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -69,6 +73,12 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
     }
 
 
+    /**
+     * Créer et ajouter un bouton à un conteneur.
+     * @param container Conteneur de boutons
+     * @param idOeuvre ID de l'œuvre
+     * @param title Titre de l'œuvre
+     */
     private void createAndAddButton(LinearLayout container, int idOeuvre, String title) {
         // Créer un nouveau bouton
         Button photoButton = new Button(getContext());
@@ -111,6 +121,33 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
         container.addView(photoButton);
     }
 
+    /**
+     * Vérifier si l'utilisateur a déjà jugé une œuvre.
+     * @param idOeuvre ID de l'œuvre
+     * @return true si l'utilisateur a déjà jugé l'œuvre, false sinon
+     */
+    private boolean alreadyJudged(int idOeuvre) {
+        JsonStock jsonStock = new JsonStock(getContext());
+        String judged = jsonStock.getJudged();
+        try {
+            JSONArray jsonArray = new JSONArray(judged);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                if (jsonObject.getInt("idOeuvre") == idOeuvre) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * Récupérer une image depuis le cache.
+     * @param idOeuvre ID de l'œuvre
+     * @return Image en tant que Bitmap
+     */
     private Bitmap getImageFromCache(int idOeuvre) {
         // Accéder au répertoire images dans le cache
         File cacheDir = new File(getContext().getCacheDir(), "images");
@@ -126,6 +163,12 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
 
 
 
+    /**
+     * Récupérer l'intent de l'activité à lancer.
+     * @param idOeuvre ID de l'œuvre
+     * @param title Titre de l'œuvre
+     * @return Intent pour démarrer l'activité
+     */
     private Intent getActivityIntent(int idOeuvre, String title) {
         Intent intent;
         String currentActivity = getContext().getClass().getSimpleName();
@@ -133,12 +176,14 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
         // Déterminer l'activité à lancer
         switch (currentActivity) {
             case "ProfileActivity":
-                intent = new Intent(getContext(), JudgementActivity.class);
-            case "CheckProfileActivity":
-                intent = new Intent(getContext(), CheckJudgementActivity.class);
-                break;
             case "HomeActivity":
-                intent = new Intent(getContext(), JudgementActivity.class);
+            case "CheckProfileActivity":
+                if (alreadyJudged(idOeuvre)) {
+                    intent = new Intent(getContext(), CheckJudgementActivity.class);
+                } else {
+                    intent = new Intent(getContext(), JudgementActivity.class);
+                }
+                break;
             default:
                 intent = new Intent(getContext(), JudgementActivity.class);
                 break;

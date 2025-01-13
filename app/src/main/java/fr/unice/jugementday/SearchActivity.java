@@ -286,9 +286,15 @@ public class SearchActivity extends AppCompatActivity {
      * @param id ID de l'œuvre
      */
     private void openDetailActivityOeuvre(String title, int id) {
-        Intent intent = new Intent(SearchActivity.this, JudgementActivity.class);
+        Intent intent;
+        if(alreadyJudged(id)){
+            intent = new Intent(this, CheckJudgementActivity.class);
+        } else {
+            intent = new Intent(this, JudgementActivity.class);
+        }
         intent.putExtra("title", title.split("\\[")[0]);
         intent.putExtra("idOeuvre", id);
+        intent.putExtra("login", new UserSessionManager(this).getLogin());
         startActivity(intent);
     }
 
@@ -300,5 +306,27 @@ public class SearchActivity extends AppCompatActivity {
         Intent intent = new Intent(SearchActivity.this, CheckProfileActivity.class);
         intent.putExtra("login", login);
         startActivity(intent);
+    }
+
+    /**
+     * Vérifier si l'utilisateur a déjà jugé une œuvre.
+     * @param idOeuvre ID de l'œuvre
+     * @return true si l'utilisateur a déjà jugé l'œuvre, false sinon
+     */
+    private boolean alreadyJudged(int idOeuvre) {
+        JsonStock jsonStock = new JsonStock(this);
+        String judged = jsonStock.getJudged();
+        try {
+            JSONArray jsonArray = new JSONArray(judged);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                if (jsonObject.getInt("idOeuvre") == idOeuvre) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

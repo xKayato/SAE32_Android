@@ -32,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private CustomArrayAdapter adapter;
     private final List<ListItem> items = new ArrayList<>();
+    private String login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // Vérifier si l'utilisateur est connecté, sinon rediriger vers la page de connexion
         checkUserSession(sessionManager);
+
 
         // Configuration de l'interface utilisateur
         setupUI();
@@ -66,6 +68,8 @@ public class HomeActivity extends AppCompatActivity {
             // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(intent);
+        } else{
+            login = sessionManager.getLogin();
         }
     }
 
@@ -77,7 +81,7 @@ public class HomeActivity extends AppCompatActivity {
     private void setupUI() {
         // Initialisation de la ListView et de l'adaptateur
         ListView listView = findViewById(R.id.allJudgementList);
-        adapter = new CustomArrayAdapter(this, items, null);
+        adapter = new CustomArrayAdapter(this, items, login);
         listView.setAdapter(adapter);
 
         // Initialisation du bouton d'ajout d'œuvre
