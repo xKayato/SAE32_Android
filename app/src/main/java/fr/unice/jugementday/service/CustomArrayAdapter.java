@@ -182,6 +182,7 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
                 } else {
                     intent = new Intent(getContext(), JudgementActivity.class);
                 }
+                break;
             case "CheckProfileActivity":
                 intent = new Intent(getContext(), CheckJudgementActivity.class);
                 break;
