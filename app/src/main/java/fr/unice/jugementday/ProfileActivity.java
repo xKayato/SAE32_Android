@@ -76,9 +76,6 @@ public class ProfileActivity extends AppCompatActivity {
      * Configure les boutons du menu.
      */
     private void setupMenuButtons() {
-        ImageButton profileButton = findViewById(R.id.profileButton);
-        profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
-
         ImageButton homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(v -> MenuButtons.homeClick(this));
 

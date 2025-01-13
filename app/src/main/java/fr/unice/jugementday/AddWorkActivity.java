@@ -25,8 +25,10 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +49,8 @@ public class AddWorkActivity extends AppCompatActivity {
     private Spinner typeSpinner;
     private ImageButton selectedImage;
     private Bitmap imageBitmap;
+    private Button publish;
+    private boolean canPublish = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +102,7 @@ public class AddWorkActivity extends AppCompatActivity {
      * Configure les boutons et leur comportement.
      */
     private void setupButtons() {
-        Button publish = findViewById(R.id.publishButton);
+        publish = findViewById(R.id.publishButton);
         publish.setOnClickListener(this::publishWork);
 
         ImageButton profileButton = findViewById(R.id.profileButton);
@@ -177,41 +181,54 @@ public class AddWorkActivity extends AppCompatActivity {
      * Publie une œuvre en envoyant ses données au serveur.
      */
     public void publishWork(View view) {
-        // Récupérer les données des champs
-        String title = this.title.getText().toString();
-        String author = this.author.getText().toString();
-        String type = this.typeSpinner.getSelectedItem().toString();
-        String date = this.date.getText().toString();
-        UrlSend urlSend = new UrlSend();
+        if (!canPublish) return;
 
-        // Vérifier que les champs sont remplis
-        if (title.isEmpty() || author.isEmpty() || type.isEmpty() || date.isEmpty() || imageBitmap == null) {
-            Toast.makeText(this, R.string.fill_fields_error, Toast.LENGTH_LONG).show();
+        String titleText = title.getText().toString().trim();
+        String authorText = author.getText().toString().trim();
+        String dateText = date.getText().toString().trim();
+        String typeText = (String) typeSpinner.getSelectedItem();
+
+        if (titleText.isEmpty() || authorText.isEmpty() || dateText.isEmpty() || imageBitmap == null) {
+            showToast(R.string.fill_fields_error);
             return;
         }
 
-        // Vérifier que les champs ne dépassent pas 30 caractères
-        if(title.length() <= 30 && author.length() <= 30){
-            // Envoyer l'image au serveur
-            String table = "Oeuvre";
-            String[] options = {
-                    "nomOeuvre=" + title,
-                    "auteur_studio=" + author,
-                    "dateSortie=" + date,
-                    "actif=1",
-                    "type=" + type
-            };
-            // Envoyer les données au serveur
-            new Thread(() -> {
-                urlSend.sendData(table, options);
-            }).start();
-            uploadImageToServer(imageBitmap);
-
-        } else {
-            Toast.makeText(this, R.string.maxCharAdd, Toast.LENGTH_LONG).show();
+        if(titleText.length() > 45){
+            showToast(R.string.maxCharAddOeuvre);
+            return;
+        }
+        if(authorText.length() > 30){
+            showToast(R.string.maxCharAddAuthor);
+            return;
         }
 
+        canPublish = false;
+        publish.setBackgroundColor(getResources().getColor(R.color.primary_button));
+
+        // Encodage du titre pour les données d'URL (sans remplacer les caractères spécifiques comme les apostrophes)
+        String encodedTitle;
+        try {
+            encodedTitle = URLEncoder.encode(titleText, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        String[] options = {
+                "nomOeuvre=" + encodedTitle,
+                "auteur_studio=" + authorText,
+                "dateSortie=" + dateText,
+                "actif=1",
+                "type=" + typeText
+        };
+
+        new Thread(() -> {
+            UrlSend urlSend = new UrlSend();
+            urlSend.sendData("Oeuvre", options);
+            uploadImageToServer(imageBitmap);
+        }).start();
     }
+
 
     private Bitmap resizeImage(Bitmap bitmap, int newWidth, int newHeight) {
         return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
@@ -229,8 +246,7 @@ public class AddWorkActivity extends AppCompatActivity {
 
                 JSONObject jsonData = new JSONObject();
                 jsonData.put("image", encodedImage);
-                jsonData.put("filename", this.title.getText().toString().replace(" ", "_") + ".jpg");
-
+                jsonData.put("filename", this.title.getText().toString().replaceAll("[^a-zA-Z0-9]", "_") + ".jpg");
                 HttpURLConnection connection = (HttpURLConnection) new URL(Address.getImportPhotoPage()).openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");

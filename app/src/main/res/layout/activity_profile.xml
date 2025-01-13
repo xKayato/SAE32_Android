@@ -93,7 +93,6 @@
         android:layout_marginEnd="1dp"
         android:backgroundTint="#00990202"
         android:contentDescription="@string/profileButton"
-        android:onClick="profileClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/homeButton"

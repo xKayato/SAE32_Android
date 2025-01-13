@@ -21,9 +21,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.Objects;
 
 import fr.unice.jugementday.service.JsonStock;
 import fr.unice.jugementday.service.MenuButtons;
+import fr.unice.jugementday.service.UrlDelete;
 import fr.unice.jugementday.service.UrlReader;
 import fr.unice.jugementday.service.UserSessionManager;
 
@@ -32,6 +34,7 @@ public class CheckJudgementActivity extends AppCompatActivity {
     private String title;
     private int id;
     private TextView JudgementField;
+    private String login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,7 @@ public class CheckJudgementActivity extends AppCompatActivity {
      */
     private void checkUserSession() {
         UserSessionManager sessionManager = new UserSessionManager(this);
+        login = sessionManager.getLogin();
         if (!sessionManager.isLoggedIn()) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -66,6 +70,7 @@ public class CheckJudgementActivity extends AppCompatActivity {
         title = intent.getStringExtra("title");
         String userLogin = intent.getStringExtra("login");
         id = intent.getIntExtra("idOeuvre", 0);
+        String judgerLogin = intent.getStringExtra("login");
 
         // Initialisation des TextViews
         TextView titleText = findViewById(R.id.titleText);
@@ -87,11 +92,35 @@ public class CheckJudgementActivity extends AppCompatActivity {
         // Initialisation du champ d'avis
         JudgementField = findViewById(R.id.JudgementField);
 
+        if(Objects.equals(login, judgerLogin)){
+            ImageButton trashButton = findViewById(R.id.trashButton);
+            trashButton.setVisibility(View.VISIBLE);
+            trashButton.setOnClickListener(v -> deleteAvis(id));
+
+
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    private void deleteAvis(int id){
+        String table = "Avis";
+        String[] options = {"idOeuvre=" + id + "&login=" + login};
+        new Thread(() -> {
+            String result = new UrlDelete().deleteData(table, options);
+            runOnUiThread(() -> {
+                if (result.startsWith("Erreur")) {
+                    showToast(R.string.errorText);
+                } else {
+                    Intent intent = new Intent(this, LoadingActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }).start();
     }
 
     private Bitmap getImageFromCache(int idOeuvre) {

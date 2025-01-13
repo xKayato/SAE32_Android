@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -157,21 +158,24 @@ public class LoadingActivity extends AppCompatActivity {
 
                     // Vérifier si l'image est déjà en cache
                     File imageFile = new File(cacheDir, idOeuvre + ".png");
-                    String nomOeuvre = work.getString("nomOeuvre");
+                    String nomOeuvre = work.getString("nomOeuvre").replaceAll("[^a-zA-Z0-9]", "_");
                     if (!imageFile.exists()) {
                         // Télécharger l'image
-                        String imageUrl = Address.getGetPhotoPage() + "&title=" + URLEncoder.encode(nomOeuvre.replace(" ", "_"), "UTF-8");
-                        try (InputStream input = new URL(imageUrl).openStream()) {
-                            Bitmap bitmap = BitmapFactory.decodeStream(input);
-                            if (bitmap != null) {
-                                runOnUiThread(() -> loadingStatus.setText("Téléchargement des images...\n" + nomOeuvre));
-                                try (FileOutputStream fos = new FileOutputStream(imageFile)) {
-                                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                            String imageUrl = Address.getGetPhotoPage() + "&title=" + nomOeuvre;
+                            Log.d("LoadingActivity", "Téléchargement de l'image : " + imageUrl);
+                            try (InputStream input = new URL(imageUrl).openStream()) {
+                                Bitmap bitmap = BitmapFactory.decodeStream(input);
+                                if (bitmap != null) {
+                                    runOnUiThread(() -> loadingStatus.setText("Téléchargement des images...\n" + nomOeuvre));
+                                    try (FileOutputStream fos = new FileOutputStream(imageFile)) {
+                                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                                    }
                                 }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+
+
                     } else{
                         // Mettre à jour l'état du chargement (image déjà téléchargée dans le cache)
                         runOnUiThread(() -> loadingStatus.setText("Vérification des images...\n" + nomOeuvre));
@@ -182,7 +186,7 @@ public class LoadingActivity extends AppCompatActivity {
                 startActivity(intent);
 
 
-            } catch (JSONException | UnsupportedEncodingException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
         }).start();

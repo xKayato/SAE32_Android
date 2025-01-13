@@ -48,7 +48,9 @@
     <string name="imageText">Image</string>
     <string name="chooseImageText">Choisir une image</string>
     <string name="publishText">Publier</string>
-    <string name="maxCharAdd">Les champs ne doivent pas dépasser 30 caractères</string>
+    <string name="maxCharAddOeuvre">Le titre de l\'oeuvre ne doit pas dépasser les 45 caractères</string>
+    <string name="maxCharAddAuthor">Les nom de l\'auteur/studio ne doit pas dépasser els 30 caractères</string>
+
 
 
     <!-- addReview -->

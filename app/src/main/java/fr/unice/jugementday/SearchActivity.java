@@ -62,9 +62,6 @@ public class SearchActivity extends AppCompatActivity {
         ImageButton homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(v -> MenuButtons.homeClick(this));
 
-        ImageButton searchButton = findViewById(R.id.searchButton);
-        searchButton.setOnClickListener(v -> MenuButtons.searchClick(this));
-
         category = "Oeuvre";
 
         Button peopleButton = findViewById(R.id.PeopleButtonSearch);
@@ -246,9 +243,12 @@ public class SearchActivity extends AppCompatActivity {
 
     /**
      * Effectuer une recherche dans la liste d'œuvres ou de personnes.
-     * @param query
+     * @param query La chaîne de recherche saisie par l'utilisateur.
      */
     private void performSearch(String query) {
+        // Supprimer les espaces en début et fin de chaîne
+        query = query.trim();
+
         List<String> searchResults = new ArrayList<>();
         String lowerCaseQuery = query.toLowerCase();
 
@@ -272,10 +272,12 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
 
+        // Met à jour les éléments affichés avec les résultats de recherche
         items.clear();
         items.addAll(searchResults);
         myAdapter.notifyDataSetChanged();
     }
+
 
 
     /**

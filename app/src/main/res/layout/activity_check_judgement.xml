@@ -154,7 +154,7 @@
     <ImageButton
         android:id="@+id/communityButton"
         android:layout_width="60dp"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="#00FFFFFF"
@@ -216,6 +216,23 @@
         app:layout_constraintStart_toEndOf="@+id/homeButton"
         app:srcCompat="@drawable/profile"
         app:tint="#9CFFFFFF" />
+
+    <ImageButton
+        android:id="@+id/trashButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="280dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#00FFFFFF"
+        android:tint="@color/primary_button"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/hbhv3"
+        app:layout_constraintEnd_toStartOf="@+id/communityButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/JudgementField"
+        app:layout_constraintVertical_bias="0.85"
+        app:srcCompat="@drawable/trash" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

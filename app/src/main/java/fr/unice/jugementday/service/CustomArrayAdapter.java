@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.text.HtmlCompat;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -83,7 +85,9 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
         }
 
         // Appliquer du texte avec un fond
-        Spannable text = new SpannableString(title);
+        String finaltitle = HtmlCompat.fromHtml(title, HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
+
+        Spannable text = new SpannableString(finaltitle);
         text.setSpan(new ForegroundColorSpan(Color.WHITE), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         text.setSpan(new BackgroundColorSpan(Color.BLACK), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         photoButton.setText(text);
@@ -97,7 +101,7 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
 
         // Ajouter un clic listener pour démarrer l'activité correspondante
         photoButton.setOnClickListener(v -> {
-            Intent intent = getActivityIntent(idOeuvre, title);
+            Intent intent = getActivityIntent(idOeuvre, finaltitle);
             if (intent != null) {
                 getContext().startActivity(intent);
             }

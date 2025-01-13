@@ -191,7 +191,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/publishButton" />
+        app:layout_constraintTop_toBottomOf="@+id/logoPicture"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
         android:id="@+id/searchButton"
@@ -217,7 +218,7 @@
         app:layout_constraintEnd_toStartOf="@+id/profileButton"
         app:layout_constraintStart_toEndOf="@+id/searchButton"
         app:srcCompat="@drawable/home"
-        app:tint="@color/primary_button" />
+        app:tint="@color/secondary_button" />
 
     <ImageButton
         android:id="@+id/profileButton"

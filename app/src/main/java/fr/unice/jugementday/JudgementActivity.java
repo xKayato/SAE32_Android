@@ -251,18 +251,28 @@ public class JudgementActivity extends AppCompatActivity {
             int index = i; // Capturer l'index pour l'utiliser dans le Listener
 
             stars[i].setOnClickListener(v1 -> {
-                // Parcourir toutes les étoiles
-                for (int j = 0; j < stars.length; j++) {
-                    if (j <= index) {
-                        // Les étoiles sélectionnées ou en dessous : couleur secondaire
-                        note = j+1;
-                        stars[j].setColorFilter(getResources().getColor(R.color.secondary_button));
-                    } else {
-                        // Les étoiles non sélectionnées : couleur blanche
-                        stars[j].setColorFilter(getResources().getColor(R.color.white));
+                if (note == index + 1) {
+                    // Si on clique sur la plus grande étoile sélectionnée, remettre à 0
+                    note = 0;
+                    for (ImageButton star : stars) {
+                        star.clearColorFilter(); // Réinitialiser toutes les étoiles
                     }
+                } else {
+                    // Parcourir toutes les étoiles pour mettre à jour les couleurs
+                    for (int j = 0; j < stars.length; j++) {
+                        if (j <= index) {
+                            // Les étoiles sélectionnées ou en dessous : couleur secondaire
+                            stars[j].setColorFilter(getResources().getColor(R.color.secondary_button));
+                        } else {
+                            // Les étoiles non sélectionnées : reset de couleur
+                            stars[j].clearColorFilter();
+                        }
+                    }
+                    // Mettre à jour la note
+                    note = index + 1;
                 }
             });
         }
     }
+
 }
