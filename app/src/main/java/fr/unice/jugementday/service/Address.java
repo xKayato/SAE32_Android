@@ -2,7 +2,7 @@ package fr.unice.jugementday.service;
 
 public class Address {
 
-    private static String url = "http://10.3.122.146/";
+    private static final String url = "http://10.3.122.146/";
     private static String updatePage = "updatedata.php";
     private static String deletePage = "deletedata.php";
     private static String importPage = "importdata.php";
@@ -10,12 +10,12 @@ public class Address {
     private static String getPhotoPage = "getphoto.php";
     private static String importPhotoPage = "importphoto.php";
 
-    private static String getPagePASSID = "?passid=SalutJeSuisUnMotDePassePourGet";
-    private static String updatePagePASSID = "?passid=SalutJeSuisUnMotDePassePourUpdate";
-    private static String deletePagePASSID = "?passid=SalutJeSuisUnMotDePassePourDelete";
-    private static String importPagePASSID = "?passid=SalutJeSuisUnMotDePassePourImport";
-    private static String getPhotoPagePASSID = "?passid=SalutJeSuisUnMotDePassePourGetPhoto";
-    private static String importPhotoPagePASSID = "?passid=SalutJeSuisUnMotDePassePourImportPhoto";
+    private static String getPagePASSID = "?passid=Aij84k_-2RRS6d51dq6FSd698-(_45";
+    private static String updatePagePASSID = "?passid=sdj-fK_OJF74AZsdQs6--_9js_S41-D";
+    private static String deletePagePASSID = "?passid=sdfjJSDF_-ML3K42_--_12_-Skfl9";
+    private static String importPagePASSID = "?passid=94JD-kd_us8-UwU-13-jws-_(";
+    private static String getPhotoPagePASSID = "?passid=SUD24k_7DjQufy8137slsjQ809";
+    private static String importPhotoPagePASSID = "?passid=12D-Jsk-DQl_qs8DQS--_3J2__";
 
     public static String getUrl() {
         return url;
