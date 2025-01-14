@@ -11,7 +11,7 @@
 
     <ImageView
         android:id="@+id/logoPicture2"
-        android:layout_width="412dp"
+        android:layout_width="0dp"
         android:layout_height="110dp"
 
         android:adjustViewBounds="true"

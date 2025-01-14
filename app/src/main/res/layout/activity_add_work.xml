@@ -11,7 +11,7 @@
 
     <ImageView
         android:id="@+id/logoPicture"
-        android:layout_width="412dp"
+        android:layout_width="0dp"
         android:layout_height="110dp"
         android:adjustViewBounds="true"
 
@@ -28,14 +28,19 @@
 
     <ImageButton
         android:id="@+id/selectedImageButton"
-        android:layout_width="102dp"
-        android:layout_height="158dp"
+        android:layout_width="118dp"
+        android:layout_height="155dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
         android:contentDescription="@string/selectedImageButtonDescription"
         app:layout_constraintBottom_toTopOf="@+id/hbhv3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/workTitleFieldButton"
         app:layout_constraintTop_toBottomOf="@+id/logoPicture"
-        app:layout_constraintVertical_bias="0.046" />
+        app:layout_constraintVertical_bias="0.046"
+        app:srcCompat="@android:drawable/stat_sys_upload" />
+    />
+
     <TextView
         android:id="@+id/workTitleText"
         android:layout_width="wrap_content"
@@ -54,8 +59,9 @@
 
     <EditText
         android:id="@+id/workTitleFieldButton"
-        android:layout_width="263dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:ems="10"

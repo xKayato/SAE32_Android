@@ -11,7 +11,7 @@
 
     <ImageView
         android:id="@+id/logoPicture"
-        android:layout_width="412dp"
+        android:layout_width="0dp"
         android:layout_height="110dp"
 
         android:layout_marginBottom="8dp"
@@ -67,7 +67,7 @@
 
     <TextView
         android:id="@+id/typeText"
-        android:layout_width="337dp"
+        android:layout_width="0dp"
         android:layout_height="24dp"
         android:layout_marginStart="37dp"
         android:layout_marginTop="8dp"
@@ -83,7 +83,7 @@
 
     <TextView
         android:id="@+id/auteurText"
-        android:layout_width="337dp"
+        android:layout_width="0dp"
         android:layout_height="24dp"
         android:layout_marginStart="37dp"
         android:layout_marginTop="8dp"
@@ -98,7 +98,7 @@
 
     <TextView
         android:id="@+id/dateText"
-        android:layout_width="337dp"
+        android:layout_width="0dp"
         android:layout_height="24dp"
         android:layout_marginStart="37dp"
         android:layout_marginTop="8dp"
@@ -114,7 +114,7 @@
 
     <TextView
         android:id="@+id/noteText"
-        android:layout_width="337dp"
+        android:layout_width="0dp"
         android:layout_height="24dp"
         android:layout_marginStart="37dp"
         android:layout_marginTop="8dp"
@@ -131,10 +131,11 @@
 
     <TextView
         android:id="@+id/JudgementField"
-        android:layout_width="384dp"
+        android:layout_width="0dp"
         android:layout_height="105dp"
-
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="64dp"
         android:background="@drawable/rounded_button"
         android:backgroundTint="#2F2F2F"
@@ -142,7 +143,11 @@
         android:ems="10"
         android:gravity="center"
         android:hint="@string/JudgementFieldText"
-        android:inputType="text"
+        android:inputType="textMultiLine"
+        android:scrollHorizontally="false"
+        android:singleLine="false"
+        android:maxLines="5"
+        android:padding="8dp"
         android:textColor="@color/primary_text"
         android:textColorHint="@color/primary_button"
         app:layout_constraintBottom_toTopOf="@id/hbhv3"
@@ -151,18 +156,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noteText" />
 
+
+
     <ImageButton
         android:id="@+id/communityButton"
-        android:layout_width="60dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginStart="64dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="#00FFFFFF"
         android:contentDescription="@string/communityButtonDescription"
         app:layout_constraintBottom_toTopOf="@+id/hbhv3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.985"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/trashButton"
         app:layout_constraintTop_toBottomOf="@+id/JudgementField"
         app:layout_constraintVertical_bias="0.85"
         app:srcCompat="@drawable/communaute" />
@@ -219,14 +227,15 @@
 
     <ImageButton
         android:id="@+id/trashButton"
-        android:layout_width="48dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="280dp"
+        android:layout_marginEnd="64dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="#00FFFFFF"
         android:tint="@color/primary_button"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/hbhv3"
         app:layout_constraintEnd_toStartOf="@+id/communityButton"
         app:layout_constraintStart_toStartOf="parent"

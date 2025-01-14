@@ -270,7 +270,9 @@ public class AccountSettingsActivity extends AppCompatActivity {
                 } else {
                     sessionManager.logout();
                     showToast(R.string.deleteAccountSuccessText);
-                    startActivity(new Intent(this, LoginActivity.class));
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 }
             });
         }).start();
@@ -278,7 +280,9 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
     private void disconnectUser() {
         sessionManager.logout();
-        startActivity(new Intent(this, LoginActivity.class));
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     private void showToast(int messageId) {

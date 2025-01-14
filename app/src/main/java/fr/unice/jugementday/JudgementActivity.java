@@ -221,6 +221,7 @@ public class JudgementActivity extends AppCompatActivity {
                     });
                 }).start();
                 Intent intent3 = new Intent(this, LoadingActivity.class);
+                intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent3);
                 showToast(R.string.addedJudgementText);
 

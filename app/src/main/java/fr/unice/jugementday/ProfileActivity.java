@@ -64,6 +64,8 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+
+
     /**
      * Redirige l'utilisateur vers la page de connexion.
      */

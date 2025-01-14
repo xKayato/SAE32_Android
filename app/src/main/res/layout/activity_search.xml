@@ -28,8 +28,9 @@
 
     <ImageView
         android:id="@+id/searchPicture"
-        android:layout_width="59dp"
-        android:layout_height="53dp"
+        android:layout_width="37dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toTopOf="@+id/TitleButtonSearch"
         app:layout_constraintEnd_toStartOf="@+id/searchField"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,8 +40,8 @@
 
     <EditText
         android:id="@+id/searchField"
-        android:layout_width="250dp"
-        android:layout_height="53dp"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
         android:ems="10"
         android:hint="@string/searchText"
         android:inputType="text"
@@ -53,13 +54,15 @@
 
     <ImageButton
         android:id="@+id/confirmSearchButton"
-        android:layout_width="56dp"
+        android:layout_width="52dp"
         android:layout_height="52dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="1dp"
         android:background="@drawable/rounded_button"
         android:backgroundTint="@color/secondary_button"
-        android:contextClickable="false"
         android:contentDescription="@string/searchButtonDescription"
+        android:contextClickable="false"
         app:layout_constraintBottom_toTopOf="@+id/PeopleButtonSearch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/searchField"
@@ -69,9 +72,9 @@
 
     <Button
         android:id="@+id/TitleButtonSearch"
-        android:layout_width="195dp"
+        android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:backgroundTint="@color/secondary_button"
         android:text="@string/titleTextSearch"
         android:textColor="@color/black"
@@ -82,9 +85,9 @@
 
     <Button
         android:id="@+id/PeopleButtonSearch"
-        android:layout_width="195dp"
+        android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="@color/primary_button"
         android:text="@string/peopleTextSearch"
         android:textAlignment="gravity"
