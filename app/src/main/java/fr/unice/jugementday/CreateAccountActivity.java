@@ -47,6 +47,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     private void checkUserSession() {
         if (sessionManager.isLoggedIn()) {
             Intent intent = new Intent(CreateAccountActivity.this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
     }

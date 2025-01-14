@@ -56,6 +56,7 @@ public class CheckJudgementActivity extends AppCompatActivity {
         login = sessionManager.getLogin();
         if (!sessionManager.isLoggedIn()) {
             Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         }
