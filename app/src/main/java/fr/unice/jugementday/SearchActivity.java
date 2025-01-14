@@ -115,6 +115,7 @@ public class SearchActivity extends AppCompatActivity {
      * Changer la catégorie de recherche en "Oeuvre".
      */
     private void changeCategoryToOeuvre() {
+        if(Objects.equals(category, "Oeuvre")) return;
         category = "Oeuvre";
         randomOeuvresList.clear();
         selectedIndices.clear();
@@ -133,6 +134,7 @@ public class SearchActivity extends AppCompatActivity {
      * Changer la catégorie de recherche en "Personne".
      */
     private void changeCategoryToPersonne() {
+        if(Objects.equals(category, "Personne")) return;
         category = "Personne";
         personnesList.clear();
         randomPersonneList.clear();

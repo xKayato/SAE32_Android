@@ -151,6 +151,10 @@ public class AlljudgmentActivity extends AppCompatActivity {
      * @param jsonData Données JSON des avis
      */
     private void parseAndUpdateData(String jsonData) {
+        if(jsonData.contains("Aucune")){
+            showToast(R.string.noJudgementText);
+            return;
+        }
         try {
             JSONArray jsonArray = new JSONArray(jsonData);
 

@@ -207,7 +207,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void updateAdapterItems(List<String> typesDisponibles, Map<String, List<HashMap<String, Integer>>> oeuvresParType, List<HashMap<String, Integer>> oeuvresList, List<HashMap<String, Integer>> randomOeuvresList) {
         List<ListItem> updatedItems = new ArrayList<>();
         if (!oeuvresList.isEmpty()) {
-            updatedItems.add(new ListItem(getString(R.string.lastRealeseText) + " (" + oeuvresList.size() + ")", oeuvresList));
+            updatedItems.add(new ListItem(getString(R.string.judgedText) + " (" + oeuvresList.size() + ")", oeuvresList));
         }
         for (String type : typesDisponibles) {
             List<HashMap<String, Integer>> typeList = oeuvresParType.get(type);

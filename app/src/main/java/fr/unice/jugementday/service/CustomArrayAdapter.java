@@ -105,7 +105,7 @@ public class CustomArrayAdapter extends ArrayAdapter<ListItem> {
         photoButton.setTextColor(getContext().getResources().getColor(R.color.white));
 
         // Configurer les dimensions et le placement du bouton
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(300, 500);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(300, 400);
         params.gravity = Gravity.CENTER_HORIZONTAL;
         photoButton.setLayoutParams(params);
 

@@ -23,7 +23,6 @@
     <string name="hello">Bonjour, pseudo</string>
     <string name="judgedText">Vos œuvres jugées</string>
     <string name="XWorkText">Vos %1$ss jugé(e)s</string>
-    <string name="cartoonWorkText">Vos dessins animés jugés</string>
 
 
     <!-- SearchActivity -->
@@ -61,11 +60,14 @@
     <string name="publishReviewText">Publier</string>
     <string name="maxCharJudgement">Votre jugement ne doit pas dépasser 150 caractères</string>
     <string name="addedJudgementText">Votre jugement a bien été ajouté</string>
+    <string name="emptyJudgement">Veuillez donner votre avis</string>
     <!-- Community -->
+
     <string name="accountCommuText">Compte de %1$s</string>
     <string name="judgedCommuText">Ses œuvres jugées</string>
     <string name="XCommuText">Ses %1$ss jugé(e)s</string>
     <string name="critiqueOfText">Critiques de %1$s</string>
+    <string name="noJudgementText">Aucun avis pour cette oeuvre</string>
 
 
     <!-- Account -->
@@ -121,9 +123,9 @@
     <string name="create_button_text">Créer un compte</string>
 
         <!-- Error Messages -->
-    <string name="login_too_long_error">Le login est trop long. Veuillez utiliser moins de 20 caractères</string>
+    <string name="login_too_long_error">Veuillez utiliser moins de 20 caractères</string>
     <string name="password_too_long_error">Le mot de passe est trop long. Veuillez utiliser moins de 20 caractères</string>
-    <string name="invalid_login_error">Le login ne doit contenir que des lettres et des chiffres, sans espaces ni caractères spéciaux</string>
+    <string name="invalid_login_error">Le login ne doit contenir que des lettres et des chiffres</string>
     <string name="invalid_password_error">Le mot de passe ne doit contenir que des lettres et des chiffres, sans espaces ni caractères spéciaux</string>
     <string name="fill_fields_error">Veuillez remplir tous les champs</string>
     <string name="password_mismatch_error">Les mots de passe ne correspondent pas</string>

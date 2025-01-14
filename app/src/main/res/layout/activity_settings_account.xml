@@ -25,9 +25,9 @@
 
     <TextView
         android:id="@+id/accountSettingsText"
-        android:layout_width="345dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="@string/accountText"
         android:textColor="@color/secondary_text"
@@ -39,8 +39,8 @@
 
     <TextView
         android:id="@+id/changeUsernameText"
-        android:layout_width="210dp"
-        android:layout_height="28dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:gravity="center"
         android:text="@string/changePseudoText"
         android:textColor="@color/primary_text"
@@ -52,9 +52,11 @@
 
     <EditText
         android:id="@+id/usernameFieldButton"
-        android:layout_width="263dp"
-        android:layout_height="48dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="64dp"
         android:layout_marginTop="18dp"
+        android:layout_marginEnd="64dp"
         android:ems="10"
         android:hint="@string/pseudoText"
         android:inputType="text"
@@ -67,9 +69,11 @@
 
     <Button
         android:id="@+id/changeUsernameButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="145dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="145dp"
         android:backgroundTint="@color/secondary_button"
         android:text="@string/changeApplyText"
         android:textColor="@color/black"
@@ -81,8 +85,8 @@
 
     <TextView
         android:id="@+id/changePasswordText"
-        android:layout_width="254dp"
-        android:layout_height="32dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="@string/changePasswordText"
@@ -95,8 +99,10 @@
 
     <EditText
         android:id="@+id/oldPasswordFieldButton"
-        android:layout_width="263dp"
-        android:layout_height="48dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
         android:ems="10"
         android:hint="@string/oldPasswordText"
         android:inputType="textPassword"
@@ -109,9 +115,11 @@
 
     <EditText
         android:id="@+id/newPasswordFieldButton"
-        android:layout_width="263dp"
-        android:layout_height="48dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="64dp"
         android:layout_marginTop="15dp"
+        android:layout_marginEnd="64dp"
         android:ems="10"
         android:hint="@string/newPasswordText"
         android:inputType="textPassword"
@@ -124,8 +132,10 @@
 
     <Button
         android:id="@+id/changePasswordButton"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="145dp"
+        android:layout_marginEnd="145dp"
         android:backgroundTint="@color/secondary_button"
         android:text="@string/changeApplyText"
         android:textColor="@color/black"
@@ -137,9 +147,9 @@
 
     <TextView
         android:id="@+id/deleteAccountText"
-        android:layout_width="245dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="@string/deleteAccountText"
         android:textColor="@android:color/holo_red_dark"
@@ -154,12 +164,11 @@
         android:id="@+id/disconnectButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginTop="503dp"
         android:layout_marginBottom="21dp"
         android:contentDescription="@string/logoutButtonDescription"
         app:layout_constraintBottom_toTopOf="@+id/hbhv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintHorizontal_bias="0.953"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoPicture"
         app:layout_constraintVertical_bias="1.0"
@@ -167,9 +176,12 @@
 
     <Button
         android:id="@+id/deleteAccountButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="130dp"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="@color/design_default_color_error"
         android:text="@string/DeleteText"
         android:textColor="@color/black"

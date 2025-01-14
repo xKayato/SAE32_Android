@@ -199,6 +199,10 @@ public class JudgementActivity extends AppCompatActivity {
      * @param view
      */
     public void onClickPublish(View view) {
+        if(JugementField.getText().toString().isEmpty()){
+            showToast(R.string.emptyJudgement);
+            return;
+        }
         if(JugementField.getText().toString().length() <= 150) {
             try {
                 UrlSend urlSend = new UrlSend();

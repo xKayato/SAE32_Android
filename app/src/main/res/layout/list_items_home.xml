@@ -22,11 +22,10 @@
 
         <LinearLayout
             android:id="@+id/buttonContainer"
-            android:orientation="horizontal"
-            android:scaleType="centerCrop"
-            android:layout_width="100dp"
+            android:layout_width="75dp"
             android:layout_height="150dp"
-            android:layout_marginEnd="8dp">
-        </LinearLayout>
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            android:scaleType="centerCrop"></LinearLayout>
     </HorizontalScrollView>
 </LinearLayout>
