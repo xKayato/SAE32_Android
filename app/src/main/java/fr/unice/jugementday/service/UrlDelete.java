@@ -10,6 +10,12 @@ import java.net.URLEncoder;
 public class UrlDelete {
 
 
+    /**
+     * Suppression de données dans la base de données
+     * @param table la table de la base de données
+     * @param options les options à envoyer
+     * @return la réponse du serveur
+     */
     public String deleteData(String table, String... options) {
         StringBuilder result = new StringBuilder();
         HttpURLConnection connection = null;
@@ -25,7 +31,7 @@ public class UrlDelete {
             }
 
             // Construire l'URL finale
-            String finalUrl = Address.getDeletePage() + "&" + params.toString();
+            String finalUrl = Address.getDeletePage() + "&" + params;
             URL url = new URL(finalUrl);
 
             // Connexion HTTP

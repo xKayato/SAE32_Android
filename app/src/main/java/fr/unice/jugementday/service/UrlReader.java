@@ -15,22 +15,27 @@ public class UrlReader {
 
     private final ExecutorService executorService;
 
-    // Constructeur : initialise le gestionnaire de threads
+    /**
+     * Constructeur
+     */
     public UrlReader() {
         this.executorService = Executors.newSingleThreadExecutor(); // Lancement d'un thread
     }
 
+    /**
+     * Récupère les données d'une URL
+     * @param options les options à envoyer
+     * @return les données récupérées
+     */
     public String fetchData(String options) {
         URL url;
         String urlString = Address.getGetPage() + options;
-
         // Validation de l'URL
         try {
             url = new URL(urlString);
         } catch (MalformedURLException e) {
             return "Erreur : URL malformée.";
         }
-
         // Création d'une tâche pour récupérer les données
         Future<String> future = readFromUrl(url);
 
@@ -42,6 +47,11 @@ public class UrlReader {
         }
     }
 
+    /**
+     * Récupère les données d'une URL
+     * @param url l'URL à lire
+     * @return les données récupérées
+     */
     private Future<String> readFromUrl(URL url) {
         return executorService.submit(() -> {
             StringBuilder result = new StringBuilder();
@@ -61,23 +71,8 @@ public class UrlReader {
             } catch (IOException e) {
                 return e.getMessage(); // Afficher l'erreur
             }
-            shutdown();
+            executorService.shutdown();
             return result.toString();
         });
-    }
-
-    public void shutdown() {
-        executorService.shutdown();
-    }
-
-    public String buildUrl(String baseUrl, String table, String[] options) {
-        StringBuilder urlBuilder = new StringBuilder(baseUrl);
-        urlBuilder.append("&table=").append(table);
-
-        for (String option : options) {
-            urlBuilder.append("&").append(option);
-        }
-
-        return urlBuilder.toString();
     }
 }

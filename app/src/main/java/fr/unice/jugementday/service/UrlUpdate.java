@@ -11,6 +11,12 @@ import java.security.MessageDigest;
 
 public class UrlUpdate {
 
+    /**
+     * Envoi de données à la base de données
+     * @param table la table de la base de données
+     * @param options les options à envoyer
+     * @return la réponse du serveur
+     */
     public String updateData(String table, String... options) {
         StringBuilder result = new StringBuilder();
         HttpURLConnection connection = null;
@@ -26,7 +32,7 @@ public class UrlUpdate {
             }
 
             // Construire l'URL finale
-            String finalUrl = Address.getUpdatePage() + "&" + params.toString();
+            String finalUrl = Address.getUpdatePage() + "&" + params;
             URL url = new URL(finalUrl);
 
             // Connexion HTTP
@@ -56,6 +62,11 @@ public class UrlUpdate {
         return result.toString();
     }
 
+    /**
+     * Hachage du mot de passe en MD5
+     * @param input le mot de passe à hacher
+     * @return le mot de passe haché
+     */
     public String encryptToMD5(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
