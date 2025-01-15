@@ -9,15 +9,16 @@ Ce projet est une application Android développée dans le cadre de la deuxième
 - Parcourir les œuvres disponibles
 - Donner une note et laisser un commentaire
 - Consulter les évaluations des autres utilisateurs
-- Filtrer les œuvres par catégorie ou tag
+- Rechercher des oeuvres
 - Faire des demandes d'ajout d'oeuvre
+- Créer un compte
 
 ## Technologies utilisées
 
-- **Langage de programmation :** Java
+- **Langage de programmation :** Java/xml/php
 - **Plateforme :** Android
-- **Base de données :**
-- **IDE :** Android Studio
+- **Base de données :** SQLite3
+- **IDE :** Android Studio **Koala 2024.1.2**
 
 ## Contribution
 
@@ -49,10 +50,16 @@ Ce projet contient des fichiers PHP qui interagissent avec une base de données.
 
    ```bash
    mv /chemin/source/*.php /var/www/html/
-   mv /chemin/source/nom_base.db /var/www/html/
+   ```
 
+   Déplacer la base de données dans le répertoire `/var/lib/judgementday`.
 
-2. **Configurer les permissions**
+   ```bash
+   mkdir /var/lib/judgementday
+   mv /chemin/source/database_oeuvres.db /var/lib/judgementday
+   ```
+
+3. **Configurer les permissions**
 
      Assurez-vous que les fichiers et la base de données ont les bonnes permissions :
   
@@ -63,20 +70,26 @@ Ce projet contient des fichiers PHP qui interagissent avec une base de données.
 
     Appliquer les permissions sur la base de données (SQLite) :
     ```bash
-    chmod 664 /var/www/html/nom_base.db
+    chmod 664 /var/lib/judgementday/database_oeuvres.db
     ```
   
     Donner les permissions nécessaires au répertoire /var/www/html :
     ```bash
     chmod 775 /var/www/html
     ```
+
+    Donner les permissions nécessaires au répertoire /var/lib/judgementday
+    ```bash
+    chmod 775 /var/lib/judgementday
+    ```
   
     Vérifiez que le propriétaire et le groupe du dossier sont configurés pour le serveur web :
     ```bash
     chown -R www-data:www-data /var/www/html
+    chown -R www-data:www-data /var/lib/judgementday
     ```
 
-3. **Configurer la connexion à la base de données dans connect.php**
+5. **Configurer la connexion à la base de données dans connect.php**
   
     Ouvrez le fichier connect.php et modifiez la ligne qui pointe vers la base de données pour refléter le bon chemin :
     
@@ -86,19 +99,19 @@ Ce projet contient des fichiers PHP qui interagissent avec une base de données.
     Modifiez cette ligne pour :
     
     ```php
-    $pdo = new PDO('sqlite:/var/www/html/nom_base.db');
+   $pdo = new PDO('sqlite:/var/lib/judgementday/database_oeuvres.db');
     ```
     Enregistrez le fichier et quittez l'éditeur (Ctrl + O pour enregistrer, puis Ctrl + X pour quitter).
     
-4. **Préparer les données pour Java**
+6. **Préparer les données pour Java**
     Créez un fichier CSV (table.csv) pour insérer les données dans la base. Le format attendu est :
     
     ```csv
-    nomOeuvre,dateSortie,auteur_studio,actif,type
-    Naruto,2002-10-03,Masashi Kishimoto,1,anime
-    Titanic,1997-12-19,James Cameron,1,film
+    nomOeuvre ;dateSortie ;auteur_studio ;actif ;type
+    Naruto;2002-10-03;Masashi Kishimoto;1;anime
+    Titanic;1997-12-19;James Cameron;1;film
     ```
-    Enregistrez le fichier CSV et placez-le à un emplacement accessible par votre application Java.
+    Enregistrez le fichier CSV et placez-le à un emplacement accessible par votre application Java. (et modifier database.java si besoin) 
 
 ## Sécurité
   Ne placez pas la base de données dans un répertoire accessible via HTTP. Si possible, déplacez-la en dehors de /var/www/html/ et ajustez le chemin dans connect.php. (dans notre cas, on met dans le /var/www/html)
