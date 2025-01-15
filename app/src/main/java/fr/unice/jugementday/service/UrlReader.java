@@ -22,7 +22,7 @@ public class UrlReader {
 
     public String fetchData(String options) {
         URL url;
-        String urlString = Address.getGetPage() + options;  // Ajout du passid
+        String urlString = Address.getGetPage() + options;
 
         // Validation de l'URL
         try {
@@ -38,7 +38,7 @@ public class UrlReader {
         try {
             return future.get();
         } catch (Exception e) {
-            return e.getMessage(); // Afficher l'erreur
+            return e.getMessage();
         }
     }
 

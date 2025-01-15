@@ -223,7 +223,10 @@ public class ProfileActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    // Méthode pour récupérer les types dynamiques depuis le serveur
+    /**
+     * Récupère les types d'œuvres depuis le serveur.
+     * @return La liste des types d'œuvres.
+     */
     private List<String> fetchTypesFromServer() {
         List<String> types = new ArrayList<>();
         try {
@@ -242,13 +245,22 @@ public class ProfileActivity extends AppCompatActivity {
         return types;
     }
 
+    /**
+     * Crée une map avec une clé et une valeur.
+     * @param key La clé.
+     * @param value La valeur.
+     * @return La map créée.
+     */
     private HashMap<String, Integer> createHashMap(String key, Integer value) {
         HashMap<String, Integer> map = new HashMap<>();
         map.put(key, value); // La valeur est l'image par défaut ici
         return map;
     }
 
-
+    /**
+     * Aller dans les paramètres du compte.
+     * @param v
+     */
     public void onSettingClick(View v) {
         Intent i = new Intent(this, AccountSettingsActivity.class);
         i.putExtra("title", "Settings");

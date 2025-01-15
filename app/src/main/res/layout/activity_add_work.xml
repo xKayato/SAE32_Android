@@ -164,15 +164,15 @@
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="@string/releaseDateTextField"
-        android:inputType="date"
+        android:inputType="number"
+        android:maxLength="4"
         android:textColor="@color/primary_text"
         android:textColorHint="@color/primary_button"
         app:layout_constraintBottom_toTopOf="@+id/publishButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/releaseDateText"
-        tools:text="@tools:sample/date/ddmmyy" />
+        app:layout_constraintTop_toBottomOf="@+id/releaseDateText" />
 
     <Button
         android:id="@+id/publishButton"

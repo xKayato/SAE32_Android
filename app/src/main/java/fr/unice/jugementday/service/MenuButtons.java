@@ -9,6 +9,7 @@ import fr.unice.jugementday.SearchActivity;
 
 public class MenuButtons {
 
+    // Gestion des clics sur les boutons du menu
 
     public static void profileClick(Context context){
         Intent i=new Intent(context, ProfileActivity.class);

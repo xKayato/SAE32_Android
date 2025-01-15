@@ -60,7 +60,7 @@ public class LoadingActivity extends AppCompatActivity {
 
         // Afficher la barre de chargement
         progressBar.setVisibility(View.VISIBLE);
-        loadingStatus.setText("Téléchargement des données...");
+        loadingStatus.setText(R.string.downloadData);
 
         String[] urls = {
                 "&table=Oeuvre&actif=1",
@@ -89,7 +89,7 @@ public class LoadingActivity extends AppCompatActivity {
             try {
                 latch.await();
                 // Mettre à jour l'état du chargement
-                runOnUiThread(() -> loadingStatus.setText("Vérification des images..."));
+                runOnUiThread(() -> loadingStatus.setText(R.string.downloadData));
 
                 downloadImages();
             } catch (InterruptedException e) {
@@ -158,15 +158,14 @@ public class LoadingActivity extends AppCompatActivity {
 
                     // Vérifier si l'image est déjà en cache
                     File imageFile = new File(cacheDir, idOeuvre + ".png");
-                    String nomOeuvre = work.getString("nomOeuvre").replaceAll("[^a-zA-Z0-9]", "_");
+                    String nomOeuvre = work.getString("nomOeuvre").replaceAll("[^a-zA-Z0-9]", "_"); // Remplacer les caractères spéciaux
                     if (!imageFile.exists()) {
                         // Télécharger l'image
                             String imageUrl = Address.getGetPhotoPage() + "&title=" + nomOeuvre;
-                            Log.d("LoadingActivity", "Téléchargement de l'image : " + imageUrl);
                             try (InputStream input = new URL(imageUrl).openStream()) {
                                 Bitmap bitmap = BitmapFactory.decodeStream(input);
                                 if (bitmap != null) {
-                                    runOnUiThread(() -> loadingStatus.setText("Téléchargement des images...\n" + nomOeuvre));
+                                    runOnUiThread(() -> loadingStatus.setText(getString(R.string.downloadPictures) + "\n" + nomOeuvre));
                                     try (FileOutputStream fos = new FileOutputStream(imageFile)) {
                                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
                                     }
@@ -178,7 +177,7 @@ public class LoadingActivity extends AppCompatActivity {
 
                     } else{
                         // Mettre à jour l'état du chargement (image déjà téléchargée dans le cache)
-                        runOnUiThread(() -> loadingStatus.setText("Vérification des images...\n" + nomOeuvre));
+                        runOnUiThread(() -> loadingStatus.setText(getString(R.string.verifyPictures) + "\n" + nomOeuvre));
                     }
 
                 }

@@ -16,13 +16,11 @@ public class JsonStock {
     private final SharedPreferences sharedPreferences;
     private final SharedPreferences.Editor editor;
 
-    // Constructeur de la classe
     public JsonStock(Context context) {
         sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
 
-    // Méthode pour stocker les Works
     public void setWorks(String works) {
         editor.putString(KEY_WORKS, works);
         editor.apply();

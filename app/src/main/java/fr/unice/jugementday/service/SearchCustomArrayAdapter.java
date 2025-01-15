@@ -20,7 +20,6 @@ public class SearchCustomArrayAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (view == null) {
-            // Infler le layout pour chaque item
             LayoutInflater inflater = LayoutInflater.from(getContext());
             view = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
         }
@@ -31,7 +30,7 @@ public class SearchCustomArrayAdapter extends ArrayAdapter<String> {
         // Définir la couleur du texte ici
         textView.setText(getItem(position));
 
-        textView.setTextColor(Color.WHITE); // Texte par défaut
+        textView.setTextColor(Color.WHITE);
 
 
         return view;

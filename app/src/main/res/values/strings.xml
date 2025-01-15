@@ -38,8 +38,8 @@
     <string name="workTitleField">Titre</string>
     <string name="workAuthorText">Auteur de l\'œuvre</string>
     <string name="workAuthorField">Auteur</string>
-    <string name="dateText">Date de sortie de l\'œuvre</string>
-    <string name="releaseDateTextField">Date de sortie</string>
+    <string name="dateText">Année de sortie de l\'œuvre</string>
+    <string name="releaseDateTextField">Année de sortie</string>
     <string name="categoryText">Genre de l\'œuvre</string>
     <string name="genreSelectField">Genre</string>
     <string name="tagsText">Tags de l\'œuvre</string>
@@ -140,5 +140,9 @@
     <string name="searchButtonDescription">Appliquer la recherche</string>
     <string name="logoutButtonDescription">Se déconnecter</string>
 
+        <!-- Loading -->
+    <string name="downloadData">Téléchargement des données…</string>
+    <string name="downloadPictures">Téléchargement des images…</string>
+    <string name="verifyPictures">Vérification des images…</string>
 
 </resources>
