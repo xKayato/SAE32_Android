@@ -24,10 +24,10 @@ Ce projet est une application Android développée dans le cadre de la deuxième
 
 Ce projet a été réalisé par quatre étudiants en 2ème année de Réseaux et Télécommunications :
 
-- **Thomas Deloup (xKayaato)** - [Rôle :]
-- **Jérémy Guibert (JeremyGuib)** - [Rôle :]
-- **Pierre Theles Fache (Pierre1080)** - [Rôle :]
-- **Mathis viger (Mathisvgr)** - [Rôle :]
+- **Thomas Deloup (xKayaato)**
+- **Jérémy Guibert (JeremyGuib)**
+- **Pierre Theles Fache (Pierre1080)**
+- **Mathis viger (Mathisvgr)**
 
 ---
 
@@ -111,18 +111,38 @@ Ce projet contient des fichiers PHP qui interagissent avec une base de données.
     Naruto;2002-10-03;Masashi Kishimoto;1;anime
     Titanic;1997-12-19;James Cameron;1;film
     ```
-    Enregistrez le fichier CSV et placez-le à un emplacement accessible par votre application Java. (et modifier database.java si besoin) 
+    Enregistrez le fichier CSV et placez-le à un emplacement accessible par votre application Java. (et modifier database.java si besoin)
 
-## Sécurité
+7. **Compiler le programme Java**
+   Utilisez la commande suivante :
+
+   ```bash
+   javac -cp "lib/*" -d bin src/*.java
+   ```
+
+## Autre
+
+1. Sécurité
   Ne placez pas la base de données dans un répertoire accessible via HTTP. Si possible, déplacez-la en dehors de /var/www/html/ et ajustez le chemin dans connect.php. (dans notre cas, on met dans le /var/www/html)
 
-  Si vous devez la laisser dans /var/www/html/, utilisez un fichier .htaccess pour interdire l'accès direct à la base de données (Apache) :
+   Si vous devez la laisser dans /var/www/html/, utilisez un fichier .htaccess pour interdire l'accès direct à la base de données (Apache) :
 
-  ```apache
-  <Files "nom_base.db">
-  Require all denied
-  </Files>
-  ```
+     ```apache
+     <Files "nom_base.db">
+     Require all denied
+     </Files>
+     ```
+
+2. Simplicité
+   Vous pouvez créer un script .sh avec à l'interieur :
+   
+   ```bash
+   current_dir=$(pwd)
+   cd /var/lib/judgementday/Java
+   java -cp "lib/*:bin" App
+   cd "$current_dir"
+   ```
+
 
 ---
 
