@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import fr.unice.jugementday.service.ListItem;
 import fr.unice.jugementday.service.MenuButtons;
@@ -33,6 +34,7 @@ public class HomeActivity extends AppCompatActivity {
     private CustomArrayAdapter adapter;
     private final List<ListItem> items = new ArrayList<>();
     private String login;
+    private UserSessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // Initialisation des services nécessaires
         JsonStock jsonStock = new JsonStock(this);
-        UserSessionManager sessionManager = new UserSessionManager(this);
+        sessionManager = new UserSessionManager(this);
 
         // Vérifier si l'utilisateur est connecté, sinon rediriger vers la page de connexion
         checkUserSession(sessionManager);
@@ -91,6 +93,10 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AddWorkActivity.class);
             startActivity(intent);
         });
+
+        if(Objects.equals(sessionManager.getAccess(), "0")){
+            addWorkButton.setVisibility(Button.GONE);
+        }
 
         // Application des paddings sur la vue principale pour gérer les fenêtres système
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

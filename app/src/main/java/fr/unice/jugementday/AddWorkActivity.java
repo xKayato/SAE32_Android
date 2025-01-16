@@ -179,9 +179,34 @@ public class AddWorkActivity extends AppCompatActivity {
     }
 
     /**
+     * Télécharger des données
+     */
+
+    /**
      * Publie une œuvre en envoyant ses données au serveur.
      */
     public void publishWork(View view) {
+        String url = "&page=User&login=" + new UserSessionManager(this).getLogin() + "&fields=acces";
+        new Thread(() -> {
+            String result = new UrlReader().fetchData(url);
+
+            runOnUiThread(() -> {
+                if (result.startsWith("Erreur")) {
+                    showToast(R.string.errorText);
+                } else {
+                    try {
+                        JSONArray jsonArray = new JSONArray(result);
+                        JSONObject jsonObject = jsonArray.getJSONObject(0);
+                        if (jsonObject.getInt("acces") == 0) {
+                            canPublish = false;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }).start();
+
         if (!canPublish) return;
 
         String titleText = title.getText().toString().trim();
