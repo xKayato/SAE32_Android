@@ -243,7 +243,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/homeButton"
         app:srcCompat="@drawable/profile"
-        app:tint="@color/secondary_button" />
+        app:tint="@color/primary_button" />
 
     <View
         android:id="@+id/deleteAccountView"

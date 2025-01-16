@@ -224,7 +224,7 @@
         app:layout_constraintEnd_toStartOf="@+id/profileButton"
         app:layout_constraintStart_toEndOf="@+id/searchButton"
         app:srcCompat="@drawable/home"
-        app:tint="@color/secondary_button" />
+        app:tint="@color/primary_button" />
 
     <ImageButton
         android:id="@+id/profileButton"
