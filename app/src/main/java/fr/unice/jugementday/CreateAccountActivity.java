@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import fr.unice.jugementday.service.JsonStock;
+import fr.unice.jugementday.service.UrlReader;
 import fr.unice.jugementday.service.UrlSend;
 import fr.unice.jugementday.service.UserSessionManager;
 
@@ -63,6 +65,12 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         // Gestion de l'événement pour le bouton d'inscription
         registerButton.setOnClickListener(v -> registerUser());
+
+        TextView alreadyAccount = findViewById(R.id.loginAccountButton);
+        alreadyAccount.setOnClickListener(v -> {
+            // Rediriger vers l'activité de création de compte
+            startActivity(new Intent(this, LoginActivity.class));
+        });
     }
 
     /**
@@ -73,58 +81,47 @@ public class CreateAccountActivity extends AppCompatActivity {
         String loginText = loginField.getText().toString().trim();
         String passwordText = passwordField.getText().toString().trim();
         String confirmPasswordText = passwordFieldConfirm.getText().toString().trim();
-        boolean exist = false;
 
-        try {
-            // Vérification si le login existe déjà
-            exist = checkIfLoginExists(loginText);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // Vérification si le login existe déjà dans la base de données
+        new Thread(() -> {
+            boolean exist = checkIfLoginExistsInDatabase(loginText);
 
-        // Si le login n'existe pas
-        if (!exist) {
-            // Vérification des champs et des conditions de validité
-            if (validateFields(loginText, passwordText, confirmPasswordText)) {
-                // Vérification que les mots de passe correspondent
-                if (passwordText.equals(confirmPasswordText)) {
-                    // Chiffrement du mot de passe et envoi au serveur
-                    registerOnServer(loginText, passwordText);
-                } else {
-                    showToast(R.string.password_mismatch_error);
+            runOnUiThread(() -> {
+                if (!exist) {
+                    // Vérification des champs et des conditions de validité
+                    if (validateFields(loginText, passwordText, confirmPasswordText)) {
+                        // Vérification que les mots de passe correspondent
+                        if (passwordText.equals(confirmPasswordText)) {
+                            // Chiffrement du mot de passe et envoi au serveur
+                            registerOnServer(loginText, passwordText);
+                        } else {
+                            showToast(R.string.password_mismatch_error);
+                        }
+                    }
                 }
-            }
-        }
+            });
+        }).start();
     }
-
-    private void showToast(int messageId) {
-        Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
-    }
-
 
     /**
-     * Vérifie si le login existe déjà parmi les utilisateurs existants.
+     * Vérifie si le login existe déjà dans la base de données.
      * @param loginText Le login à vérifier.
      * @return true si le login existe déjà, false sinon.
      */
-    private boolean checkIfLoginExists(String loginText) {
-        boolean exists = false;
+    private boolean checkIfLoginExistsInDatabase(String loginText) {
         try {
-            JSONArray jsonArray = new JSONArray(People);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String loginPeople = jsonObject.getString("login");
-                if (loginPeople.equalsIgnoreCase(loginText)) {
-                    showToast(R.string.login_already_exists_error);
-                    clearFields();  // Vider les champs en cas d'erreur
-                    exists = true;
-                    break;
-                }
+            String url = "&table=User&login=" + loginText;
+            String result = new UrlReader().fetchData(url); // Appel au serveur pour vérifier
+
+            if (result.contains("login")) {
+                showToast(R.string.login_already_exists_error);
+                runOnUiThread(this::clearFields); // Vider les champs si le login existe
+                return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return exists;
+        return false;
     }
 
     /**
@@ -135,6 +132,17 @@ public class CreateAccountActivity extends AppCompatActivity {
         passwordField.setText("");
         passwordFieldConfirm.setText("");
     }
+
+    /**
+     * Affiche un message Toast.
+     * @param messageId L'ID de la ressource du message.
+     */
+    private void showToast(int messageId) {
+        runOnUiThread(() ->
+                Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show()
+        );
+    }
+
 
     /**
      * Valide les champs du formulaire : login, mot de passe et confirmation.

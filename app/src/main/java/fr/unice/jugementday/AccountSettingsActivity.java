@@ -15,11 +15,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import org.json.JSONArray;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import fr.unice.jugementday.service.JsonStock;
 import fr.unice.jugementday.service.MenuButtons;
 import fr.unice.jugementday.service.UrlDelete;
+import fr.unice.jugementday.service.UrlReader;
 import fr.unice.jugementday.service.UrlUpdate;
 import fr.unice.jugementday.service.UserSessionManager;
 
@@ -128,8 +129,6 @@ public class AccountSettingsActivity extends AppCompatActivity {
         String newLoginText = newLogin.getText().toString();
         if (!isValidLogin(newLoginText)) return;
 
-        if (isLoginAlreadyExists(newLoginText)) return;
-
         updateLogin(newLoginText);
     }
 
@@ -146,40 +145,44 @@ public class AccountSettingsActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean isLoginAlreadyExists(String newLoginText) {
-        try {
-            JSONArray jsonArray = new JSONArray(peoplesJson);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                String existingLogin = jsonArray.getJSONObject(i).getString("login");
-                if (existingLogin.equalsIgnoreCase(newLoginText)) {
-                    showToast(R.string.login_already_exists_error);
-                    return true;
-                }
-            }
-        } catch (Exception e) {
-            showToast(R.string.loginError);
-        }
-        return false;
-    }
-
+    /**
+     * Modifier le login de l'utilisateur
+     * @param newLoginText
+     */
     private void updateLogin(String newLoginText) {
-        String table = "User";
-        String[] options = {"login=" + login, "newlogin=" + newLoginText};
+        String url = "&table=User&login=" + newLoginText;
 
         new Thread(() -> {
-            String response = urlUpdate.updateData(table, options);
+            String result = new UrlReader().fetchData(url);
             runOnUiThread(() -> {
-                if (response.startsWith("Erreur")) {
+                if (result.startsWith("Erreur")) {
                     showToast(R.string.errorText);
-                } else {
-                    sessionManager.setLogin(newLoginText);
-                    showToast(R.string.changePseudoSuccessText);
+                    return;
                 }
+
+                if (result.contains("login")) {
+                    showToast(R.string.login_already_exists_error);
+                    return;
+                }
+
+                String[] options = {"login=" + login, "newlogin=" + newLoginText};
+
+                new Thread(() -> {
+                    String response = urlUpdate.updateData("User", options);
+                    runOnUiThread(() -> {
+                        if (response.startsWith("Erreur")) {
+                            showToast(R.string.errorText);
+                        } else {
+                            sessionManager.setLogin(newLoginText);
+                            showToast(R.string.changePseudoSuccessText);
+                            updateLoginInReviews(newLoginText);
+                        }
+                    });
+                }).start();
             });
         }).start();
-
-        updateLoginInReviews(newLoginText);
     }
+
 
     private void updateLoginInReviews(String newLoginText) {
         String table = "Avis";

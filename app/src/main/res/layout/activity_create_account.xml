@@ -18,19 +18,21 @@
         android:background="@color/logobackground"
         android:contentDescription="@string/logo"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/projectText"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/logo" />
 
     <TextView
         android:id="@+id/projectText"
-        android:layout_width="78dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="102dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp"
+        android:gravity="center"
         android:text="SAE32"
         android:textColor="@color/secondary_text"
         android:textSize="24sp"
@@ -40,12 +42,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoPicture2" />
 
+
+    <TextView
+        android:id="@+id/loginAccountButton"
+        android:layout_width="215dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
+        android:gravity="center"
+        android:text="@string/already"
+        android:textColor="@color/secondary_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerButton" />
+
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="178dp"
+        android:layout_width="0dp"
         android:layout_height="129dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/createAccountText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -55,10 +71,10 @@
 
     <TextView
         android:id="@+id/createAccountText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_width="286dp"
+        android:layout_height="44dp"
         android:layout_marginBottom="8dp"
+        android:gravity="center"
         android:text="Se créer un compte"
         android:textColor="@color/primary_text"
         android:textSize="20sp"
@@ -71,8 +87,8 @@
     <EditText
         android:id="@+id/loginFieldButton"
         android:layout_width="263dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="25dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="@string/loginText"
@@ -87,7 +103,7 @@
     <EditText
         android:id="@+id/passwordFieldButton"
         android:layout_width="263dp"
-        android:layout_height="48dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="@string/passwordText"
@@ -102,8 +118,8 @@
     <EditText
         android:id="@+id/passwordFieldConfirmButton"
         android:layout_width="263dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="@string/confirmText"
         android:inputType="textPassword"
@@ -117,14 +133,14 @@
     <Button
         android:id="@+id/registerButton"
         android:layout_width="119dp"
-        android:layout_height="48dp"
+        android:layout_height="0dp"
         android:layout_marginTop="6dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/secondary_button"
         android:text="@string/createText"
         android:textColor="@color/black"
         app:iconTint="@color/secondary_button"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/loginAccountButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

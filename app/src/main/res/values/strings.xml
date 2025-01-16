@@ -49,6 +49,11 @@
     <string name="publishText">Publier</string>
     <string name="maxCharAddOeuvre">Le titre de l\'oeuvre ne doit pas dépasser les 45 caractères</string>
     <string name="maxCharAddAuthor">Les nom de l\'auteur/studio ne doit pas dépasser els 30 caractères</string>
+    <string name="_2_5">2/5</string>
+    <string name="_1_5">1/5</string>
+    <string name="_3_5">3/5</string>
+    <string name="_4_5">4/5</string>
+    <string name="_5_5">5/5</string>
 
 
 
@@ -110,11 +115,8 @@
     <string name="createText">S\'identifier</string>
     <string name="goToLoginText">Deja un compte ? Se connecter</string>
     <string name="login_already_exists_error">Ce login est déjà utilisé</string>
-    <string name="_2_5">2/5</string>
-    <string name="_1_5">1/5</string>
-    <string name="_3_5">3/5</string>
-    <string name="_4_5">4/5</string>
-    <string name="_5_5">5/5</string>
+    <string name="already">Déjà un compte ? Se connecter</string>
+
         <!-- Placeholders -->
     <string name="login_hint">Entrez votre identifiant</string>
     <string name="password_hint">Entrez votre mot de passe</string>
