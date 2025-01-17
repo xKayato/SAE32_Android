@@ -14,8 +14,8 @@ public class UserSessionManager {
     private static final String KEY_ACCESS = "user_access";
     private static final String KEY_ENCRYPTED_PASSWORD = "user_password";
 
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
+    private final SharedPreferences sharedPreferences;
+    private final SharedPreferences.Editor editor;
 
     // Constructeur de la classe
     public UserSessionManager(Context context) {

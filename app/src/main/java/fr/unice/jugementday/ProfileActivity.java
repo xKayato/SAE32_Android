@@ -36,7 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
     private UserSessionManager sessionManager;
     private UrlReader urlReader;
     private CustomArrayAdapter adapter;
-    private List<ListItem> items = new ArrayList<>();
+    private final List<ListItem> items = new ArrayList<>();
     private String userLogin;
     private JsonStock jsonStock;
 

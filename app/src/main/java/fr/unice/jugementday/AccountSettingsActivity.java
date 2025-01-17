@@ -62,6 +62,9 @@ public class AccountSettingsActivity extends AppCompatActivity {
         peoplesJson = jsonStock.getPeople();
     }
 
+    /**
+     * Vérifier si l'utilisateur est connecté, sinon rediriger vers la page de connexion
+     */
     private void checkUserLogin() {
         if (!sessionManager.isLoggedIn()) {
             Intent intent = new Intent(this, LoginActivity.class);
@@ -70,6 +73,9 @@ public class AccountSettingsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Configuration des composants de l'interface utilisateur
+     */
     private void setupUIComponents() {
         newLogin = findViewById(R.id.usernameFieldButton);
         oldPassword = findViewById(R.id.oldPasswordFieldButton);
@@ -81,16 +87,25 @@ public class AccountSettingsActivity extends AppCompatActivity {
         setupDisconnectButton();
     }
 
+    /**
+     * Configuration du bouton de changement de login
+     */
     private void setupChangeLoginButton() {
         Button changeLoginButton = findViewById(R.id.changeUsernameButton);
         changeLoginButton.setOnClickListener(v -> changeLogin());
     }
 
+    /**
+     * Configuration du bouton de changement de mot de passe
+     */
     private void setupChangePasswordButton() {
         Button changePasswordButton = findViewById(R.id.changePasswordButton);
         changePasswordButton.setOnClickListener(v -> changePassword());
     }
 
+    /**
+     * Configuration des boutons de suppression de compte
+     */
     private void setupDeleteAccountButtons() {
         confirmDeleteButton = findViewById(R.id.confirmDeleteAccountButton);
         cancelDeleteButton = findViewById(R.id.cancelDeleteAccountButton);
@@ -101,11 +116,17 @@ public class AccountSettingsActivity extends AppCompatActivity {
         deleteAccountButton.setOnClickListener(v -> askDeleteAccount());
     }
 
+    /**
+     * Configuration du bouton de déconnexion
+     */
     private void setupDisconnectButton() {
         ImageButton disconnectButton = findViewById(R.id.disconnectButton);
         disconnectButton.setOnClickListener(v -> disconnectUser());
     }
 
+    /**
+     * Configuration des boutons de navigation
+     */
     private void configureNavigationButtons() {
         ImageButton profileButton = findViewById(R.id.profileButton);
         profileButton.setOnClickListener(v -> MenuButtons.profileClick(this));
@@ -184,6 +205,10 @@ public class AccountSettingsActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Mettre à jour le login dans les avis
+     * @param newLoginText Le nouveau login
+     */
     private void updateLoginInReviews(String newLoginText) {
         String table = "Avis";
         String[] options = {"login=" + login, "newlogin=" + newLoginText};
@@ -199,6 +224,9 @@ public class AccountSettingsActivity extends AppCompatActivity {
         }).start();
     }
 
+    /**
+     * Changer le mot de passe de l'utilisateur
+     */
     private void changePassword() {
         String oldPasswordText = oldPassword.getText().toString();
         String newPasswordText = newPassword.getText().toString();
@@ -214,6 +242,11 @@ public class AccountSettingsActivity extends AppCompatActivity {
         updatePassword(newPasswordText);
     }
 
+    /**
+     * Vérifier si le mot de passe est valide
+     * @param password Le mot de passe à vérifier
+     * @return true si le mot de passe est valide, false sinon
+     */
     private boolean isValidPassword(String password) {
         if (!password.matches("^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]+$")) {
             showToast(R.string.invalid_password_error);
@@ -227,6 +260,10 @@ public class AccountSettingsActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Modifier le mot de passe de l'utilisateur
+     * @param newPassword Le nouveau mot de passe
+     */
     private void updatePassword(String newPassword) {
         String newPasswordEncrypted = urlUpdate.encryptToMD5(newPassword);
         String table = "User";
@@ -245,16 +282,26 @@ public class AccountSettingsActivity extends AppCompatActivity {
         }).start();
     }
 
+    /**
+     * Demander la suppression de compte
+     */
     public void askDeleteAccount() {
         setDeleteAccountViewVisibility(View.VISIBLE);
         confirmDeleteButton.setOnClickListener(v -> deleteAccount());
         cancelDeleteButton.setOnClickListener(v -> cancelDeleteAccount());
     }
 
+    /**
+     * Annuler la suppression de compte
+     */
     public void cancelDeleteAccount() {
         setDeleteAccountViewVisibility(View.GONE);
     }
 
+    /**
+     * Afficher ou cacher la vue de suppression de compte
+     * @param visibility
+     */
     private void setDeleteAccountViewVisibility(int visibility) {
         confirmDeleteButton.setVisibility(visibility);
         cancelDeleteButton.setVisibility(visibility);
@@ -262,6 +309,9 @@ public class AccountSettingsActivity extends AppCompatActivity {
         deleteAccountView.setVisibility(visibility);
     }
 
+    /**
+     * Envoyer une requête de suppression de compte
+     */
     public void deleteAccount() {
         String table = "User";
         String[] options = {"login=" + login};
@@ -282,6 +332,9 @@ public class AccountSettingsActivity extends AppCompatActivity {
         }).start();
     }
 
+    /**
+     * Déconnecter l'utilisateur
+     */
     private void disconnectUser() {
         sessionManager.logout();
         Intent intent = new Intent(this, LoginActivity.class);
